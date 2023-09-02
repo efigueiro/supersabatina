@@ -1,0 +1,17 @@
+Acessar Postgres usando terminal:
+sudo -u postgres psql
+
+Listar tabelas:
+\l
+
+Limpar terminal:
+\! clear
+
+Quitar:
+\q
+
+Help:
+\?
+
+
+
