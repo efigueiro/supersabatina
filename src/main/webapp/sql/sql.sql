@@ -15,6 +15,9 @@ TABLESPACE = pg_default
 CONNECTION LIMIT -1
 TEMPLATE = template0;
 
+INSERT INTO users (username, email, password)
+VALUES ('carlos', 'carlos.figueiro@gmail.com', 'teste123');
+
 create table users
 (
   user_id bigserial not null,

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="br.com.supersabatina.config.MessageConfig"%>
+<%@ page import="br.com.supersabatina.util.Messenger"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -23,8 +24,13 @@
                     <form action="/supersabatina/loginController" method="post">
                         <h1 class="mb-5"><%=MessageConfig.getProperty("page.title.login")%></h1>
 
-                        <!-- Java message here-->
-                        <!-- <h3 class="lead p-3">Email ou senha incorreta!</h3> -->
+                        <c:forEach var="message" items="${Messenger.messageList}">
+							<div class="${Messenger.divClass}" role="${Messenger.divRole}">
+  								${message}
+							</div>
+						</c:forEach>
+                        
+                        <% Messenger.resetMessenger(); %>
 
                         <div class="mb-3 mt-3">
                             <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="<%=MessageConfig.getProperty("label.email")%>" required/>

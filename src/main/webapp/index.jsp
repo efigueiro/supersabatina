@@ -16,15 +16,28 @@
 
         <!--Navbar-->
 
-        <nav class="navbar navbar-expand-sm bg-warning shadow-sm p-3 mb-5 rounded">
+        <nav class="navbar navbar-expand-sm bg-white shadow p-2 mb-5">
             <div class="container-fluid">
-                <a class="navbar-brand pe-sm-5 text-black" href="#"><%=MessageConfig.getProperty("application.name")%></a>
+            	<img src="img/logo.png" alt="" class="img-fluid ms-2"/>
+            	<a class="navbar-brand p-2 text-secondary fs-3 lead" href="#"><%=MessageConfig.getProperty("application.name")%></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarsExample03">
-                    <ul class="navbar-nav me-auto mb-2 mb-sm-0"></ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0 lead">
+                    	<li class="nav-item p-3">
+                            <a class="nav-link" href="#"><strong></strong></a>
+                        </li>
+                        
+                        <li class="nav-item p-3">
+                            <a class="nav-link" href="#"><strong>Concursos</strong></a>
+                        </li>
+                        
+                        <li class="nav-item p-3">
+                            <a class="nav-link" href="#"><strong>Contato</strong></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
