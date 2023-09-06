@@ -19,7 +19,7 @@
         <nav class="navbar navbar-expand-sm bg-white shadow p-2 mb-5">
             <div class="container-fluid">
             	<img src="img/logo.png" alt="" class="img-fluid ms-2"/>
-            	<a class="navbar-brand p-2 text-secondary fs-3 lead" href="#"><%=MessageConfig.getProperty("application.name")%></a>
+            	<a class="navbar-brand p-2 text-black fs-3" href="#"><%=MessageConfig.getProperty("application.name")%></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -48,7 +48,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h1>Memorize em um passe de mágica.</h1>
+                    <h1>Memorize com mais eficiência.</h1>
                     <p class="lead">
                         Experimente um sistema de estudos inteligente baseado na técnica de cartões de memorização. Seja testado diariamente através de revisões periódicas de seus estudos. Acompanhe seu progresso, memorize com mais
                         facilidade e obtenha maior taxa de sucesso nas suas provas e avaliações. teste

@@ -17,14 +17,17 @@ public class UserDao extends BaseDao {
 
 	public void create(User user) {
 
-		String sql = "INSERT INTO users(email, password, userName)" + "values(?,?,?);";
+		String sql = "INSERT INTO users(user_name, email, password, avatar, public_profile, description)" + "values(?,?,?,?,?,?);";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setString(1, user.getEmail());
-			pstm.setString(2, user.getPassword());
-			pstm.setString(3, user.getUserName());
+			pstm.setString(1, user.getUserName());
+			pstm.setString(2, user.getEmail());
+			pstm.setString(3, user.getPassword());
+			pstm.setString(4, user.getAvatar());
+			pstm.setString(5, user.getPublicProfile());
+			pstm.setString(6, user.getDescription());
 			pstm.execute();
 			pstm.close();
 			conn.close();
@@ -37,7 +40,7 @@ public class UserDao extends BaseDao {
 	public User retrieveByUserName(User user) {
 
 		User userSelected = new User();
-		String sql = "SELECT * FROM users WHERE userName ILIKE ?";
+		String sql = "SELECT * FROM users WHERE user_name ILIKE ?";
 
 		try {
 			Connection conn = this.getConnection();
@@ -48,7 +51,7 @@ public class UserDao extends BaseDao {
 				userSelected.setEmail(rs.getString("email"));
 				userSelected.setPassword(rs.getString("password"));
 				userSelected.setUserId(rs.getLong("user_id"));
-				userSelected.setUserName(rs.getString("userName"));
+				userSelected.setUserName(rs.getString("user_name"));
 			}
 
 		} catch (Exception ex) {
@@ -74,7 +77,7 @@ public class UserDao extends BaseDao {
 				userSelected.setEmail(rs.getString("email"));
 				userSelected.setPassword(rs.getString("password"));
 				userSelected.setUserId(rs.getLong("user_id"));
-				userSelected.setUserName(rs.getString("userName"));
+				userSelected.setUserName(rs.getString("user_name"));
 			}
 
 		} catch (Exception ex) {

@@ -21,10 +21,13 @@ VALUES ('carlos', 'carlos.figueiro@gmail.com', 'teste123');
 create table users
 (
   user_id bigserial not null,
-  userName varchar(400) not null,
+  user_name varchar(400) not null,
   email varchar(400) not null,
   password varchar(400) not null,
-  unique(user_id, email, userName),
+  avatar varchar(400),
+  public_profile varchar(4),
+  description text,
+  unique(user_id, email, user_name),
   constraint user_pk primary key(user_id)
 );
 

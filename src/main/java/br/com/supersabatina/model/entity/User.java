@@ -6,6 +6,9 @@ public class User {
 	private String userName;
 	private String email;
 	private String password;
+	private String avatar;
+	private String publicProfile;
+	private String description;
 
 	public long getUserId() {
 		return userId;
@@ -39,4 +42,27 @@ public class User {
 		this.password = password;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getPublicProfile() {
+		return publicProfile;
+	}
+
+	public void setPublicProfile(String publicProfile) {
+		this.publicProfile = publicProfile;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

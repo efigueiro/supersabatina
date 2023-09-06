@@ -34,9 +34,12 @@ public class CreateAccountController extends HttpServlet {
 		String password = (String) request.getParameter("txtPassword");
 
 		User user = new User();
+		user.setUserName(userName);
 		user.setEmail(email);
 		user.setPassword(password);
-		user.setUserName(userName);
+		//user.setAvatar("");
+		user.setPublicProfile("no");
+		//user.setDescription("");
 
 		UserService userService = new UserService();
 		userService.createUser(user);
