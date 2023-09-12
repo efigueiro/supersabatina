@@ -44,8 +44,8 @@ public class UserService {
 
 			// Checking if user was created
 			compare = userDao.retrieveByEmail(user);
-			if (compare.getEmail().equals(user.getEmail())) {
-				Messenger.addSuccessMessage(MessageConfig.getProperty("message.success"));
+			if (StringUtils.isNotEmpty(compare.getEmail())) {
+				Messenger.addSuccessMessage(MessageConfig.getProperty("message.success.accountcreated"));
 				Messenger.setSuccessTrue();
 			} else {
 				Messenger.addWarningMessage(MessageConfig.getProperty("message.fail"));

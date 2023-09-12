@@ -5,15 +5,7 @@
 -- Os valores abaixo do with são opcionais, eu usei somente collate, ctype e template0
 -- Fazendo isso os outros valores usados vem do template0 ou seja default.
 
-CREATE DATABASE supersabatina
-WITH
-OWNER = proprietario do banco
-ENCODING = "UTF8"
-LC_COLLATE = 'pt_BR.UTF-8'
-LC_CTYPE = 'pt_BR.UTF-8'
-TABLESPACE = pg_default
-CONNECTION LIMIT -1
-TEMPLATE = template0;
+CREATE DATABASE supersabatina WITH OWNER = postgres ENCODING = "UTF8" LC_COLLATE = 'pt_BR.UTF-8' LC_CTYPE = 'pt_BR.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT -1 TEMPLATE = template0;
 
 INSERT INTO users (username, email, password)
 VALUES ('carlos', 'carlos.figueiro@gmail.com', 'teste123');
