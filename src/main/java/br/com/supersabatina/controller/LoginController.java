@@ -42,7 +42,7 @@ public class LoginController extends HttpServlet {
 
 		authenticated = loginService.login(user);
 
-		if (StringUtils.isNotEmpty(email)) {
+		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
 			// add to session and redirect to the system
 			System.out.println(authenticated.getEmail());
 			System.out.println(authenticated.getPassword());
@@ -56,7 +56,9 @@ public class LoginController extends HttpServlet {
 			for (String message : Messenger.messageList) {
 				System.out.println(message);
 			}
+			
 			System.out.println(Messenger.success);
+			
 		}
 	}
 }

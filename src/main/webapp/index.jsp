@@ -9,7 +9,7 @@
         <title><%=MessageConfig.getProperty("application.name")%></title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
-        <link rel="icon" href="img/question.png" />
+        <link rel="icon" href="<%=request.getContextPath()%>/img/question.png" />
     </head>
 
     <body class="bg-white">
@@ -18,24 +18,24 @@
 
         <nav class="navbar navbar-expand-sm bg-white shadow p-2 mb-5">
             <div class="container-fluid">
-            	<img src="img/logo.png" alt="" class="img-fluid ms-2"/>
+            	<img src="<%=request.getContextPath()%>/img/logo.png" alt="" class="img-fluid ms-2"/>
             	<a class="navbar-brand p-2 text-black fs-3" href="#"><%=MessageConfig.getProperty("application.name")%></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topMenu" aria-controls="topMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarsExample03">
+                <div class="collapse navbar-collapse" id="topMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0 lead">
                     	<li class="nav-item p-3">
                             <a class="nav-link" href="#"><strong></strong></a>
                         </li>
                         
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="#"><strong>Concursos</strong></a>
+                            <a class="nav-link" href="#"><strong></strong></a>
                         </li>
                         
                         <li class="nav-item p-3">
-                            <a class="nav-link" href="#"><strong>Contato</strong></a>
+                            <a class="nav-link" href="#"><strong></strong></a>
                         </li>
                     </ul>
                 </div>
@@ -51,14 +51,14 @@
                     <h1>Memorize com mais eficiência.</h1>
                     <p class="lead">
                         Experimente um sistema de estudos inteligente baseado na técnica de cartões de memorização. Seja testado diariamente através de revisões periódicas de seus estudos. Acompanhe seu progresso, memorize com mais
-                        facilidade e obtenha maior taxa de sucesso nas suas provas e avaliações. teste
+                        facilidade e obtenha maior taxa de sucesso nas suas provas e avaliações.
                     </p>
                     <a class="btn btn-success" href="login.jsp" role="button"><%=MessageConfig.getProperty("button.login")%></a>
                     <a class="btn btn-success" href="createAccount.jsp" role="button"><%=MessageConfig.getProperty("button.enroll")%></a>
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="img/fairy.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                    <img src="<%=request.getContextPath()%>/img/brain.png" alt="" class="img-fluid d-none d-md-block w-100" />
                 </div>
             </div>
         </div>
