@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="col-sm-6 p-4 justify-content-center">
-                    <form action="createAccountController" method="post">
+                    <form action="createAccount" method="post">
                         <h1 class="mb-5"><%=MessageConfig.getProperty("page.title.createAccount")%></h1>
 						
 						<c:forEach var="message" items="${Messenger.messageList}">

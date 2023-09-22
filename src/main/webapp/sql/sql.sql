@@ -24,6 +24,19 @@ create table users
   constraint user_pk primary key(user_id)
 );
 
+create table question_group 
+(
+  question_group_id bigserial not null,
+  user_id bigserial not null,
+  title text not null,
+  description text not null,
+  unique(question_group_id),
+  constraint question_group_pk primary key(question_group_id),
+  constraint user_fk foreign key(user_id) references users(user_id) on delete cascade
+);
+
+========================================================================================
+
 create table workday 
 (
   workday_id bigserial not null,

@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="col-sm-6 p-4 justify-content-center">
-                    <form action="/supersabatina/loginController" method="post">
+                    <form action="/supersabatina/login" method="post">
                         <h1 class="mb-5"><%=MessageConfig.getProperty("page.title.login")%></h1>
 
                         <c:forEach var="message" items="${Messenger.messageList}">

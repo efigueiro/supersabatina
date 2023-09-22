@@ -17,7 +17,8 @@ public class UserDao extends BaseDao {
 
 	public void create(User user) {
 
-		String sql = "INSERT INTO users(user_name, email, password, avatar, public_profile, tutorial, description)" + "values(?,?,?,?,?,?,?);";
+		String sql = "INSERT INTO users(user_name, email, password, avatar, public_profile, tutorial, description)"
+				+ "values(?,?,?,?,?,?,?);";
 
 		try {
 			Connection conn = this.getConnection();
@@ -64,7 +65,6 @@ public class UserDao extends BaseDao {
 		}
 
 		return userSelected;
-
 	}
 
 	public User retrieveByEmail(User user) {
@@ -93,6 +93,24 @@ public class UserDao extends BaseDao {
 		}
 
 		return userSelected;
-
 	}
+
+	public void disableTutorial(long userId) {
+
+		String sql = "UPDATE users SET tutorial='no' WHERE user_id=?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, userId);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.supersabatina.model.dao.UserDao;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.service.LoginService;
 import br.com.supersabatina.util.Messenger;
@@ -14,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/loginController")
+@WebServlet("/login")
 public class LoginController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +26,15 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		User authenticated = new User();
+        authenticated = (User) request.getSession().getAttribute("authenticated");
+        String action = request.getParameter("action");
+
+        if (authenticated == null || action.equals("logout")) {
+                request.getSession().invalidate();
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
 
 	}
 
@@ -37,6 +47,7 @@ public class LoginController extends HttpServlet {
 		User user = new User();
 		User authenticated = new User();
 		LoginService loginService = new LoginService();
+		UserDao userDao = new UserDao();
 
 		user.setEmail(email);
 		user.setPassword(password);
@@ -50,8 +61,9 @@ public class LoginController extends HttpServlet {
             
             if(authenticated.getTutorial().equals("yes")) {
             	request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
+            	userDao.disableTutorial(authenticated.getUserId());
             } else {
-            	request.getRequestDispatcher("modules/tutorial/index.jsp").forward(request, response);
+            	request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
             }
             Messenger.setSuccessFalse();
 		} else {
