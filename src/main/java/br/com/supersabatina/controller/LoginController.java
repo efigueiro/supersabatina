@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/loginController")
 public class LoginController extends HttpServlet {
@@ -42,23 +43,19 @@ public class LoginController extends HttpServlet {
 
 		authenticated = loginService.login(user);
 
-		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
-			// add to session and redirect to the system
-			System.out.println(authenticated.getEmail());
-			System.out.println(authenticated.getPassword());
-			for (String message : Messenger.messageList) {
-				System.out.println(message);
-			}
-			System.out.println(Messenger.success);
+		if (Messenger.success) {
+			
+			HttpSession session = request.getSession();
+            session.setAttribute("authenticated", authenticated);
+            
+            if(authenticated.getTutorial().equals("yes")) {
+            	request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
+            } else {
+            	request.getRequestDispatcher("modules/tutorial/index.jsp").forward(request, response);
+            }
+            Messenger.setSuccessFalse();
 		} else {
-			System.out.println(authenticated.getEmail());
-			System.out.println(authenticated.getPassword());
-			for (String message : Messenger.messageList) {
-				System.out.println(message);
-			}
-			
-			System.out.println(Messenger.success);
-			
+            request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 }

@@ -18,6 +18,7 @@ create table users
   password varchar(400) not null,
   avatar varchar(400),
   public_profile varchar(4),
+  tutorial varchar(4),
   description text,
   unique(user_id, email, user_name),
   constraint user_pk primary key(user_id)

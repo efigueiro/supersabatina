@@ -23,18 +23,22 @@ public class LoginService {
 		// Find user
 		authenticated = userDao.retrieveByEmail(user);
 
-		// Check password match
+		// Check if user was found and password match
+
 		if (StringUtils.isNotEmpty(authenticated.getPassword())) {
-			
+
 			if (comparePassword.equals(authenticated.getPassword())) {
-				return authenticated;
-			}else {
+				Messenger.setSuccessTrue();
+			} else {
 				Messenger.addWarningMessage("Usuário ou password incorreto.");
 				Messenger.setSuccessFalse();
 			}
-			
+
+		} else {
+			Messenger.addWarningMessage("Usuário ou password incorreto.");
+			Messenger.setSuccessFalse();
 		}
-		
-		return null;
+
+		return authenticated;
 	}
 }

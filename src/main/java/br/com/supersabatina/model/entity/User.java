@@ -8,6 +8,7 @@ public class User {
 	private String password;
 	private String avatar;
 	private String publicProfile;
+	private String tutorial;
 	private String description;
 
 	public long getUserId() {
@@ -58,6 +59,14 @@ public class User {
 		this.publicProfile = publicProfile;
 	}
 
+	public String getTutorial() {
+		return tutorial;
+	}
+
+	public void setTutorial(String tutorial) {
+		this.tutorial = tutorial;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -65,4 +74,5 @@ public class User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 }
