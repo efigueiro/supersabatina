@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.com.supersabatina.config.MessageConfig;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Messenger;
 

@@ -23,11 +23,11 @@ public class DataBaseConfig {
 				properties.load(i);
 				i.close();
 			} catch (IOException ex) {
-				logger.error(MessageConfig.getProperty("ioexception.database.properties"), ex);
-				Messenger.addDangerMessage(MessageConfig.getProperty("ioexception.database.properties"));
+				logger.error("Não foi possível fazer a leitura de arquivo de configuração do banco de dados.", ex);
+				Messenger.addDangerMessage("Não foi possível fazer a leitura de arquivo de configuração do banco de dados.");
 			} catch (NullPointerException ex) {
-				logger.error(MessageConfig.getProperty("nullpointerexception.database.properties"), ex);
-				Messenger.addDangerMessage(MessageConfig.getProperty("nullpointerexception.database.properties"));
+				logger.error("Não foi possível encontrar o arquivo de configuração do banco de dados.", ex);
+				Messenger.addDangerMessage("Não foi possível encontrar o arquivo de configuração do banco de dados.");
 			}
 		}
 		return properties;
@@ -37,8 +37,8 @@ public class DataBaseConfig {
 		try {
 			return getProperties().getProperty(key);
 		} catch (Exception ex) {
-			logger.error(MessageConfig.getProperty("exception.properties"), ex);
-			Messenger.addDangerMessage(MessageConfig.getProperty("exception.properties"));
+			logger.error("Não foi possível encontrar a chave e o valor solicitado.", ex);
+			Messenger.addDangerMessage("Não foi possível encontrar a chave e o valor solicitado.");
 			return null;
 		}
 	}

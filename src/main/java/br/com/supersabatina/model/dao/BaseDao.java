@@ -2,13 +2,11 @@ package br.com.supersabatina.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.supersabatina.config.DataBaseConfig;
-import br.com.supersabatina.config.MessageConfig;
 import br.com.supersabatina.util.Messenger;
 
 public class BaseDao {
@@ -20,8 +18,8 @@ public class BaseDao {
 		try {
 			Class.forName(DataBaseConfig.getProperty("driver"));
 		} catch (ClassNotFoundException ex) {
-			logger.error(MessageConfig.getProperty("classnotfoundexception.driver"), ex);
-			Messenger.addDangerMessage(MessageConfig.getProperty("classnotfoundexception.driver"));
+			logger.error("Não foi possível carregar driver de banco de dados.", ex);
+			Messenger.addDangerMessage("Não foi possível carregar driver de banco de dados.");
 		}
 
 		Connection connection = null;
@@ -31,8 +29,8 @@ public class BaseDao {
 			connection = DriverManager.getConnection(DataBaseConfig.getProperty("url"),
 					DataBaseConfig.getProperty("user"), DataBaseConfig.getProperty("password"));
 		} catch (Exception ex) {
-			logger.error(MessageConfig.getProperty("exception.connection"), ex);
-			Messenger.addDangerMessage(MessageConfig.getProperty("exception.connection"));
+			logger.error("Problemas para realizar conexão com o banco de dados.", ex);
+			Messenger.addDangerMessage("Problemas para realizar conexão com o banco de dados.");
 		}
 
 		return connection;

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ page import="br.com.supersabatina.config.MessageConfig"%>
 <%@ page import="br.com.supersabatina.model.entity.User"%>
 
 <%
@@ -14,7 +13,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title><%=MessageConfig.getProperty("application.name")%></title>
+        <title>Super Sabatina</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
         <link rel="icon" href="<%=request.getContextPath()%>/img/question.png" />

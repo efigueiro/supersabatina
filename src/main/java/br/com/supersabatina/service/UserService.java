@@ -2,7 +2,6 @@ package br.com.supersabatina.service;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.supersabatina.config.MessageConfig;
 import br.com.supersabatina.model.dao.UserDao;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Encrypt;
@@ -21,7 +20,7 @@ public class UserService {
 		compare = userDao.retrieveByUserName(user);
 
 		if (StringUtils.isNotEmpty(compare.getUserName())) {
-			Messenger.addWarningMessage(MessageConfig.getProperty("message.username.unique"));
+			Messenger.addWarningMessage("O nome de usuário já existe no sistema, por favor escolha outro nome.");
 			uniqueUserName = false;
 		}
 
@@ -30,7 +29,7 @@ public class UserService {
 		compare = userDao.retrieveByEmail(user);
 
 		if (StringUtils.isNotEmpty(compare.getEmail())) {
-			Messenger.addWarningMessage(MessageConfig.getProperty("message.email.unique"));
+			Messenger.addWarningMessage("O email selecionado já esta cadastrado no sistema, por favor escolha outro email.");
 			uniqueEmail = false;
 		}
 
@@ -45,10 +44,10 @@ public class UserService {
 			// Checking if user was created
 			compare = userDao.retrieveByEmail(user);
 			if (StringUtils.isNotEmpty(compare.getEmail())) {
-				Messenger.addSuccessMessage(MessageConfig.getProperty("message.success.accountcreated"));
+				Messenger.addSuccessMessage("Obrigado por criar uma conta conosco! Faça login e comece a utilizar.");
 				Messenger.setSuccessTrue();
 			} else {
-				Messenger.addWarningMessage(MessageConfig.getProperty("message.fail"));
+				Messenger.addWarningMessage("Não foi possível completar a solicitação.");
 				Messenger.setSuccessTrue();
 			}
 		}

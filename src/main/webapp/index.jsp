@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ page import="br.com.supersabatina.config.MessageConfig"%>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title><%=MessageConfig.getProperty("application.name")%></title>
+        <title>Super Sabatina</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
         <link rel="icon" href="<%=request.getContextPath()%>/img/question.png" />
@@ -19,7 +18,7 @@
         <nav class="navbar navbar-expand-sm bg-white shadow p-2 mb-5">
             <div class="container-fluid">
             	<img src="<%=request.getContextPath()%>/img/logo.png" alt="" class="img-fluid ms-2"/>
-            	<a class="navbar-brand p-2 text-black fs-3" href="#"><%=MessageConfig.getProperty("application.name")%></a>
+            	<a class="navbar-brand p-2 text-black fs-3" href="#">Super Sabatina</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topMenu" aria-controls="topMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,8 +52,8 @@
                         Experimente um sistema de estudos inteligente baseado na técnica de cartões de memorização. Seja testado diariamente através de revisões periódicas de seus estudos. Acompanhe seu progresso, memorize com mais
                         facilidade e obtenha maior taxa de sucesso nas suas provas e avaliações.
                     </p>
-                    <a class="btn btn-success" href="login.jsp" role="button"><%=MessageConfig.getProperty("button.login")%></a>
-                    <a class="btn btn-success" href="createAccount.jsp" role="button"><%=MessageConfig.getProperty("button.enroll")%></a>
+                    <a class="btn btn-success" href="login.jsp" role="button">Login</a>
+                    <a class="btn btn-success" href="createAccount.jsp" role="button">Inscreva-se</a>
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
