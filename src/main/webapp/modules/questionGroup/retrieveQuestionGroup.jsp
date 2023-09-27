@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="br.com.supersabatina.model.entity.User"%>
+<%@ page import="br.com.supersabatina.util.Messenger"%>
 
 <%
 // get authenticated user
@@ -27,12 +28,45 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h1>Olá, bem vindo ao Super Sabatina.</h1>
-                    <p class="lead">
-                        Posso ver que esta é a primeira vez que você utiliza o sistema. Antes de mais nada, recomendo você acesse o menu chamado tutoriais. 
-                        Aproveite para dar uma olhada nas orientações sobre como utilizar o sistema. Inicialmente você deve criar um grupo de perguntas. 
-                        Depois disso, você deve criar as perguntas para que possa começar a utilizar o sistema de fato. 
-                    </p>                                     
+                    <h3>Buscar grupo de perguntas.</h3>
+                    
+                    <c:forEach var="message" items="${Messenger.messageList}">
+						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
+  							${message}
+						</div>
+					</c:forEach>
+                        
+                    <% Messenger.resetMessenger(); %>
+                    
+                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
+                      <div class="mb-1 mt-3">
+                      	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar" required/>
+                      </div> 
+                      <button type="submit" class="btn btn-success mt-2">Buscar</button>
+                    </form> 
+                    
+                    <div>
+                    	<c:if test="${not empty questionGroupList}">
+                    		<table class="table mt-4">
+					 			<thead>
+					    			<tr>
+					      				<th scope="col">Título</th>
+					      				<th scope="col">Ações</th>
+					    			</tr>
+					  			</thead>
+					  		
+					  			<tbody>
+					  				<c:forEach var="questionGroup" items="${questionGroupList}">
+					    				<tr>
+					      					<td>${questionGroup.title}</td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/editQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
+					    				</tr>
+					    			</c:forEach>
+					  			</tbody>
+							</table>
+						</c:if>
+					</div>
+                                                        
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">

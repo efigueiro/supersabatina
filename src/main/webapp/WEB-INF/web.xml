@@ -13,4 +13,14 @@
     <filter-name>Filter</filter-name>
     <url-pattern>/Filter</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogoffController</display-name>
+    <servlet-name>LogoffController</servlet-name>
+    <servlet-class>br.com.supersabatina.controller.LogoffController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoffController</servlet-name>
+    <url-pattern>/LogoffController</url-pattern>
+  </servlet-mapping>
 </web-app>

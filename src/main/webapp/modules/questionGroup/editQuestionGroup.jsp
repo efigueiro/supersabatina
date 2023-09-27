@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="br.com.supersabatina.model.entity.User"%>
+<%@ page import="br.com.supersabatina.util.Messenger"%>
 
 <%
 // get authenticated user
@@ -26,13 +27,35 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
         <!-- Content -->
         <div class="container">
             <div class="row">
+            	<div><a href="<%=request.getContextPath()%>/modules/questionGroup/retrieveQuestionGroup.jsp" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Voltar</a></div>
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h1>Olá, bem vindo ao Super Sabatina.</h1>
-                    <p class="lead">
-                        Posso ver que esta é a primeira vez que você utiliza o sistema. Antes de mais nada, recomendo você acesse o menu chamado tutoriais. 
-                        Aproveite para dar uma olhada nas orientações sobre como utilizar o sistema. Inicialmente você deve criar um grupo de perguntas. 
-                        Depois disso, você deve criar as perguntas para que possa começar a utilizar o sistema de fato. 
-                    </p>                                     
+                    <h3>Detalhes e edição de grupo de perguntas.</h3>
+                    
+                    <c:forEach var="message" items="${Messenger.messageList}">
+						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
+  							${message}
+						</div>
+					</c:forEach>
+                        
+                    <% Messenger.resetMessenger(); %>
+                    
+                    <form action="/supersabatina/editQuestionGroup" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+                      </div> 
+                      <div class="mb-3 mt-3">
+                      	<input type="text" class="form-control" id="txtTitle" name="txtTitle" value="${questionGroup.title}" required/>
+                      </div> 
+                      <div>
+                      	<textarea class="form-control" id="txtDescription" name="txtDescription" rows="3" >${questionGroup.description}</textarea>
+                      </div>
+                      
+                      <div>
+                      	<button type="submit" class="btn btn-success mt-3">Salvar</button>
+                      	<button type="submit" class="btn btn-danger mt-3 ms-2">Deletar</button>
+                      </div>
+                    </form> 
+                                                        
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">

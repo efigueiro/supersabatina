@@ -32,7 +32,7 @@ create table question_group
   description text not null,
   unique(question_group_id),
   constraint question_group_pk primary key(question_group_id),
-  constraint user_fk foreign key(user_id) references users(user_id) on delete cascade
+  constraint user_fk foreign key(user_id) references users(user_id)
 );
 
 ========================================================================================

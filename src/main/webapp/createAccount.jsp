@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row p-md-5">
                 <div class="col-sm-6 p-4 justify-content-center">
-                    <img src="img/bookriver.png" alt="" class="img-fluid d-none d-sm-block" />
+                    <img src="img/girlbookaccount.png" alt="" class="img-fluid d-none d-sm-block" />
                 </div>
 
                 <div class="col-sm-6 p-4 justify-content-center">

@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="<%=request.getContextPath()%>/img/brain.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
                 </div>
             </div>
         </div>

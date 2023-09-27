@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="br.com.supersabatina.model.entity.User"%>
+<%@ page import="br.com.supersabatina.util.Messenger"%>
 
 <%
 // get authenticated user
@@ -27,12 +28,27 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h1>Olá, bem vindo ao Super Sabatina.</h1>
-                    <p class="lead">
-                        Posso ver que esta é a primeira vez que você utiliza o sistema. Antes de mais nada, recomendo você acesse o menu chamado tutoriais. 
-                        Aproveite para dar uma olhada nas orientações sobre como utilizar o sistema. Inicialmente você deve criar um grupo de perguntas. 
-                        Depois disso, você deve criar as perguntas para que possa começar a utilizar o sistema de fato. 
-                    </p>                                     
+                    <h3>Criação de novo grupo de perguntas.</h3>
+                    
+                    <c:forEach var="message" items="${Messenger.messageList}">
+						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
+  							${message}
+						</div>
+					</c:forEach>
+                        
+                    <% Messenger.resetMessenger(); %>
+                    
+                    <form action="/supersabatina/createQuestionGroup" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="text" class="form-control" id="txtTitle" name="txtTitle" placeholder="Título" required/>
+                      </div> 
+                      <div>
+                      	<textarea class="form-control" id="txtDescription" name="txtDescription" rows="3" placeholder="Descrição" ></textarea>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-success mt-3">Criar grupo</button>
+                    </form> 
+                                                        
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">

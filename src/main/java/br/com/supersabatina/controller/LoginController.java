@@ -26,15 +26,6 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		User authenticated = new User();
-        authenticated = (User) request.getSession().getAttribute("authenticated");
-        String action = request.getParameter("action");
-
-        if (authenticated == null || action.equals("logout")) {
-                request.getSession().invalidate();
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
 
 	}
 
@@ -55,19 +46,19 @@ public class LoginController extends HttpServlet {
 		authenticated = loginService.login(user);
 
 		if (Messenger.success) {
-			
+
 			HttpSession session = request.getSession();
-            session.setAttribute("authenticated", authenticated);
-            
-            if(authenticated.getTutorial().equals("yes")) {
-            	request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
-            	userDao.disableTutorial(authenticated.getUserId());
-            } else {
-            	request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
-            }
-            Messenger.setSuccessFalse();
+			session.setAttribute("authenticated", authenticated);
+
+			if (authenticated.getTutorial().equals("yes")) {
+				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
+				userDao.disableTutorial(authenticated.getUserId());
+			} else {
+				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
+			}
+			Messenger.setSuccessFalse();
 		} else {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 }

@@ -18,8 +18,8 @@
                               Grupo de perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="questionGroup">
-                              <li><a class="dropdown-item" href="#">Pesquisar grupo de perguntas</a></li>
-                              <li><a class="dropdown-item" href="#">Criar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/questionGroup/retrieveQuestionGroup.jsp">Pesquisar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/questionGroup/createQuestionGroup.jsp">Criar grupo de perguntas</a></li>
                             </ul>
                         </li>
 
@@ -50,7 +50,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="perfil">
                               <li><a class="dropdown-item" href="#">Configurações</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/login?action=logout">Sair</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/logoff?action=logout">Sair</a></li>
                             </ul>
                         </li>
 
