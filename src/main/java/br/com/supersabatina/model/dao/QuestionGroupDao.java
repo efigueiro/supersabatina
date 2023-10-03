@@ -63,15 +63,16 @@ public class QuestionGroupDao extends BaseDao {
 		return questionGroupList;
 	}
 
-	public QuestionGroup retrieveById(long questionGroupId) {
+	public QuestionGroup retrieveById(long questionGroupId, long userId) {
 
 		QuestionGroup questionGroupSelected = new QuestionGroup();
-		String sql = "SELECT * FROM question_group WHERE question_group_id = ?";
+		String sql = "SELECT * FROM question_group WHERE question_group_id=? and user_id=?";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, userId);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
 				questionGroupSelected.setQuestionGroupId(rs.getLong("question_group_id"));
@@ -85,5 +86,43 @@ public class QuestionGroupDao extends BaseDao {
 		}
 
 		return questionGroupSelected;
+	}
+
+	public void update(QuestionGroup questionGroup) {
+
+		String sql = "UPDATE question_group SET title=?, description=? WHERE user_id=? and question_group_id=?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, questionGroup.getTitle());
+			pstm.setString(2, questionGroup.getDescription());
+			pstm.setLong(3, questionGroup.getUser().getUserId());
+			pstm.setLong(4, questionGroup.getQuestionGroupId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+
+	public void delete(long questionGroupId, long userId) {
+
+		String sql = "DELETE FROM question_group WHERE question_group_id=? and user_id=?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, userId);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
 	}
 }

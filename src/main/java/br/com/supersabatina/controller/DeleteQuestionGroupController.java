@@ -2,6 +2,9 @@ package br.com.supersabatina.controller;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
+
+import br.com.supersabatina.model.dao.QuestionGroupDao;
 import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.service.QuestionGroupService;
@@ -11,39 +14,34 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/createQuestionGroup")
-public class CreateQuestionGroupController extends HttpServlet {
+@WebServlet("/deleteQuestionGroup")
+public class DeleteQuestionGroupController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public CreateQuestionGroupController() {
+	public DeleteQuestionGroupController() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		String stringQuestionGroupId = request.getParameter("questionGroupId");
+		long questionGroupId = Long.parseLong(stringQuestionGroupId);
+
+		User authenticated = new User();
+		authenticated = (User) request.getSession().getAttribute("authenticated");
+
+		QuestionGroupService questionGroupService = new QuestionGroupService();
+
+		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
+			questionGroupService.delete(questionGroupId, authenticated.getUserId());
+			request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String title = (String) request.getParameter("txtTitle");
-		String description = (String) request.getParameter("txtDescription");
-		
-		User authenticated = new User();
-		authenticated = (User) request.getSession().getAttribute("authenticated");
-		
-		QuestionGroup questionGroup = new QuestionGroup();
-		questionGroup.setUser(authenticated);
-		questionGroup.setTitle(title);
-		questionGroup.setDescription(description);
-		
-		
-		QuestionGroupService questionGroupService = new QuestionGroupService();
-		questionGroupService.create(questionGroup);
 
-		request.getRequestDispatcher("modules/questionGroup/createQuestionGroup.jsp").forward(request, response);
-		
 	}
 }

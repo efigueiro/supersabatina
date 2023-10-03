@@ -59,7 +59,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
 					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/editQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

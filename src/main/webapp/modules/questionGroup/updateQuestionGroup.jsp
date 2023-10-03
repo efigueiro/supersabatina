@@ -39,7 +39,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/editQuestionGroup" method="post">
+                    <form action="/supersabatina/updateQuestionGroup" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
                       </div> 
@@ -52,7 +52,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       
                       <div>
                       	<button type="submit" class="btn btn-success mt-3">Salvar</button>
-                      	<button type="submit" class="btn btn-danger mt-3 ms-2">Deletar</button>
+                      	<a class="btn btn-danger mt-3 ms-2" href="/supersabatina/deleteQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Deletar</a>
                       </div>
                     </form> 
                                                         

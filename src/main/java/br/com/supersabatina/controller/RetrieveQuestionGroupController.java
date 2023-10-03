@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.supersabatina.model.dao.QuestionGroupDao;
 import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
-import br.com.supersabatina.service.CreateQuestionGroupService;
-import br.com.supersabatina.service.RetrieveQuestionGroupService;
+import br.com.supersabatina.service.QuestionGroupService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,7 +37,7 @@ public class RetrieveQuestionGroupController extends HttpServlet {
 		
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
 		
-		RetrieveQuestionGroupService retrieveQuestionGroupService = new RetrieveQuestionGroupService();
+		QuestionGroupService retrieveQuestionGroupService = new QuestionGroupService();
 		questionGroupList = retrieveQuestionGroupService.retrieveByTitle(search, authenticated);
 		
 		request.setAttribute("questionGroupList", questionGroupList);
