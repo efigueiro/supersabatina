@@ -18,8 +18,8 @@
                               Grupo de perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="questionGroup">
-                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/questionGroup/retrieveQuestionGroup.jsp">Pesquisar grupo de perguntas</a></li>
-                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/questionGroup/createQuestionGroup.jsp">Criar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=retrieveQuestionGroup">Pesquisar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=createQuestionGroup">Criar grupo de perguntas</a></li>
                             </ul>
                         </li>
 
@@ -28,8 +28,8 @@
                               Perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="question">
-                              <li><a class="dropdown-item" href="#">Pesquisar perguntas</a></li>
-                              <li><a class="dropdown-item" href="#">Criar perguntas</a></li>
+                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/question/retrieveQuestion.jsp">Pesquisar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=createQuestion">Criar perguntas</a></li>
                             </ul>
                         </li>
 

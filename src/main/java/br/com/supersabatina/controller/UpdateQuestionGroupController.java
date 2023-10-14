@@ -35,13 +35,15 @@ public class UpdateQuestionGroupController extends HttpServlet {
 		QuestionGroup questionGroup = new QuestionGroup();
 		QuestionGroupService questionGroupService = new QuestionGroupService();
 
-		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
+		if (authenticated != null) {
 			questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
 		}
 
 		if (StringUtils.isNotEmpty(questionGroup.getTitle())) {
 			request.setAttribute("questionGroup", questionGroup);
 			request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 
 	}
@@ -64,7 +66,7 @@ public class UpdateQuestionGroupController extends HttpServlet {
 
 		QuestionGroupService questionGroupService = new QuestionGroupService();
 
-		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
+		if (authenticated != null) {
 			questionGroupService.update(questionGroup);
 			request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 		} else {

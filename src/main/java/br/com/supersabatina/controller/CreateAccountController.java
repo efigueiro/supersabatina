@@ -37,7 +37,7 @@ public class CreateAccountController extends HttpServlet {
 		user.setUserName(userName);
 		user.setEmail(email);
 		user.setPassword(password);
-		user.setPublicProfile("no");
+		user.setVisibility("private");
 		user.setTutorial("yes");
 
 		UserService userService = new UserService();

@@ -27,23 +27,25 @@ public class CreateQuestionGroupController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String title = (String) request.getParameter("txtTitle");
 		String description = (String) request.getParameter("txtDescription");
-		
+
 		User authenticated = new User();
 		authenticated = (User) request.getSession().getAttribute("authenticated");
-		
-		QuestionGroup questionGroup = new QuestionGroup();
-		questionGroup.setUser(authenticated);
-		questionGroup.setTitle(title);
-		questionGroup.setDescription(description);
-		
-		
-		QuestionGroupService questionGroupService = new QuestionGroupService();
-		questionGroupService.create(questionGroup);
 
-		request.getRequestDispatcher("modules/questionGroup/createQuestionGroup.jsp").forward(request, response);
-		
+		if (authenticated != null) {
+			QuestionGroup questionGroup = new QuestionGroup();
+			questionGroup.setUser(authenticated);
+			questionGroup.setTitle(title);
+			questionGroup.setDescription(description);
+
+			QuestionGroupService questionGroupService = new QuestionGroupService();
+			questionGroupService.create(questionGroup);
+
+			request.getRequestDispatcher("modules/questionGroup/createQuestionGroup.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
 	}
 }

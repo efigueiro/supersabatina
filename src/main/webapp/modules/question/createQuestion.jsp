@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="br.com.supersabatina.model.entity.User"%>
+<%@ page import="br.com.supersabatina.model.entity.QuestionGroup"%>
+<%@ page import="br.com.supersabatina.service.QuestionGroupService"%>
 <%@ page import="br.com.supersabatina.util.Messenger"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -22,7 +26,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Criação de novo grupo de perguntas.</h3>
+                    <h3>Criação de perguntas.</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,15 +36,32 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/createQuestionGroup" method="post">
-                      <div class="mb-3 mt-3">
-                      	<input type="text" class="form-control" id="txtTitle" name="txtTitle" placeholder="Título" required/>
+                    <form action="/supersabatina/createQuestion" method="post">
+                      <div class="mt-3">
+                      	<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
+                      		<c:forEach var="questionGroup" items="${questionGroupList}">
+								<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>
+							</c:forEach>
+						</select>
+                      </div>
+                      <div class="mt-3">
+                      	<select class="form-select" aria-label="optPrivate" name="optVisibility">
+  							<option value="private">Privada</option>
+  							<option value="public">Pública</option>
+						</select>
+                      </div>
+                      <div class="mt-3">
+                      	<input type="text" class="form-control" id="txtSubject" name="txtSubject" placeholder="Assuntos" required/>
                       </div> 
-                      <div>
-                      	<textarea class="form-control" id="txtDescription" name="txtDescription" rows="3" placeholder="Descrição" ></textarea>
+                      <div class="mt-3">
+                      	<textarea class="form-control" id="txtQuestion" name="txtQuestion" rows="3" placeholder="Escreva sua pergunta" ></textarea>
                       </div>
                       
-                      <button type="submit" class="btn btn-success mt-3">Criar grupo</button>
+                      <div class="mt-3">
+                      	<textarea class="form-control" id="txtAnswer" name="txtAnswer" rows="3" placeholder="Escreva a resposta da pergunta" ></textarea>
+                      </div>
+                      
+                      <button type="submit" class="btn btn-success mt-3">Criar pergunta</button>
                     </form> 
                                                         
                 </div>

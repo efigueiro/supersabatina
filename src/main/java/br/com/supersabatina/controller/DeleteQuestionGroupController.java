@@ -34,9 +34,11 @@ public class DeleteQuestionGroupController extends HttpServlet {
 
 		QuestionGroupService questionGroupService = new QuestionGroupService();
 
-		if (StringUtils.isNotEmpty(authenticated.getEmail())) {
+		if (authenticated != null) {
 			questionGroupService.delete(questionGroupId, authenticated.getUserId());
 			request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 

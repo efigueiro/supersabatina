@@ -35,6 +35,32 @@ public class QuestionGroupDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 	}
+	
+	public List<QuestionGroup> retrieveAllByUserId(User authenticated) {
+
+		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
+		String sql = "SELECT * FROM question_group WHERE user_id = ?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				QuestionGroup questionGroup = new QuestionGroup();
+				questionGroup.setQuestionGroupId(rs.getLong("question_group_id"));
+				questionGroup.setTitle(rs.getString("title"));
+				questionGroup.setDescription(rs.getString("description"));
+				questionGroupList.add(questionGroup);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionGroupList;
+	}
 
 	public List<QuestionGroup> retrieveByTitle(String title, User authenticated) {
 

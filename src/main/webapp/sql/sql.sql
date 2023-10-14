@@ -17,7 +17,7 @@ create table users
   email varchar(400) not null,
   password varchar(400) not null,
   avatar varchar(400),
-  public_profile varchar(4),
+  visibility varchar(10) not null,
   tutorial varchar(4),
   description text,
   unique(user_id, email, user_name),
@@ -32,6 +32,19 @@ create table question_group
   description text not null,
   unique(question_group_id),
   constraint question_group_pk primary key(question_group_id),
+  constraint user_fk foreign key(user_id) references users(user_id)
+);
+
+create table question 
+(
+  question_id bigserial not null,
+  user_id bigserial not null,
+  subject text not null,
+  visibility varchar(10) not null,
+  question text not null,
+  answer text not null,
+  unique(question_id),
+  constraint question_pk primary key(question_id),
   constraint user_fk foreign key(user_id) references users(user_id)
 );
 

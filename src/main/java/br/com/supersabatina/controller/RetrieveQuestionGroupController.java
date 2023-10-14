@@ -29,19 +29,20 @@ public class RetrieveQuestionGroupController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String search = (String) request.getParameter("txtSearch");
-		
 		User authenticated = new User();
 		authenticated = (User) request.getSession().getAttribute("authenticated");
-		
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
-		
-		QuestionGroupService retrieveQuestionGroupService = new QuestionGroupService();
-		questionGroupList = retrieveQuestionGroupService.retrieveByTitle(search, authenticated);
-		
-		request.setAttribute("questionGroupList", questionGroupList);
-		request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
-		
+
+		if (authenticated != null) {
+			QuestionGroupService retrieveQuestionGroupService = new QuestionGroupService();
+			questionGroupList = retrieveQuestionGroupService.retrieveByTitle(search, authenticated);
+
+			request.setAttribute("questionGroupList", questionGroupList);
+			request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
 	}
 }

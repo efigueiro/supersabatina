@@ -7,9 +7,7 @@ public class User {
 	private String email;
 	private String password;
 	private String avatar;
-	private String publicProfile;
-	private String tutorial;
-	private String description;
+	private String visibility;
 
 	public long getUserId() {
 		return userId;
@@ -51,12 +49,12 @@ public class User {
 		this.avatar = avatar;
 	}
 
-	public String getPublicProfile() {
-		return publicProfile;
+	public String getVisibility() {
+		return visibility;
 	}
 
-	public void setPublicProfile(String publicProfile) {
-		this.publicProfile = publicProfile;
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
 	}
 
 	public String getTutorial() {
@@ -74,5 +72,8 @@ public class User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	private String tutorial;
+	private String description;
 
 }

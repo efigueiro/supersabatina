@@ -3,12 +3,6 @@
 <%@ page import="br.com.supersabatina.model.entity.User"%>
 <%@ page import="br.com.supersabatina.util.Messenger"%>
 
-<%
-// get authenticated user
-User authenticated = new User();
-authenticated = (User) request.getSession().getAttribute("authenticated");
-%>
-
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>

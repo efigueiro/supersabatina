@@ -16,7 +16,7 @@ public class UserDao extends BaseDao {
 
 	public void create(User user) {
 
-		String sql = "INSERT INTO users(user_name, email, password, avatar, public_profile, tutorial, description)"
+		String sql = "INSERT INTO users(user_name, email, password, avatar, visibility, tutorial, description)"
 				+ "values(?,?,?,?,?,?,?);";
 
 		try {
@@ -26,7 +26,7 @@ public class UserDao extends BaseDao {
 			pstm.setString(2, user.getEmail());
 			pstm.setString(3, user.getPassword());
 			pstm.setString(4, user.getAvatar());
-			pstm.setString(5, user.getPublicProfile());
+			pstm.setString(5, user.getVisibility());
 			pstm.setString(6, user.getTutorial());
 			pstm.setString(7, user.getDescription());
 			pstm.execute();
@@ -54,7 +54,7 @@ public class UserDao extends BaseDao {
 				userSelected.setUserId(rs.getLong("user_id"));
 				userSelected.setUserName(rs.getString("user_name"));
 				userSelected.setAvatar(rs.getString("avatar"));
-				userSelected.setPublicProfile(rs.getString("public_profile"));
+				userSelected.setVisibility(rs.getString("visibility"));
 				userSelected.setTutorial(rs.getString("tutorial"));
 			}
 
@@ -82,7 +82,7 @@ public class UserDao extends BaseDao {
 				userSelected.setUserId(rs.getLong("user_id"));
 				userSelected.setUserName(rs.getString("user_name"));
 				userSelected.setAvatar(rs.getString("avatar"));
-				userSelected.setPublicProfile(rs.getString("public_profile"));
+				userSelected.setVisibility(rs.getString("visibility"));
 				userSelected.setTutorial(rs.getString("tutorial"));
 			}
 
