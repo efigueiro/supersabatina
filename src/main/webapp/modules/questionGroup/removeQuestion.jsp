@@ -21,8 +21,11 @@
         <!-- Content -->
         <div class="container">
             <div class="row">
+            	<div><a href="<%=request.getContextPath()%>/modules/questionGroup/retrieveQuestionGroup.jsp" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Voltar</a></div>
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Buscar grupo de perguntas.</h3>
+                    <h3>Remover perguntas do grupo.</h3>
+                    
+                    ${questionGroupId}
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -40,20 +43,20 @@
                     </form> 
                     
                     <div>
-                    	<c:if test="${not empty questionGroupList}">
+                    	<c:if test="${not empty questionList}">
                     		<table class="table mt-4">
 					 			<thead>
 					    			<tr>
-					      				<th scope="col">Título</th>
+					      				<th scope="col">Pergunta</th>
 					      				<th scope="col">Ações</th>
 					    			</tr>
 					  			</thead>
 					  		
 					  			<tbody>
-					  				<c:forEach var="questionGroup" items="${questionGroupList}">
+					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
-					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=updateQuestionGroup" role="button">Detalhes</a></td>
+					      					<td>${question.question}</td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestionGroup?questionGroupId=${question.questionId}" role="button">Remover</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

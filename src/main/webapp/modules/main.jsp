@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Buscar grupo de perguntas.</h3>
+                    <h3>Painel de controle.</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,51 +32,51 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
-                      <div class="mb-1 mt-3">
-                      	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar"/>
-                      </div> 
-                      <button type="submit" class="btn btn-success mt-2">Buscar</button>
-                    </form> 
-                    
-                    <div>
-                    	<c:if test="${not empty questionGroupList}">
-                    		<table class="table mt-4">
-					 			<thead>
-					    			<tr>
-					      				<th scope="col">Título</th>
-					      				<th scope="col">Ações</th>
-					    			</tr>
-					  			</thead>
-					  		
-					  			<tbody>
-					  				<c:forEach var="questionGroup" items="${questionGroupList}">
-					    				<tr>
-					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=updateQuestionGroup" role="button">Detalhes</a></td>
-					    				</tr>
-					    			</c:forEach>
-					  			</tbody>
-							</table>
-						</c:if>
+					<div class="row">
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Special title treatment</h5>
+        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        							<a href="#" class="btn btn-success">Go somewhere</a>
+      							</div>
+    						</div>
+  						</div>
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Special title treatment</h5>
+        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        							<a href="#" class="btn btn-success">Go somewhere</a>
+      							</div>
+    						</div>
+  						</div>
 					</div>
-                                                        
+					
+					<div class="row">
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Special title treatment</h5>
+        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        							<a href="#" class="btn btn-success"">Go somewhere</a>
+      							</div>
+    						</div>
+  						</div>
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Special title treatment</h5>
+        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        							<a href="#" class="btn btn-success"">Go somewhere</a>
+      							</div>
+    						</div>
+  						</div>
+					</div>
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                	<div class="card">
-					  <div class="card-body">
-					    <h5 class="card-title">Dicas</h5>
-					    <p class="card-text">
-					    	Se você executar uma busca sem digitar nenhum título, o sistema buscará todos os grupos de perguntas
-					    	que você possui.
-					    </p>
-					    <p class="card-text">
-					    	Cada letra ou palavra digitada será levada em conta para executar a busca, portanto você pode executar
-					    	buscas pelo título parcial ou completo.
-					    </p>
-					  </div>
-					</div>
+                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
                 </div>
             </div>
         </div>

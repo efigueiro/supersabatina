@@ -65,13 +65,39 @@ public class QuestionGroupDao extends BaseDao {
 	public List<QuestionGroup> retrieveByTitle(String title, User authenticated) {
 
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
-		String sql = "SELECT * FROM question_group WHERE title ILIKE ? and user_id = ?";
+		String sql = "SELECT * FROM question_group WHERE title ILIKE ? and user_id = ? ORDER BY title ASC";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setString(1, "%" + title + "%");
 			pstm.setLong(2, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				QuestionGroup questionGroup = new QuestionGroup();
+				questionGroup.setQuestionGroupId(rs.getLong("question_group_id"));
+				questionGroup.setTitle(rs.getString("title"));
+				questionGroup.setDescription(rs.getString("description"));
+				questionGroupList.add(questionGroup);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionGroupList;
+	}
+	
+	public List<QuestionGroup> retrieveByTitle(User authenticated) {
+
+		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
+		String sql = "SELECT * FROM question_group WHERE user_id = ? ORDER BY title ASC";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, authenticated.getUserId());
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				QuestionGroup questionGroup = new QuestionGroup();
@@ -150,5 +176,71 @@ public class QuestionGroupDao extends BaseDao {
 			logger.error(ex.getMessage(), ex);
 			Messenger.addDangerMessage(ex.getMessage());
 		}
+	}
+	
+	public List<Long> retrieveQuestionIdByQuestionGroup(long questionGroupId) {
+
+		List<Long> questionIdList = new ArrayList<Long>();
+		String sql = "SELECT * FROM question_group_question WHERE question_group_id=?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				questionIdList.add(rs.getLong("question_id"));
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionIdList;
+	}
+	
+	public int count(long questionGroupId) {
+
+		int count = 0;
+		String sql = "SELECT count(*) AS count FROM question_group_question WHERE question_group_id=?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
+	}
+	
+	public int countQuestionGroup(long userId) {
+
+		int count = 0;
+		String sql = "SELECT count(*) AS count FROM question_group WHERE user_id=?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, userId);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
 	}
 }

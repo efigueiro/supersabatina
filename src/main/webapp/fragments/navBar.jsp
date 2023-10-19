@@ -10,7 +10,7 @@
                 <div class="collapse navbar-collapse" id="topMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0 lead">
                     	<li class="nav-item p-3">
-                            <a class="nav-link" href="#"><strong></strong></a>
+                            <a class="nav-link" href="#">Painel</a>
                         </li>
                         
                         <li class="nav-item dropdown p-3">
@@ -28,7 +28,7 @@
                               Perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="question">
-                              <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/question/retrieveQuestion.jsp">Pesquisar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=retrieveQuestion">Pesquisar perguntas</a></li>
                               <li><a class="dropdown-item" href="/supersabatina/navigator?action=createQuestion">Criar perguntas</a></li>
                             </ul>
                         </li>

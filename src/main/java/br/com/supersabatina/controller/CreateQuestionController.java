@@ -32,6 +32,7 @@ public class CreateQuestionController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Getting values from the view layer
 		String optQuestionGroup = (String) request.getParameter("optQuestionGroup");
 		String visibility = (String) request.getParameter("optVisibility");
 		String subject = (String) request.getParameter("txtSubject");

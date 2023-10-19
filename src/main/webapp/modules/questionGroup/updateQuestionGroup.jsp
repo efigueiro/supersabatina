@@ -59,7 +59,15 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                    <div class="card">
+					  <div class="card-body">
+					    <h5 class="card-title">Perguntas Associadas</h5>
+					    <p class="card-text">Este grupo de perguntas possui ${numberQuestions} pergunta(s) associada(s).</p>
+					    <p class="card-text">Você pode adicionar ou remover perguntas desde grupo de perguntas clicando no link abaixo.</p>
+					    <a href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=addQuestion" class="card-link">Adicionar Perguntas</a>
+					    <a href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=removeQuestion" class="card-link">Remover Perguntas</a>
+					  </div>
+					</div>
                 </div>
             </div>
         </div>

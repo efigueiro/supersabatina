@@ -20,8 +20,7 @@ public class QuestionDao extends BaseDao {
 
 	public void create(Question question, long questionGroupId) {
 
-		String sql = "INSERT INTO question(user_id, subject, visibility, question, answer)"
-				+ "values(?,?,?,?,?);";
+		String sql = "INSERT INTO question(user_id, subject, visibility, question, answer)" + "values(?,?,?,?,?);";
 
 		try {
 			Connection conn = this.getConnection();
@@ -39,19 +38,18 @@ public class QuestionDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 	}
-	
-	public Question retrieveByQuestionAndAnswer(Question q, long userId) {
+
+	public Question retrieveByQuestionAndUserId(Question q, long userId) {
 
 		Question question = new Question();
 		User user = new User();
-		String sql = "SELECT * FROM question WHERE question=? and answer=? and user_id=?";
+		String sql = "SELECT * FROM question WHERE question=? and user_id=?";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setString(1, q.getQuestion());
-			pstm.setString(2, q.getAnswer());
-			pstm.setLong(3, userId);
+			pstm.setLong(2, userId);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
 				question.setQuestionId(rs.getLong("question_id"));
@@ -69,6 +67,96 @@ public class QuestionDao extends BaseDao {
 		}
 
 		return question;
+	}
+
+	public List<Question> retrieveAllByQuestion(String question, User authenticated) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and user_id = ?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "%" + question + "%");
+			pstm.setString(2, "%" + question + "%");
+			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				q.setQuestionId(rs.getLong("question_id"));
+				q.setAnswer(rs.getString("answer"));
+				q.setQuestion(rs.getString("question"));
+				q.setSubject(rs.getString("subject"));
+				q.setVisibility(rs.getString("visibility"));
+				questionList.add(q);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionList;
+	}
+
+	public List<Question> retrievePrivateByQuestion(String question, User authenticated) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and ((user_id = ?) and (visibility='private'))";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "%" + question + "%");
+			pstm.setString(2, "%" + question + "%");
+			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				q.setQuestionId(rs.getLong("question_id"));
+				q.setAnswer(rs.getString("answer"));
+				q.setQuestion(rs.getString("question"));
+				q.setSubject(rs.getString("subject"));
+				q.setVisibility(rs.getString("visibility"));
+				questionList.add(q);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionList;
+	}
+
+	public List<Question> retrievePublicByQuestion(String question, User authenticated) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and ((user_id = ?) and (visibility='public'))";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "%" + question + "%");
+			pstm.setString(2, "%" + question + "%");
+			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				q.setQuestionId(rs.getLong("question_id"));
+				q.setAnswer(rs.getString("answer"));
+				q.setQuestion(rs.getString("question"));
+				q.setSubject(rs.getString("subject"));
+				q.setVisibility(rs.getString("visibility"));
+				questionList.add(q);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionList;
 	}
 
 	public List<Question> retrieveAll(User authenticated) {
@@ -98,4 +186,85 @@ public class QuestionDao extends BaseDao {
 
 		return questionList;
 	}
+
+	public int count(User authenticated) {
+
+		int count = 0;
+		String sql = "SELECT count(*) AS count FROM question WHERE user_id = ?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
+	}
+
+	// QuestionGroupQuestion table
+	
+	public void createQuestionGroupQuestion(Question question, long questionGroupId) {
+
+		String sql = "INSERT INTO question_group_question(question_id, question_group_id, revision_date, number_correct_answer, number_incorrect_answer)" 
+		+ "values(?,?,CURRENT_DATE,?,?);";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, question.getQuestionId());
+			pstm.setLong(2, questionGroupId);
+			pstm.setInt(3, 0);
+			pstm.setInt(4, 0);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+	
+	public List<Question> retrieveByQuestionGroup(long questionGroupId, User authenticated) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT question.question_id AS question_id, answer AS answer, question.subject AS subject, question.question AS question, question.visibility AS visibility"
+				+ " FROM question_group"
+				+ " INNER JOIN question_group_question"
+				+ " ON question_group.question_group_id = question_group_question.question_group_id"
+				+ " INNER JOIN question"
+				+ " ON question.question_id = question_group_question.question_id"
+				+ " AND question_group.question_group_id = ?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question question = new Question();
+				question.setQuestionId(rs.getLong("question_id"));
+				question.setAnswer(rs.getString("answer"));
+				question.setSubject(rs.getString("subject"));
+				question.setQuestion(rs.getString("question"));
+				question.setUser(authenticated);
+				question.setVisibility(rs.getString("visibility"));
+				questionList.add(question);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return questionList;
+	}
 }
+

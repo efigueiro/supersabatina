@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.supersabatina.model.dao.QuestionDao;
 import br.com.supersabatina.model.dao.QuestionGroupDao;
 import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
@@ -28,7 +29,12 @@ public class QuestionGroupService {
 	public List<QuestionGroup> retrieveByTitle(String title, User authenticated) {
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupList = questionGroupDao.retrieveByTitle(title, authenticated);
+		if (StringUtils.isEmpty(title)) {
+			questionGroupList = questionGroupDao.retrieveByTitle(authenticated);
+		} else {
+			questionGroupList = questionGroupDao.retrieveByTitle(title, authenticated);
+		}
+		
 		return questionGroupList;
 	}
 
@@ -53,5 +59,29 @@ public class QuestionGroupService {
 		if(!StringUtils.isNotEmpty(checkDelete.getTitle())) {
 			Messenger.addSuccessMessage("Registro excluido com sucesso!");
 		}
+	}
+	
+	public List<Long> retrieveQuestionIdByQuestionGroup(long questionGroupId) {
+		List<Long> questionIdList = new ArrayList<Long>();
+		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
+		questionIdList = questionGroupDao.retrieveQuestionIdByQuestionGroup(questionGroupId);
+		return questionIdList;
+	}
+	
+	public int countQuestionByQuestionGroup( long questionGroupId) {
+		List<Long> questionIdList = new ArrayList<Long>();
+		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
+		questionIdList = questionGroupDao.retrieveQuestionIdByQuestionGroup(questionGroupId);
+		return questionIdList.size();
+	}
+	
+	public int count(long questionGroupId) {
+		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
+		return questionGroupDao.count(questionGroupId);
+	}
+	
+	public int countQuestionGroup(long userId) {
+		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
+		return questionGroupDao.countQuestionGroup(userId);
 	}
 }

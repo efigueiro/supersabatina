@@ -32,9 +32,11 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Getting values from the view layer
 		String email = (String) request.getParameter("txtEmail");
 		String password = (String) request.getParameter("txtPassword");
 
+		// Creating user
 		User user = new User();
 		User authenticated = new User();
 		LoginService loginService = new LoginService();
@@ -43,6 +45,7 @@ public class LoginController extends HttpServlet {
 		user.setEmail(email);
 		user.setPassword(password);
 
+		// Trying login
 		authenticated = loginService.login(user);
 
 		if (Messenger.success) {
@@ -54,7 +57,7 @@ public class LoginController extends HttpServlet {
 				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
 				userDao.disableTutorial(authenticated.getUserId());
 			} else {
-				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
+				request.getRequestDispatcher("modules/main.jsp").forward(request, response);
 			}
 			Messenger.setSuccessFalse();
 		} else {

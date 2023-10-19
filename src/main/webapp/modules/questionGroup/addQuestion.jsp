@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Buscar grupo de perguntas.</h3>
+                    <h3>Adicionar perguntas ao grupo de perguntas.</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -53,7 +53,7 @@
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
 					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=updateQuestionGroup" role="button">Detalhes</a></td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

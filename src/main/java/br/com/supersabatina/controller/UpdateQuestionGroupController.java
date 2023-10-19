@@ -26,21 +26,29 @@ public class UpdateQuestionGroupController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Getting values from the view layer
+		String stringQuestionGroupId = request.getParameter("questionGroupId");
+		long questionGroupId = Long.parseLong(stringQuestionGroupId);
+		
+		// Getting user from session
 		User authenticated = new User();
 		authenticated = (User) request.getSession().getAttribute("authenticated");
 
-		String stringQuestionGroupId = request.getParameter("questionGroupId");
-		long questionGroupId = Long.parseLong(stringQuestionGroupId);
-
+		// Creating dependency objects
 		QuestionGroup questionGroup = new QuestionGroup();
 		QuestionGroupService questionGroupService = new QuestionGroupService();
-
+		
+		// Variable to check how many questions are recorded by question group
+		int numberQuestions = 0;
+		
 		if (authenticated != null) {
 			questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
+			numberQuestions = questionGroupService.count(questionGroupId);
 		}
 
 		if (StringUtils.isNotEmpty(questionGroup.getTitle())) {
 			request.setAttribute("questionGroup", questionGroup);
+			request.setAttribute("numberQuestions", numberQuestions);
 			request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -51,10 +59,12 @@ public class UpdateQuestionGroupController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Getting values from the view layer
 		String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
 		String title = (String) request.getParameter("txtTitle");
 		String description = (String) request.getParameter("txtDescription");
 
+		// Getting user from session
 		User authenticated = new User();
 		authenticated = (User) request.getSession().getAttribute("authenticated");
 

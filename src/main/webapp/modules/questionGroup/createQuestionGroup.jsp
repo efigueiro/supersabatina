@@ -46,7 +46,17 @@
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                	<div class="card">
+					  <div class="card-body">
+					    <h5 class="card-title">Dicas</h5>
+					    <p class="card-text">O que é um grupo de perguntas?</p>
+					    <p class="card-text">
+					    	Um grupo de perguntas é criado para agrupar perguntas. 
+					    	Você pode ter um grupo de perguntas chamado Prova de geografia, para agrupar as perguntas relacionadas
+					    	a sua prova de geografia.
+					    </p>
+					  </div>
+					</div>
                 </div>
             </div>
         </div>

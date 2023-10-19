@@ -1,61 +1,75 @@
 package br.com.supersabatina.service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.supersabatina.model.dao.QuestionDao;
-import br.com.supersabatina.model.dao.QuestionGroupDao;
 import br.com.supersabatina.model.entity.Question;
-import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Messenger;
 
 public class QuestionService {
 
 	public void create(Question question, long questionGroupId) {
+
 		QuestionDao questionDao = new QuestionDao();
-		questionDao.create(question, questionGroupId);
-		if (Messenger.messageList.isEmpty()) {
-			Messenger.addSuccessMessage("Pergunta criada com sucesso!");
+		Question questionTest = new Question();
+
+		// Checking if question already exist before create a new question.
+		questionTest = questionDao.retrieveByQuestionAndUserId(question, question.getUser().getUserId());
+
+		if (StringUtils.isEmpty(questionTest.getQuestion())) {
+			questionDao.create(question, questionGroupId);
+			questionTest = questionDao.retrieveByQuestionAndUserId(question, question.getUser().getUserId());
+			questionDao.createQuestionGroupQuestion(questionTest, questionGroupId);
+
+			if (Messenger.messageList.isEmpty()) {
+				Messenger.addSuccessMessage("Pergunta criada com sucesso!");
+			}
+		} else {
+			Messenger.addWarningMessage("A pergunta que você tentou criar já existe, por este motivo não foi possível completar a gravação.");
 		}
 	}
 
-	public List<QuestionGroup> retrieveAllByUserId(User authenticated) {
-		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
-		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupList = questionGroupDao.retrieveAllByUserId(authenticated);
-		return questionGroupList;
-	}
+	public List<Question> retrieveByQuestion(String question, User authenticated, String visibility) {
 
-	public List<QuestionGroup> retrieveByTitle(String title, User authenticated) {
-		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
-		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupList = questionGroupDao.retrieveByTitle(title, authenticated);
-		return questionGroupList;
-	}
+		List<Question> questionList = new ArrayList<Question>();
+		QuestionDao questionDao = new QuestionDao();
 
-	public QuestionGroup retrieveById(long questionGroupId, long userId) {
-		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		return questionGroupDao.retrieveById(questionGroupId, userId);
-	}
-
-	public void update(QuestionGroup questionGroup) {
-		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupDao.update(questionGroup);
-		Messenger.addSuccessMessage("Grupo de questões atualizado com sucesso!");
-	}
-
-	public void delete(long questionGroupId, long userId) {
-		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupDao.delete(questionGroupId, userId);
-
-		QuestionGroup checkDelete = new QuestionGroup();
-		checkDelete = questionGroupDao.retrieveById(questionGroupId, userId);
-
-		if (!StringUtils.isNotEmpty(checkDelete.getTitle())) {
-			Messenger.addSuccessMessage("Registro excluido com sucesso!");
+		if (visibility.equals("all")) {
+			questionList = questionDao.retrieveAllByQuestion(question, authenticated);
 		}
+
+		if (visibility.equals("private")) {
+			questionList = questionDao.retrievePrivateByQuestion(question, authenticated);
+		}
+
+		if (visibility.equals("public")) {
+			questionList = questionDao.retrievePublicByQuestion(question, authenticated);
+		}
+
+		if (!questionList.isEmpty()) {
+			for (Question formattedQuestion : questionList) {
+				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+				formattedQuestion.setQuestion(html);
+			}
+		}
+
+		return questionList;
+	}
+
+	public int count(User authenticated) {
+		QuestionDao questionDao = new QuestionDao();
+		return questionDao.count(authenticated);
+	}
+	
+	public List<Question> retrieveByQuestionGroup(long questionGroupId, User authenticated) {
+		List<Question> questionList = new ArrayList<Question>();
+		QuestionDao questionDao = new QuestionDao();
+		questionList = questionDao.retrieveByQuestionGroup(questionGroupId, authenticated);
+		return questionList;
 	}
 }

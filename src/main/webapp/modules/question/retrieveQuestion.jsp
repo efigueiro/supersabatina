@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Buscar grupo de perguntas.</h3>
+                    <h3>Buscar perguntas.</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,28 +32,50 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
-                      <div class="mb-1 mt-3">
-                      	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar"/>
-                      </div> 
+                    <form action="/supersabatina/retrieveQuestion" method="post">
+                      <c:choose>
+    					<c:when test="${empty search}">
+        					<div class="mb-1 mt-3">
+                      			<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite a pergunta para buscar" required/>
+                      		</div> 
+    					</c:when>
+    					<c:otherwise> 
+        					<div class="mb-1 mt-3">
+                      			<input type="text" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+                      		</div> 
+    					</c:otherwise>
+					  </c:choose>
+                      
+                      <div class="mt-3">
+                      	<select class="form-select" aria-label="optVisibility" name="optVisibility">
+                      		<c:forEach var="option" items="${visibilityOptionList}">
+                				<option value="${option.value}"
+                    				<c:if test="${option.value eq visibilitySelected}">
+                    					selected="selected"
+                    				</c:if>>${option.label}
+                				</option>
+            				</c:forEach>
+						</select>
+                      </div>
+                      
                       <button type="submit" class="btn btn-success mt-2">Buscar</button>
                     </form> 
                     
                     <div>
-                    	<c:if test="${not empty questionGroupList}">
+                    	<c:if test="${not empty questionList}">
                     		<table class="table mt-4">
 					 			<thead>
 					    			<tr>
-					      				<th scope="col">Título</th>
+					      				<th scope="col">Pergunta</th>
 					      				<th scope="col">Ações</th>
 					    			</tr>
 					  			</thead>
 					  		
 					  			<tbody>
-					  				<c:forEach var="questionGroup" items="${questionGroupList}">
+					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
-					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=updateQuestionGroup" role="button">Detalhes</a></td>
+					      					<td>${question.question}</td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestion?questionGroupId=${question.questionId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>
@@ -64,19 +86,7 @@
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                	<div class="card">
-					  <div class="card-body">
-					    <h5 class="card-title">Dicas</h5>
-					    <p class="card-text">
-					    	Se você executar uma busca sem digitar nenhum título, o sistema buscará todos os grupos de perguntas
-					    	que você possui.
-					    </p>
-					    <p class="card-text">
-					    	Cada letra ou palavra digitada será levada em conta para executar a busca, portanto você pode executar
-					    	buscas pelo título parcial ou completo.
-					    </p>
-					  </div>
-					</div>
+                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
                 </div>
             </div>
         </div>

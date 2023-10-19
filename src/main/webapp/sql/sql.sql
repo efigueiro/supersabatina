@@ -48,6 +48,37 @@ create table question
   constraint user_fk foreign key(user_id) references users(user_id)
 );
 
+create table question_group_question
+(
+  question_group_id bigserial not null,
+  question_id bigserial not null,
+  revision_date date not null,
+  number_correct_answer integer,
+  number_incorrect_answer integer,
+  constraint question_group_fk foreign key(question_group_id) references question_group(question_group_id) on delete cascade,
+  constraint question_fk foreign key(question_id) references question(question_id) on delete cascade
+);
+
+-- Queries
+select * from users order by user_id asc
+select * from question_group order by question_group_id asc
+select * from question_group_question order by question_group_id asc
+select * from question order by question_id asc
+
+-- all questions by user id
+select * from question_group
+inner join question_group_question
+on question_group.question_group_id = question_group_question.question_group_id
+and question_group.user_id = 1
+
+-- all questions by question group
+select * from question_group
+inner join question_group_question
+on question_group.question_group_id = question_group_question.question_group_id
+inner join question
+on question.question_id = question_group_question.question_id
+and question_group.question_group_id = 2
+
 ========================================================================================
 
 create table workday 
@@ -64,6 +95,8 @@ create table workday
   constraint workday_pk primary key(workday_id),
   constraint user_fk foreign key(user_id) references users(user_id) on delete cascade
 );
+
+
 
 =============================================
 
