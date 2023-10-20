@@ -32,7 +32,10 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
+                    <form action="/supersabatina/controller" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/>
+                      </div> 
                       <div class="mb-1 mt-3">
                       	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar"/>
                       </div> 
@@ -52,8 +55,8 @@
 					  			<tbody>
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
-					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/navigator?questionGroupId=${questionGroup.questionGroupId}&action=updateQuestionGroup" role="button">Detalhes</a></td>
+					      					<td>${questionGroup.title} <input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/><input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/></td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=updateQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

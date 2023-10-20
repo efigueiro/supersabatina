@@ -18,8 +18,8 @@
                               Grupo de perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="questionGroup">
-                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=retrieveQuestionGroup">Pesquisar grupo de perguntas</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=createQuestionGroup">Criar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/controller?action=retrieveQuestionGroup">Pesquisar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/controller?action=createQuestionGroup">Criar grupo de perguntas</a></li>
                             </ul>
                         </li>
 
@@ -28,8 +28,8 @@
                               Perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="question">
-                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=retrieveQuestion">Pesquisar perguntas</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/navigator?action=createQuestion">Criar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/controller?action=retrieveQuestion">Pesquisar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/controller?action=createQuestion">Criar perguntas</a></li>
                             </ul>
                         </li>
 
@@ -50,7 +50,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="perfil">
                               <li><a class="dropdown-item" href="#">Configurações</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/logoff?action=logout">Sair</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/controller?action=logout">Sair</a></li>
                             </ul>
                         </li>
 

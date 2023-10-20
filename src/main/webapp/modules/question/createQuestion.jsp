@@ -37,6 +37,9 @@
                     <% Messenger.resetMessenger(); %>
                     
                     <form action="/supersabatina/createQuestion" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="createQuestion" required/>
+                      </div> 	
                       <div class="mt-3">
                       	<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
                       		<c:forEach var="questionGroup" items="${questionGroupList}">
