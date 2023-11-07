@@ -39,7 +39,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/updateQuestionGroup" method="post">
+                    <form id="updateQuestionGroup" action="/supersabatina/controller" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="updateQuestionGroup" required/>
                       </div>
@@ -52,12 +52,21 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       <div>
                       	<textarea class="form-control" id="txtDescription" name="txtDescription" rows="3" >${questionGroup.description}</textarea>
                       </div>
-                      
-                      <div>
-                      	<button type="submit" class="btn btn-success mt-3">Salvar</button>
-                      	<a class="btn btn-danger mt-3 ms-2" href="/supersabatina/controller?action=deleteQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Deletar</a>
+                    </form>
+                    
+                    <form id="deleteQuestionGroup" action="/supersabatina/controller" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="deleteQuestionGroup" required/>
                       </div>
-                    </form> 
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+                      </div> 
+                    </form>
+                    
+                    <div>
+                      <button form="updateQuestionGroup" type="submit" class="btn btn-success mt-3">Salvar</button>
+                      <button form="deleteQuestionGroup" type="submit" class="btn btn-danger mt-3 ms-2">Deletar</button>
+                    </div>
                                                         
                 </div>
 

@@ -55,7 +55,7 @@
 					  			<tbody>
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
-					      					<td>${questionGroup.title} <input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/><input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/></td>
+					      					<td>${questionGroup.title}</td>
 					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=updateQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>

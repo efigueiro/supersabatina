@@ -36,7 +36,7 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/createQuestion" method="post">
+                    <form action="/supersabatina/controller" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="createQuestion" required/>
                       </div> 	
@@ -66,11 +66,24 @@
                       
                       <button type="submit" class="btn btn-success mt-3">Criar pergunta</button>
                     </form> 
-                                                        
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                	<div class="card">
+					  <div class="card-body">
+					    <h5 class="card-title">Dicas</h5>
+					    <p class="card-text">
+					    	Observe atentamente os campos ao criar a sua pergunta.
+					    	No primeiro campo você deverá escolher para qual grupo de perguntas a pergunta será criada.
+					    	Logo abaixo você vai escolher se a pergunta será pública(todos usuários tem acesso) ou privada.
+					    </p>
+					    <p class="card-text">
+					    	O campo assunto é utilizado para também agrupar as perguntas, este campo será levado em conta
+					    	no momento que você buscar perguntas no sistema. Você pode adicionar vários assuntos, separados
+					    	por espaço ou vírgula.
+					    </p>
+					  </div>
+					</div>
                 </div>
             </div>
         </div>

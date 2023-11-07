@@ -51,6 +51,30 @@ public class MainController extends HttpServlet {
 				request.getRequestDispatcher("modules/questionGroup/createQuestionGroup.jsp").forward(request, response);
 				break;
 			}
+			
+			case "updateQuestionGroup": {
+				// Getting values from the view layer
+				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
+				
+				// Creating dependency objects
+				QuestionGroup questionGroup = new QuestionGroup();
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				
+				// Variable to check how many questions are recorded by question group
+				int numberQuestions = 0;
+				
+				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
+				numberQuestions = questionGroupService.count(questionGroupId);
+
+				if (StringUtils.isNotEmpty(questionGroup.getTitle())) {
+					request.setAttribute("questionGroup", questionGroup);
+					request.setAttribute("numberQuestions", numberQuestions);
+					request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("login.jsp").forward(request, response);
+				}
+				break;
+			}
 
 			case "retrieveQuestion": {
 				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
@@ -78,31 +102,6 @@ public class MainController extends HttpServlet {
 				break;
 			}
 				
-			case "updateQuestionGroup": {
-				// Getting values from the view layer
-				String stringQuestionGroupId = request.getParameter("questionGroupId");
-				long questionGroupId = Long.parseLong(stringQuestionGroupId);
-				
-				// Creating dependency objects
-				QuestionGroup questionGroup = new QuestionGroup();
-				QuestionGroupService questionGroupService = new QuestionGroupService();
-				
-				// Variable to check how many questions are recorded by question group
-				int numberQuestions = 0;
-				
-				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
-				numberQuestions = questionGroupService.count(questionGroupId);
-
-				if (StringUtils.isNotEmpty(questionGroup.getTitle())) {
-					request.setAttribute("questionGroup", questionGroup);
-					request.setAttribute("numberQuestions", numberQuestions);
-					request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
-				} else {
-					request.getRequestDispatcher("login.jsp").forward(request, response);
-				}
-				break;
-			}
-
 			case "removeQuestion": {
 				String srtQuestionGroupId = request.getParameter("questionGroupId");
 				long questionGroupId = Long.parseLong(srtQuestionGroupId);
@@ -115,20 +114,6 @@ public class MainController extends HttpServlet {
 				request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
 				break;
 			}
-
-			case "deleteQuestionGroup": {
-				String stringQuestionGroupId = request.getParameter("questionGroupId");
-				long questionGroupId = Long.parseLong(stringQuestionGroupId);
-				
-				QuestionGroupService questionGroupService = new QuestionGroupService();
-				questionGroupService.delete(questionGroupId, authenticated.getUserId());
-				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
-				break;
-			}
-
-			case "next":
-				break;
-
 
 			case "logout": {
 				if (authenticated == null || action.equals("logout")) {
@@ -158,19 +143,8 @@ public class MainController extends HttpServlet {
 		if (authenticated != null) {
 
 			switch (action) {
-
-			case "retrieveQuestionGroup": {
-				String search = (String) request.getParameter("txtSearch");
-				List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
-
-				QuestionGroupService retrieveQuestionGroupService = new QuestionGroupService();
-				questionGroupList = retrieveQuestionGroupService.retrieveByTitle(search, authenticated);
-				
-				request.setAttribute("questionGroupList", questionGroupList);
-				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
-				break;
-			}
-
+			
+			// Question Group
 			case "createQuestionGroup": {
 				String title = (String) request.getParameter("txtTitle");
 				String description = (String) request.getParameter("txtDescription");
@@ -187,32 +161,18 @@ public class MainController extends HttpServlet {
 				break;
 			}
 
-			case "retrieveQuestion": {
-				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
-				request.setAttribute("visibilityOptionList", visibilityOptionList);
-				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
-				break;
-			}
-
-			case "createQuestion": {
-				QuestionGroupService questionGroupService = new QuestionGroupService();
+			case "retrieveQuestionGroup": {
+				String search = (String) request.getParameter("txtSearch");
 				List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
 
-				questionGroupList = questionGroupService.retrieveAllByUserId(authenticated);
-				request.setAttribute("questionGroupList", questionGroupList);
+				QuestionGroupService retrieveQuestionGroupService = new QuestionGroupService();
+				questionGroupList = retrieveQuestionGroupService.retrieveByTitle(search, authenticated);
 				
-				if(questionGroupList.isEmpty()) {
-					Messenger.addWarningMessage(
-							"Você não possui grupo de perguntas ativo, por este motivo foi direcionado "
-							+ "para a tela de criação de grupo de perguntas."
-							);
-					request.getRequestDispatcher("modules/questionGroup/createQuestionGroup.jsp").forward(request, response);
-				} else {
-					request.getRequestDispatcher("modules/question/createQuestion.jsp").forward(request, response);
-				}
+				request.setAttribute("questionGroupList", questionGroupList);
+				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}
-				
+			
 			case "updateQuestionGroup": {
 				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
 				String title = (String) request.getParameter("txtTitle");
@@ -229,6 +189,63 @@ public class MainController extends HttpServlet {
 				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}
+			
+			case "deleteQuestionGroup": {
+				String stringQuestionGroupId = request.getParameter("txtQuestionGroupId");
+				long questionGroupId = Long.parseLong(stringQuestionGroupId);
+				
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				questionGroupService.delete(questionGroupId, authenticated.getUserId());
+				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+				break;
+			}
+			
+			// Question
+			case "createQuestion": {
+				String optQuestionGroup  = (String) request.getParameter("optQuestionGroup");
+				String optVisibility  = (String) request.getParameter("optVisibility");
+				String txtSubject  = (String) request.getParameter("txtSubject");
+				String txtQuestion  = (String) request.getParameter("txtQuestion");
+				String txtAnswer  = (String) request.getParameter("txtAnswer");
+				long questionGroupId = Long.parseLong(optQuestionGroup);
+				
+				QuestionService questionService = new QuestionService();
+				Question question = new Question();
+				
+				question.setAnswer(txtAnswer);
+				question.setQuestion(txtQuestion);
+				question.setQuestionId(questionGroupId);
+				question.setSubject(txtSubject);
+				question.setUser(authenticated);
+				question.setVisibility(optVisibility);
+				
+				questionService.create(question, questionGroupId);
+				
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
+				questionGroupList = questionGroupService.retrieveAllByUserId(authenticated);
+				request.setAttribute("questionGroupList", questionGroupList);
+				request.getRequestDispatcher("modules/question/createQuestion.jsp").forward(request, response);
+				break;
+			}
+
+			case "retrieveQuestion": {
+				String search = (String) request.getParameter("txtSearch");
+				String visibilitySelected = (String) request.getParameter("optVisibility");
+				
+				// List to populate visibility select component on the screen
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+
+				QuestionService questionService = new QuestionService();
+				List<Question> questionList = new ArrayList<Question>();
+				questionList = questionService.retrieveByQuestion(search, authenticated, visibilitySelected);
+				request.setAttribute("questionList", questionList);
+				request.setAttribute("visibilitySelected", visibilitySelected);
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
+				request.setAttribute("search", search);
+				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
+				break;
+			}
 
 			case "removeQuestion": {
 				String srtQuestionGroupId = request.getParameter("questionGroupId");
@@ -240,16 +257,6 @@ public class MainController extends HttpServlet {
 				request.setAttribute("questionList", questionList);
 				request.setAttribute("questionGroupId", questionGroupId);
 				request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
-				break;
-			}
-
-			case "deleteQuestionGroup": {
-				String stringQuestionGroupId = request.getParameter("questionGroupId");
-				long questionGroupId = Long.parseLong(stringQuestionGroupId);
-				
-				QuestionGroupService questionGroupService = new QuestionGroupService();
-				questionGroupService.delete(questionGroupId, authenticated.getUserId());
-				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}
 

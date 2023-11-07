@@ -32,7 +32,10 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/retrieveQuestion" method="post">
+                    <form action="/supersabatina/controller" method="post">
+                   	  <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestion" required/>
+                      </div>
                       <c:choose>
     					<c:when test="${empty search}">
         					<div class="mb-1 mt-3">
