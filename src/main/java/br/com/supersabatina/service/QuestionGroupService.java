@@ -38,9 +38,9 @@ public class QuestionGroupService {
 		return questionGroupList;
 	}
 
-	public QuestionGroup retrieveById(long questionGroupId, long userId) {
+	public QuestionGroup retrieveById(long questionGroupId, User Authenticated) {
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		return questionGroupDao.retrieveById(questionGroupId, userId);
+		return questionGroupDao.retrieveById(questionGroupId, Authenticated.getUserId());
 	}
 
 	public void update(QuestionGroup questionGroup) {
@@ -49,12 +49,12 @@ public class QuestionGroupService {
 		Messenger.addSuccessMessage("Grupo de questões atualizado com sucesso!");
 	}
 
-	public void delete(long questionGroupId, long userId) {
+	public void delete(long questionGroupId, User authenticated) {
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupDao.delete(questionGroupId, userId);
+		questionGroupDao.delete(questionGroupId, authenticated.getUserId());
 		
 		QuestionGroup checkDelete = new QuestionGroup();
-		checkDelete = questionGroupDao.retrieveById(questionGroupId, userId);
+		checkDelete = questionGroupDao.retrieveById(questionGroupId, authenticated.getUserId());
 		
 		if(!StringUtils.isNotEmpty(checkDelete.getTitle())) {
 			Messenger.addSuccessMessage("Registro excluido com sucesso!");

@@ -63,7 +63,7 @@ public class MainController extends HttpServlet {
 				// Variable to check how many questions are recorded by question group
 				int numberQuestions = 0;
 				
-				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
+				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated);
 				numberQuestions = questionGroupService.count(questionGroupId);
 
 				request.setAttribute("questionGroup", questionGroup);
@@ -140,7 +140,6 @@ public class MainController extends HttpServlet {
 
 			switch (action) {
 			
-			// Question Group
 			case "createQuestionGroup": {
 				String title = (String) request.getParameter("txtTitle");
 				String description = (String) request.getParameter("txtDescription");
@@ -169,27 +168,6 @@ public class MainController extends HttpServlet {
 				break;
 			}
 			
-			case "goToUpdateQuestionGroup": {
-				// Getting values from the view layer
-				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
-				Long questionGroupId = Long.parseLong(stringQuestionGroupId);
-				
-				// Creating dependency objects
-				QuestionGroup questionGroup = new QuestionGroup();
-				QuestionGroupService questionGroupService = new QuestionGroupService();
-				
-				// Variable to check how many questions are recorded by question group
-				int numberQuestions = 0;
-				
-				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
-				numberQuestions = questionGroupService.count(questionGroupId);
-
-				request.setAttribute("questionGroup", questionGroup);
-				request.setAttribute("numberQuestions", numberQuestions);
-				request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
-				break;
-			}
-			
 			case "updateQuestionGroup": {
 				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
 				String title = (String) request.getParameter("txtTitle");
@@ -212,12 +190,11 @@ public class MainController extends HttpServlet {
 				long questionGroupId = Long.parseLong(stringQuestionGroupId);
 				
 				QuestionGroupService questionGroupService = new QuestionGroupService();
-				questionGroupService.delete(questionGroupId, authenticated.getUserId());
+				questionGroupService.delete(questionGroupId, authenticated);
 				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}
 			
-			// Question
 			case "createQuestion": {
 				String optQuestionGroup  = (String) request.getParameter("optQuestionGroup");
 				String optVisibility  = (String) request.getParameter("optVisibility");
