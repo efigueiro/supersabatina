@@ -52,9 +52,9 @@ public class MainController extends HttpServlet {
 				break;
 			}
 			
-			case "updateQuestionGroup": {
+			case "goToUpdateQuestionGroup": {
 				// Getting values from the view layer
-				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
+				Long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
 				
 				// Creating dependency objects
 				QuestionGroup questionGroup = new QuestionGroup();
@@ -66,16 +66,12 @@ public class MainController extends HttpServlet {
 				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
 				numberQuestions = questionGroupService.count(questionGroupId);
 
-				if (StringUtils.isNotEmpty(questionGroup.getTitle())) {
-					request.setAttribute("questionGroup", questionGroup);
-					request.setAttribute("numberQuestions", numberQuestions);
-					request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
-				} else {
-					request.getRequestDispatcher("login.jsp").forward(request, response);
-				}
+				request.setAttribute("questionGroup", questionGroup);
+				request.setAttribute("numberQuestions", numberQuestions);
+				request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
 				break;
 			}
-
+			
 			case "retrieveQuestion": {
 				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
 				request.setAttribute("visibilityOptionList", visibilityOptionList);
@@ -170,6 +166,27 @@ public class MainController extends HttpServlet {
 				
 				request.setAttribute("questionGroupList", questionGroupList);
 				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+				break;
+			}
+			
+			case "goToUpdateQuestionGroup": {
+				// Getting values from the view layer
+				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				Long questionGroupId = Long.parseLong(stringQuestionGroupId);
+				
+				// Creating dependency objects
+				QuestionGroup questionGroup = new QuestionGroup();
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				
+				// Variable to check how many questions are recorded by question group
+				int numberQuestions = 0;
+				
+				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated.getUserId());
+				numberQuestions = questionGroupService.count(questionGroupId);
+
+				request.setAttribute("questionGroup", questionGroup);
+				request.setAttribute("numberQuestions", numberQuestions);
+				request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
 				break;
 			}
 			

@@ -56,7 +56,7 @@
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
 					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=updateQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=goToUpdateQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>
