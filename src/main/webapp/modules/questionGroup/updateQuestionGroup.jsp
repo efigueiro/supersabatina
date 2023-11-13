@@ -54,18 +54,9 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       </div>
                     </form>
                     
-                    <form id="deleteQuestionGroup" action="/supersabatina/controller" method="post">
-                      <div class="mb-3 mt-3">
-                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="deleteQuestionGroup" required/>
-                      </div>
-                      <div class="mb-3 mt-3">
-                      	<input type="hidden" class="form-control" id="txQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
-                      </div> 
-                    </form>
-                    
                     <div>
                       <button form="updateQuestionGroup" type="submit" class="btn btn-success mt-3">Salvar</button>
-                      <button form="deleteQuestionGroup" type="submit" class="btn btn-danger mt-3 ms-2">Deletar</button>
+                      <a href="/supersabatina/controller?action=deleteQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" class="btn btn-danger mt-3 ms-2" role="button">Deletar</a>
                     </div>
                                                         
                 </div>
@@ -76,8 +67,11 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
 					    <h5 class="card-title">Perguntas Associadas</h5>
 					    <p class="card-text">Este grupo de perguntas possui ${numberQuestions} pergunta(s) associada(s).</p>
 					    <p class="card-text">Você pode adicionar ou remover perguntas desde grupo de perguntas clicando no link abaixo.</p>
-					    <a href="/supersabatina/controller?action=addQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Adicionar Perguntas</a>
-					    <a href="/supersabatina/controller?action=removeQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Remover Perguntas</a>
+					    <a href="/supersabatina/controller?action=goToAddQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Adicionar Perguntas</a>
+					    <c:if test = "${numberQuestions > 0}">
+         					<a href="/supersabatina/controller?action=goToRemoveQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Remover Perguntas</a>
+      					</c:if>
+					    
 					  </div>
 					</div>
                 </div>

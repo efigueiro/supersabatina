@@ -79,6 +79,32 @@ inner join question
 on question.question_id = question_group_question.question_id
 and question_group.question_group_id = 2
 
+-- query fixed, all questions by question group
+SELECT *
+FROM question_group
+INNER JOIN question_group_question ON question_group.question_group_id = question_group_question.question_group_id
+INNER JOIN question ON question.question_id = question_group_question.question_id
+WHERE question_group.question_group_id = 2;
+
+-- Delete only one question from question_group_question passing question_group_id, question_id and user_id
+DELETE FROM question_group_question
+USING question
+WHERE question_group_question.question_group_id = 22
+AND question_group_question.question_id = 13
+AND question.user_id = 3
+  
+-- Delete all records from question_group_question passing user_id and question_group_id
+DELETE FROM question_group_question
+USING question_group
+WHERE question_group_question.question_group_id = 24
+AND question_group.user_id = 3
+
+-- Delete all records from question_group passing user_id and question_group_id
+DELETE FROM question_group
+WHERE question_group.question_group_id = 24
+AND question_group.user_id = 3;
+
+
 ========================================================================================
 
 create table workday 

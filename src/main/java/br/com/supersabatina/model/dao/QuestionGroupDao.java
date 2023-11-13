@@ -115,7 +115,7 @@ public class QuestionGroupDao extends BaseDao {
 		return questionGroupList;
 	}
 
-	public QuestionGroup retrieveById(long questionGroupId, long userId) {
+	public QuestionGroup retrieveById(long questionGroupId, User authenticated) {
 
 		QuestionGroup questionGroupSelected = new QuestionGroup();
 		String sql = "SELECT * FROM question_group WHERE question_group_id=? and user_id=?";
@@ -124,7 +124,7 @@ public class QuestionGroupDao extends BaseDao {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setLong(1, questionGroupId);
-			pstm.setLong(2, userId);
+			pstm.setLong(2, authenticated.getUserId());
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
 				questionGroupSelected.setQuestionGroupId(rs.getLong("question_group_id"));
@@ -160,15 +160,39 @@ public class QuestionGroupDao extends BaseDao {
 		}
 	}
 
-	public void delete(long questionGroupId, long userId) {
+	public void delete(long questionGroupId, User authenticated) {
+		
+		this.deleteFromQuestionGroupQuestion(questionGroupId, authenticated);
+		
+		String sql = "DELETE FROM question_group "
+				   + "WHERE question_group.question_group_id=? "
+				   + "AND user_id=?;";
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, authenticated.getUserId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
 
-		String sql = "DELETE FROM question_group WHERE question_group_id=? and user_id=?;";
+	public void deleteFromQuestionGroupQuestion(long questionGroupId, User authenticated) {
+		
+		String sql = "DELETE FROM question_group_question "
+				   + "USING question_group "
+				   + "WHERE question_group_question.question_group_id=? "
+				   + "AND question_group.user_id =?;";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setLong(1, questionGroupId);
-			pstm.setLong(2, userId);
+			pstm.setLong(2, authenticated.getUserId());
 			pstm.execute();
 			pstm.close();
 			conn.close();

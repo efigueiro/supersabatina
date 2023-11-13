@@ -54,7 +54,7 @@ public class MainController extends HttpServlet {
 			
 			case "goToUpdateQuestionGroup": {
 				// Getting values from the view layer
-				Long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
+				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
 				
 				// Creating dependency objects
 				QuestionGroup questionGroup = new QuestionGroup();
@@ -65,10 +65,24 @@ public class MainController extends HttpServlet {
 				
 				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated);
 				numberQuestions = questionGroupService.count(questionGroupId);
-
-				request.setAttribute("questionGroup", questionGroup);
-				request.setAttribute("numberQuestions", numberQuestions);
-				request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
+				
+				if(Messenger.success) {
+					request.setAttribute("questionGroup", questionGroup);
+					request.setAttribute("numberQuestions", numberQuestions);
+					request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("modules/questionGroup/updateQuestionGroup.jsp").forward(request, response);
+				}
+				
+				break;
+			}
+			
+			case "deleteQuestionGroup": {
+				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
+				
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				questionGroupService.delete(questionGroupId, authenticated);
+				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}
 			
@@ -98,16 +112,20 @@ public class MainController extends HttpServlet {
 				break;
 			}
 				
-			case "removeQuestion": {
-				String srtQuestionGroupId = request.getParameter("questionGroupId");
-				long questionGroupId = Long.parseLong(srtQuestionGroupId);
+			case "goToRemoveQuestion": {
+				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
 				
 				List<Question> questionList = new ArrayList<Question>();
 				QuestionService questionService = new QuestionService();
 				questionList = questionService.retrieveByQuestionGroup(questionGroupId, authenticated);
-				request.setAttribute("questionList", questionList);
-				request.setAttribute("questionGroupId", questionGroupId);
-				request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
+				
+				if (Messenger.success) {
+					request.setAttribute("questionList", questionList);
+					request.setAttribute("questionGroupId", questionGroupId);
+					request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
+				}
 				break;
 			}
 
@@ -181,16 +199,6 @@ public class MainController extends HttpServlet {
 
 				QuestionGroupService questionGroupService = new QuestionGroupService();
 				questionGroupService.update(questionGroup);
-				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
-				break;
-			}
-			
-			case "deleteQuestionGroup": {
-				String stringQuestionGroupId = request.getParameter("txtQuestionGroupId");
-				long questionGroupId = Long.parseLong(stringQuestionGroupId);
-				
-				QuestionGroupService questionGroupService = new QuestionGroupService();
-				questionGroupService.delete(questionGroupId, authenticated);
 				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}

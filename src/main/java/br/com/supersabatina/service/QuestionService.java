@@ -65,10 +65,17 @@ public class QuestionService {
 		return questionDao.count(authenticated);
 	}
 	
+	// change code to prevent access using get type request
 	public List<Question> retrieveByQuestionGroup(long questionGroupId, User authenticated) {
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
 		questionList = questionDao.retrieveByQuestionGroup(questionGroupId, authenticated);
+		if (questionList.isEmpty()) {
+			Messenger.setSuccessFalse();
+			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
+		} else {
+			Messenger.setSuccessTrue();
+		}
 		return questionList;
 	}
 }

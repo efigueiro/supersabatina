@@ -39,8 +39,19 @@ public class QuestionGroupService {
 	}
 
 	public QuestionGroup retrieveById(long questionGroupId, User Authenticated) {
+		
+		QuestionGroup questionGroup = new QuestionGroup();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		return questionGroupDao.retrieveById(questionGroupId, Authenticated.getUserId());
+		questionGroup = questionGroupDao.retrieveById(questionGroupId, Authenticated);
+		
+		if(StringUtils.isEmpty(questionGroup.getTitle())) {
+			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
+			Messenger.setSuccessFalse();
+		} else {
+			Messenger.setSuccessTrue();;
+		}
+		
+		return questionGroup;
 	}
 
 	public void update(QuestionGroup questionGroup) {
@@ -50,14 +61,19 @@ public class QuestionGroupService {
 	}
 
 	public void delete(long questionGroupId, User authenticated) {
+		
+		QuestionGroup check = new QuestionGroup();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupDao.delete(questionGroupId, authenticated.getUserId());
 		
-		QuestionGroup checkDelete = new QuestionGroup();
-		checkDelete = questionGroupDao.retrieveById(questionGroupId, authenticated.getUserId());
+		check = questionGroupDao.retrieveById(questionGroupId, authenticated);
 		
-		if(!StringUtils.isNotEmpty(checkDelete.getTitle())) {
+		if(StringUtils.isNotEmpty(check.getTitle())) {
+			questionGroupDao.delete(questionGroupId, authenticated);
+			Messenger.setSuccessTrue();
 			Messenger.addSuccessMessage("Registro excluido com sucesso!");
+		} else {
+			Messenger.setSuccessFalse();
+			Messenger.addWarningMessage("Não foi possível realizar a exclusão.");
 		}
 	}
 	

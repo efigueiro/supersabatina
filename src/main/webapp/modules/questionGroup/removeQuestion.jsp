@@ -21,11 +21,9 @@
         <!-- Content -->
         <div class="container">
             <div class="row">
-            	<div><a href="<%=request.getContextPath()%>/modules/questionGroup/retrieveQuestionGroup.jsp" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Voltar</a></div>
+            	<div><a href="/supersabatina/controller?action=goToUpdateQuestionGroup&questionGroupId=${questionGroupId}"class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Voltar</a></div>
                 <div class="col-md-8 p-4 justify-content-center">
                     <h3>Remover perguntas do grupo.</h3>
-                    
-                    ${questionGroupId}
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -34,13 +32,6 @@
 					</c:forEach>
                         
                     <% Messenger.resetMessenger(); %>
-                    
-                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
-                      <div class="mb-1 mt-3">
-                      	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar"/>
-                      </div> 
-                      <button type="submit" class="btn btn-success mt-2">Buscar</button>
-                    </form> 
                     
                     <div>
                     	<c:if test="${not empty questionList}">
@@ -71,12 +62,11 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Dicas</h5>
 					    <p class="card-text">
-					    	Se você executar uma busca sem digitar nenhum título, o sistema buscará todos os grupos de perguntas
-					    	que você possui.
+					    	Basta clicar no botão remover, para remover a pergunta selecionada do seu grupo de perguntas. 
 					    </p>
 					    <p class="card-text">
-					    	Cada letra ou palavra digitada será levada em conta para executar a busca, portanto você pode executar
-					    	buscas pelo título parcial ou completo.
+					    	A pergunta removida deste grupo não será excluída do banco de dados. Você poderá adicionar a pergunta removida novamente
+					    	ao grupo de perguntas quando quiser.
 					    </p>
 					  </div>
 					</div>

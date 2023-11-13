@@ -241,12 +241,14 @@ public class QuestionDao extends BaseDao {
 				+ " ON question_group.question_group_id = question_group_question.question_group_id"
 				+ " INNER JOIN question"
 				+ " ON question.question_id = question_group_question.question_id"
-				+ " AND question_group.question_group_id = ?";
+				+ " AND question_group.question_group_id = ?"
+				+ " AND question_group.user_id = ?";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, authenticated.getUserId());
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Question question = new Question();
