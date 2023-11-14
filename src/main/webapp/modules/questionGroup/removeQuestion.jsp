@@ -47,7 +47,7 @@
 					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
 					      					<td>${question.question}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestionGroup?questionGroupId=${question.questionId}" role="button">Remover</a></td>
+					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=removeQuestion&questionGroupId=${questionGroupId}&questionId=${question.questionId}" role="button">Remover</a></td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

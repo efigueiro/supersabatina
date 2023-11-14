@@ -117,7 +117,7 @@ public class MainController extends HttpServlet {
 				
 				List<Question> questionList = new ArrayList<Question>();
 				QuestionService questionService = new QuestionService();
-				questionList = questionService.retrieveByQuestionGroup(questionGroupId, authenticated);
+				questionList = questionService.retrieveQuestionList(questionGroupId, authenticated);
 				
 				if (Messenger.success) {
 					request.setAttribute("questionList", questionList);
@@ -126,6 +126,23 @@ public class MainController extends HttpServlet {
 				} else {
 					request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
 				}
+				break;
+			}
+			
+			case "removeQuestion": {
+				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
+				long questionId = Long.parseLong(request.getParameter("questionId"));
+				
+				List<Question> questionList = new ArrayList<Question>();
+				QuestionService questionService = new QuestionService();
+				questionService.removeQuestion(questionGroupId, questionId, authenticated);
+				
+				questionList = questionService.retrieveQuestionList(questionGroupId, questionId, authenticated);
+				
+				
+				request.setAttribute("questionList", questionList);
+				request.setAttribute("questionGroupId", questionGroupId);
+				request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);
 				break;
 			}
 
@@ -255,7 +272,7 @@ public class MainController extends HttpServlet {
 				
 				List<Question> questionList = new ArrayList<Question>();
 				QuestionService questionService = new QuestionService();
-				questionList = questionService.retrieveByQuestionGroup(questionGroupId, authenticated);
+				questionList = questionService.retrieveQuestionList(questionGroupId, authenticated);
 				request.setAttribute("questionList", questionList);
 				request.setAttribute("questionGroupId", questionGroupId);
 				request.getRequestDispatcher("modules/questionGroup/removeQuestion.jsp").forward(request, response);

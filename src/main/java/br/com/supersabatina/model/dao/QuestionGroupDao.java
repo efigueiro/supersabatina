@@ -35,7 +35,7 @@ public class QuestionGroupDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 	}
-	
+
 	public List<QuestionGroup> retrieveAllByUserId(User authenticated) {
 
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
@@ -88,7 +88,7 @@ public class QuestionGroupDao extends BaseDao {
 
 		return questionGroupList;
 	}
-	
+
 	public List<QuestionGroup> retrieveByTitle(User authenticated) {
 
 		List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
@@ -160,12 +160,13 @@ public class QuestionGroupDao extends BaseDao {
 		}
 	}
 
+	// Delete question group and all questions associated
 	public void delete(long questionGroupId, User authenticated) {
-		
-		this.deleteFromQuestionGroupQuestion(questionGroupId, authenticated);
-		
-		String sql = "DELETE FROM question_group "
-				   + "WHERE question_group.question_group_id=? "
+
+		this.removeFromQuestionGroupQuestion(questionGroupId, authenticated);
+
+		String sql = "DELETE FROM question_group " 
+		           + "WHERE question_group.question_group_id=? " 
 				   + "AND user_id=?;";
 		try {
 			Connection conn = this.getConnection();
@@ -181,11 +182,12 @@ public class QuestionGroupDao extends BaseDao {
 		}
 	}
 
-	public void deleteFromQuestionGroupQuestion(long questionGroupId, User authenticated) {
-		
-		String sql = "DELETE FROM question_group_question "
+	// Remove all question from the selected question roup
+	public void removeFromQuestionGroupQuestion(long questionGroupId, User authenticated) {
+
+		String sql = "DELETE FROM question_group_question " 
 				   + "USING question_group "
-				   + "WHERE question_group_question.question_group_id=? "
+				   + "WHERE question_group_question.question_group_id=? " 
 				   + "AND question_group.user_id =?;";
 
 		try {
@@ -201,7 +203,31 @@ public class QuestionGroupDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 	}
-	
+
+	// Remove the selected question from question group
+	public void removeFromQuestionGroupQuestion(long questionGroupId, long questionId, User authenticated) {
+
+		String sql = "DELETE FROM question_group_question " 
+		           + "USING question_group "
+				   + "WHERE question_group_question.question_group_id = ? "
+				   + "AND question_group_question.question_id = ? "
+		           + "AND question_group.user_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, questionId);
+			pstm.setLong(3, authenticated.getUserId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+
 	public List<Long> retrieveQuestionIdByQuestionGroup(long questionGroupId) {
 
 		List<Long> questionIdList = new ArrayList<Long>();
@@ -223,7 +249,7 @@ public class QuestionGroupDao extends BaseDao {
 
 		return questionIdList;
 	}
-	
+
 	public int count(long questionGroupId) {
 
 		int count = 0;
@@ -245,7 +271,7 @@ public class QuestionGroupDao extends BaseDao {
 
 		return count;
 	}
-	
+
 	public int countQuestionGroup(long userId) {
 
 		int count = 0;
