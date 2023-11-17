@@ -77,6 +77,7 @@ public class MainController extends HttpServlet {
 				break;
 			}
 			
+			// working here
 			case "deleteQuestionGroup": {
 				long questionGroupId = Long.parseLong(request.getParameter("questionGroupId"));
 				
@@ -215,6 +216,17 @@ public class MainController extends HttpServlet {
 
 				QuestionGroupService questionGroupService = new QuestionGroupService();
 				questionGroupService.update(questionGroup);
+				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
+				break;
+			}
+			
+			// working here
+			case "deleteQuestionGroup": {
+				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				long questionGroupId = Long.parseLong(stringQuestionGroupId);
+				
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				questionGroupService.delete(questionGroupId, authenticated);
 				request.getRequestDispatcher("modules/questionGroup/retrieveQuestionGroup.jsp").forward(request, response);
 				break;
 			}

@@ -44,7 +44,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="updateQuestionGroup" required/>
                       </div>
                       <div class="mb-3 mt-3">
-                      	<input type="hidden" class="form-control" id="txQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+                      	<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
                       </div> 
                       <div class="mb-3 mt-3">
                       	<input type="text" class="form-control" id="txtTitle" name="txtTitle" value="${questionGroup.title}" required/>
@@ -54,9 +54,18 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       </div>
                     </form>
                     
+                    <form id="deleteQuestionGroup" action="/supersabatina/controller" method="post">
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="deleteQuestionGroup" required/>
+                      </div>
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+                      </div> 
+                    </form>
+                    
                     <div>
                       <button form="updateQuestionGroup" type="submit" class="btn btn-success mt-3">Salvar</button>
-                      <a href="/supersabatina/controller?action=deleteQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" class="btn btn-danger mt-3 ms-2" role="button">Deletar</a>
+                      <button form="deleteQuestionGroup" type="submit" class="btn btn-danger mt-3 ms-2">Deletar</button>
                     </div>
                                                         
                 </div>
