@@ -41,15 +41,11 @@ public class QuestionService {
 		QuestionDao questionDao = new QuestionDao();
 
 		if (visibility.equals("all")) {
-			questionList = questionDao.retrieveAllByQuestion(question, authenticated);
+			questionList = questionDao.retrieveAll(question, authenticated);
 		}
 
 		if (visibility.equals("private")) {
-			questionList = questionDao.retrievePrivateByQuestion(question, authenticated);
-		}
-
-		if (visibility.equals("public")) {
-			questionList = questionDao.retrievePublicByQuestion(question, authenticated);
+			questionList = questionDao.retrievePrivate(question, authenticated);
 		}
 
 		if (!questionList.isEmpty()) {
@@ -78,31 +74,26 @@ public class QuestionService {
 		} else {
 			Messenger.setSuccessTrue();
 		}
-		return questionList;
-	}
-
-	// Retrieve questions by questionGroup, questionId and authenticated user
-	public List<Question> retrieveQuestionList(long questionGroupId, long questionId, User authenticated) {
-		List<Question> questionList = new ArrayList<Question>();
-		QuestionDao questionDao = new QuestionDao();
-		questionList = questionDao.retrieveQuestionList(questionGroupId, questionId, authenticated);
-		if (questionList.isEmpty()) {
-			Messenger.setSuccessFalse();
-			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
-		} else {
-			Messenger.setSuccessTrue();
+		
+		if (!questionList.isEmpty()) {
+			for (Question formattedQuestion : questionList) {
+				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+				formattedQuestion.setQuestion(html);
+			}
 		}
+		
 		return questionList;
 	}
 
-	// Tenho que verificar se a pergunta e o grupo de perguntas pertence ao usuário
-	// sendo assim não preciso fazer uma query para uma lista e sim para uma questão.
+	// Remove the selected question from question group
 	public void removeQuestion(long questionGroupId, long questionId, User authenticated) {
-		List<Question> questionList = new ArrayList<Question>();
+		Question question = new Question();
 		QuestionDao questionDao = new QuestionDao();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionList = questionDao.retrieveQuestionList(questionGroupId, questionId, authenticated);
-		if (questionList.isEmpty()) {
+		
+		question = questionDao.retrieveQuestion(questionGroupId, questionId, authenticated);
+		
+		if (StringUtils.isEmpty(question.getQuestion())) {
 			Messenger.setSuccessFalse();
 			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
 		} else {

@@ -137,8 +137,7 @@ public class MainController extends HttpServlet {
 				QuestionService questionService = new QuestionService();
 				questionService.removeQuestion(questionGroupId, questionId, authenticated);
 				
-				questionList = questionService.retrieveQuestionList(questionGroupId, questionId, authenticated);
-				
+				questionList = questionService.retrieveQuestionList(questionGroupId, authenticated);
 				
 				request.setAttribute("questionList", questionList);
 				request.setAttribute("questionGroupId", questionGroupId);

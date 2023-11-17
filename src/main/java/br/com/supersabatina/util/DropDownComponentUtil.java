@@ -16,19 +16,20 @@ public final class DropDownComponentUtil {
 		// Creating retrieveQuestionScreenVisibilityOptionList
 		List<Option> retrieveQuestionScreenVisibilityOptionList = new ArrayList<Option>();
 		Option option1 = new Option();
-		option1.setValue("all");
-		option1.setLabel("Buscar em todas as perguntas");
+		option1.setValue("private");
+		option1.setLabel("Buscar somente em minhas perguntas");
 		retrieveQuestionScreenVisibilityOptionList.add(option1);
 
 		Option option2 = new Option();
-		option2.setValue("private");
-		option2.setLabel("Buscar somente em minhas perguntas");
+		option2.setValue("all");
+		option2.setLabel("Busca global");
 		retrieveQuestionScreenVisibilityOptionList.add(option2);
 
-		Option option3 = new Option();
-		option3.setValue("public");
-		option3.setLabel("Buscar somente em perguntas públicas");
-		retrieveQuestionScreenVisibilityOptionList.add(option3);
+		/*
+		 * Option option3 = new Option(); option3.setValue("public");
+		 * option3.setLabel("Buscar somente em perguntas públicas");
+		 * retrieveQuestionScreenVisibilityOptionList.add(option3);
+		 */
 		
 		return retrieveQuestionScreenVisibilityOptionList;
 	}

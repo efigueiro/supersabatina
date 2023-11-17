@@ -182,7 +182,7 @@ public class QuestionGroupDao extends BaseDao {
 		}
 	}
 
-	// Remove all question from the selected question roup
+	// Remove all question from the selected question group
 	public void removeFromQuestionGroupQuestion(long questionGroupId, User authenticated) {
 
 		String sql = "DELETE FROM question_group_question " 
@@ -204,7 +204,7 @@ public class QuestionGroupDao extends BaseDao {
 		}
 	}
 
-	// Remove the selected question from question group
+	// Remove the selected question only from question group
 	public void removeFromQuestionGroupQuestion(long questionGroupId, long questionId, User authenticated) {
 
 		String sql = "DELETE FROM question_group_question " 

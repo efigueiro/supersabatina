@@ -70,10 +70,14 @@ public class QuestionDao extends BaseDao {
 		return question;
 	}
 
-	public List<Question> retrieveAllByQuestion(String question, User authenticated) {
+	public List<Question> retrieveAll(String question, User authenticated) {
 
 		List<Question> questionList = new ArrayList<Question>();
-		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and user_id = ?";
+		String sql = "SELECT * "
+				   + "FROM question "
+				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
+				   + "AND ((question.visibility = 'public') OR (question.visibility = 'private' AND question.user_id = ?)) "
+				   + "LIMIT 10 OFFSET 0;";
 
 		try {
 			Connection conn = this.getConnection();
@@ -100,10 +104,14 @@ public class QuestionDao extends BaseDao {
 		return questionList;
 	}
 
-	public List<Question> retrievePrivateByQuestion(String question, User authenticated) {
+	public List<Question> retrievePrivate(String question, User authenticated) {
 
 		List<Question> questionList = new ArrayList<Question>();
-		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and ((user_id = ?) and (visibility='private'))";
+		String sql = "SELECT * "
+				+ "FROM question "
+				+ "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
+				+ "AND user_id = ? "
+				+ "AND visibility = 'private'";
 
 		try {
 			Connection conn = this.getConnection();
@@ -270,10 +278,10 @@ public class QuestionDao extends BaseDao {
 		return questionList;
 	}
 	
-	// Retrieve all questions by questionGroupId, questionId and authenticated user
-	public List<Question> retrieveQuestionList(long questionGroupId, long questionId, User authenticated) {
+	// Retrieve a question object by questionGroupId, questionId and authenticated user
+	public Question retrieveQuestion(long questionGroupId, long questionId, User authenticated) {
 
-		List<Question> questionList = new ArrayList<Question>();
+		Question question = new Question();
 		String sql = "SELECT * "
 				   + "FROM question "
 				   + "INNER JOIN question_group_question ON question.question_id = question_group_question.question_id "
@@ -288,15 +296,13 @@ public class QuestionDao extends BaseDao {
 			pstm.setLong(2, questionGroupId);
 			pstm.setLong(3, authenticated.getUserId());
 			ResultSet rs = pstm.executeQuery();
-			while (rs.next()) {
-				Question question = new Question();
+			if (rs.next()) {
 				question.setQuestionId(rs.getLong("question_id"));
 				question.setAnswer(rs.getString("answer"));
 				question.setSubject(rs.getString("subject"));
 				question.setQuestion(rs.getString("question"));
 				question.setUser(authenticated);
 				question.setVisibility(rs.getString("visibility"));
-				questionList.add(question);
 			}
 
 		} catch (Exception ex) {
@@ -304,7 +310,7 @@ public class QuestionDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 		
-		return questionList;
+		return question;
 	}
 }
 
