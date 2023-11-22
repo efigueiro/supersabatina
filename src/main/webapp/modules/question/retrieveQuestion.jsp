@@ -32,7 +32,7 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/controller" method="post">
+                    <form action="/supersabatina/question" method="post">
                    	  <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestion" required/>
                       </div>
@@ -78,14 +78,61 @@
 					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
 					      					<td>${question.question}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestion?questionGroupId=${question.questionId}" role="button">Detalhes</a></td>
+					      					<td>
+					      						<form action="/supersabatina/question" method="post">
+					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestion" required/>
+					      							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${question.questionId}" required/>
+					      							<button type="submit" class="btn btn-outline-secondary btn-sm">Detalhes</button>
+					      						</form>
+					      					</td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>
 							</table>
 						</c:if>
 					</div>
-                                                        
+					
+					<c:if test="${not empty questionList}">
+						<div class="d-flex align-items-center flex-row-reverse bd-highlight">
+							<form id="retrieveQuestionNext" action="/supersabatina/question" method="post">
+								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionNext" required/>
+								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+							</form>
+							<form id="retrieveQuestionPrevious" action="/supersabatina/question" method="post">
+								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionPrevious" required/>
+								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+							</form>
+							
+	  						<div class="p-2 bd-highlight">
+	      						<c:choose>
+	    							<c:when test = "${currentPage > 1}">
+	                      				<button type="submit" form="retrieveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2">Página anterior</button>
+	    							</c:when>
+	    							<c:otherwise> 
+	                      				<button type="submit" form="retrieveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Página anterior</button>
+	    							</c:otherwise>
+						  		</c:choose>
+	      						
+	      						<c:choose>
+	    							<c:when test = "${totalPages > currentPage}">
+	                      				<button type="submit" form="retrieveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2">Próxima página</button>
+	    							</c:when>
+	    							<c:otherwise> 
+	                      				<button type="submit" form="retrieveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Próxima página</button>
+	    							</c:otherwise>
+						  		</c:choose>
+							</div>
+	  						<div class="p-2 bd-highlight">
+	  							<c:if test = "${totalPages > 0}">
+	  								Página ${currentPage} de ${totalPages}
+	      						</c:if>
+							</div>
+						</div>
+                   </c:if>                                     
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">

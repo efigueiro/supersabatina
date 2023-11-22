@@ -36,7 +36,7 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/controller" method="post">
+                    <form action="/supersabatina/question" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="createQuestion" required/>
                       </div> 	

@@ -23,4 +23,48 @@
     <servlet-name>LogoffController</servlet-name>
     <url-pattern>/LogoffController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>QuestionGroupController</display-name>
+    <servlet-name>QuestionGroupController</servlet-name>
+    <servlet-class>br.com.supersabatina.controller.QuestionGroupController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QuestionGroupController</servlet-name>
+    <url-pattern>/QuestionGroupController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Teste</servlet-name>
+    <url-pattern>/Teste</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>QuestionController</display-name>
+    <servlet-name>QuestionController</servlet-name>
+    <servlet-class>br.com.supersabatina.controller.QuestionController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QuestionController</servlet-name>
+    <url-pattern>/QuestionController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DashboardController</display-name>
+    <servlet-name>DashboardController</servlet-name>
+    <servlet-class>br.com.supersabatina.controller.DashboardController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DashboardController</servlet-name>
+    <url-pattern>/DashboardController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GameController</display-name>
+    <servlet-name>GameController</servlet-name>
+    <servlet-class>br.com.supersabatina.controller.GameController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GameController</servlet-name>
+    <url-pattern>/GameController</url-pattern>
+  </servlet-mapping>
 </web-app>

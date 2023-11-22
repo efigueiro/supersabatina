@@ -39,7 +39,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form id="updateQuestionGroup" action="/supersabatina/controller" method="post">
+                    <form id="updateQuestionGroup" action="/supersabatina/questionGroup" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="updateQuestionGroup" required/>
                       </div>
@@ -54,7 +54,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       </div>
                     </form>
                     
-                    <form id="deleteQuestionGroup" action="/supersabatina/controller" method="post">
+                    <form id="deleteQuestionGroup" action="/supersabatina/questionGroup" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="deleteQuestionGroup" required/>
                       </div>
@@ -75,10 +75,20 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
 					  <div class="card-body">
 					    <h5 class="card-title">Perguntas Associadas</h5>
 					    <p class="card-text">Este grupo de perguntas possui ${numberQuestions} pergunta(s) associada(s).</p>
-					    <p class="card-text">Você pode adicionar ou remover perguntas desde grupo de perguntas clicando no link abaixo.</p>
-					    <a href="/supersabatina/controller?action=goToAddQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Adicionar Perguntas</a>
+					    <p class="card-text">Você pode adicionar ou remover perguntas desde grupo de perguntas clicando nos botões abaixo.</p>
+					    <form id="goToQuestionGroupRemoveQuestion" action="/supersabatina/questionGroup" method="post">
+                      		<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToQuestionGroupRemoveQuestion" required/>
+                      		<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+					    </form>
+					    
+					    <form id="goToQuestionGroupAddQuestion" action="/supersabatina/questionGroup" method="post">
+                      		<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToQuestionGroupAddQuestion" required/>
+                      		<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+					    </form>
+					    
+					    <button type="submit" class="btn btn-outline-secondary btn-sm mt-3">Adicionar Perguntas</button>
 					    <c:if test = "${numberQuestions > 0}">
-         					<a href="/supersabatina/controller?action=goToRemoveQuestion&questionGroupId=${questionGroup.questionGroupId}" class="card-link">Remover Perguntas</a>
+         					<button type="submit" form="goToQuestionGroupRemoveQuestion" class="btn btn-outline-secondary btn-sm mt-3 ms-2">Remover Perguntas</button>
       					</c:if>
 					    
 					  </div>

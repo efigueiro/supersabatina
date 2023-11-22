@@ -35,17 +35,17 @@ public class QuestionService {
 		}
 	}
 
-	public List<Question> retrieveByQuestion(String question, User authenticated, String visibility) {
+	public List<Question> retrieveByQuestion(String question, User authenticated, String visibility, int offset) {
 
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
 
 		if (visibility.equals("all")) {
-			questionList = questionDao.retrieveAll(question, authenticated);
+			questionList = questionDao.retrieveAll(question, authenticated, offset);
 		}
 
 		if (visibility.equals("private")) {
-			questionList = questionDao.retrievePrivate(question, authenticated);
+			questionList = questionDao.retrievePrivate(question, authenticated, offset);
 		}
 
 		if (!questionList.isEmpty()) {
@@ -56,6 +56,22 @@ public class QuestionService {
 		}
 
 		return questionList;
+	}
+	
+	public int retrieveByQuestionCount(String question, User authenticated, String visibility) {
+
+		int count = 0;
+		QuestionDao questionDao = new QuestionDao();
+
+		if (visibility.equals("all")) {
+			count = questionDao.retrieveAllCount(question, authenticated);
+		}
+
+		if (visibility.equals("private")) {
+			count = questionDao.retrievePrivateCount(question, authenticated);
+		}
+
+		return count;
 	}
 
 	public int count(User authenticated) {
@@ -63,17 +79,11 @@ public class QuestionService {
 		return questionDao.count(authenticated);
 	}
 
-	// Retrieve questions by questionGroup and authenticated user
-	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated) {
+	// Retrieve questions by questionGroup, authenticated user and offset
+	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated, int offset) {
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
-		questionList = questionDao.retrieveQuestionList(questionGroupId, authenticated);
-		if (questionList.isEmpty()) {
-			Messenger.setSuccessFalse();
-			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
-		} else {
-			Messenger.setSuccessTrue();
-		}
+		questionList = questionDao.retrieveQuestionList(questionGroupId, authenticated, offset);
 		
 		if (!questionList.isEmpty()) {
 			for (Question formattedQuestion : questionList) {
@@ -81,25 +91,36 @@ public class QuestionService {
 				formattedQuestion.setQuestion(html);
 			}
 		}
-		
 		return questionList;
+	}
+	
+	// Retrieve questions by questionGroup, authenticated user
+	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated) {
+		List<Question> questionList = new ArrayList<Question>();
+		QuestionDao questionDao = new QuestionDao();
+		questionList = questionDao.retrieveQuestionList(questionGroupId, authenticated);
+		
+		if (!questionList.isEmpty()) {
+			for (Question formattedQuestion : questionList) {
+				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+				formattedQuestion.setQuestion(html);
+			}
+		}
+		return questionList;
+	}	
+	
+	// Retrieve count questions by questionGroup and authenticated user
+	public int retrieveQuestionListCount(long questionGroupId, User authenticated) {
+		int count = 0;
+		QuestionDao questionDao = new QuestionDao();
+		count = questionDao.retrieveQuestionListCount(questionGroupId, authenticated);
+		return count;
 	}
 
 	// Remove the selected question from question group
 	public void removeQuestion(long questionGroupId, long questionId, User authenticated) {
-		Question question = new Question();
-		QuestionDao questionDao = new QuestionDao();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		
-		question = questionDao.retrieveQuestion(questionGroupId, questionId, authenticated);
-		
-		if (StringUtils.isEmpty(question.getQuestion())) {
-			Messenger.setSuccessFalse();
-			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
-		} else {
-			questionGroupDao.removeFromQuestionGroupQuestion(questionGroupId, questionId, authenticated);
-			Messenger.setSuccessTrue();
-			Messenger.addSuccessMessage("Pergunta removida com sucesso!");
-		}
+		questionGroupDao.removeFromQuestionGroupQuestion(questionGroupId, questionId, authenticated);
+		Messenger.addSuccessMessage("Pergunta removida com sucesso!");
 	}
 }

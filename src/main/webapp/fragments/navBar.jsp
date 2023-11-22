@@ -10,7 +10,7 @@
                 <div class="collapse navbar-collapse" id="topMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0 lead">
                     	<li class="nav-item p-3">
-                            <a class="nav-link" href="#">Painel</a>
+                            <a class="nav-link" href="/supersabatina/dashboard?action=dashboard">Painel</a>
                         </li>
                         
                         <li class="nav-item dropdown p-3">
@@ -18,8 +18,8 @@
                               Grupo de perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="questionGroup">
-                              <li><a class="dropdown-item" href="/supersabatina/controller?action=retrieveQuestionGroup">Pesquisar grupo de perguntas</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/controller?action=createQuestionGroup">Criar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/questionGroup?action=retrieveQuestionGroup">Pesquisar grupo de perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/questionGroup?action=createQuestionGroup">Criar grupo de perguntas</a></li>
                             </ul>
                         </li>
 
@@ -28,8 +28,8 @@
                               Perguntas
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="question">
-                              <li><a class="dropdown-item" href="/supersabatina/controller?action=retrieveQuestion">Pesquisar perguntas</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/controller?action=createQuestion">Criar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/question?action=retrieveQuestion">Pesquisar perguntas</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/question?action=createQuestion">Criar perguntas</a></li>
                             </ul>
                         </li>
 
@@ -50,7 +50,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="perfil">
                               <li><a class="dropdown-item" href="#">Configurações</a></li>
-                              <li><a class="dropdown-item" href="/supersabatina/controller?action=logout">Sair</a></li>
+                              <li><a class="dropdown-item" href="/supersabatina/login?action=logout">Sair</a></li>
                             </ul>
                         </li>
 

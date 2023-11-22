@@ -1,12 +1,16 @@
 package br.com.supersabatina.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.supersabatina.model.dao.UserDao;
+import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.service.LoginService;
+import br.com.supersabatina.service.QuestionGroupService;
 import br.com.supersabatina.util.Messenger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,7 +30,15 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		User authenticated = new User();
+		authenticated = (User) request.getSession().getAttribute("authenticated");
+		String action = request.getParameter("action");
+		
+		if (authenticated == null || action.equals("logout")) {
+			request.getSession().invalidate();
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -57,7 +69,11 @@ public class LoginController extends HttpServlet {
 				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
 				userDao.disableTutorial(authenticated.getUserId());
 			} else {
-				request.getRequestDispatcher("modules/main.jsp").forward(request, response);
+				QuestionGroupService questionGroupService = new QuestionGroupService();
+				List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
+				questionGroupList = questionGroupService.retrieveAllByUserId(authenticated);
+				request.setAttribute("questionGroupList", questionGroupList);
+				request.getRequestDispatcher("/modules/dashboard.jsp").forward(request, response);
 			}
 			Messenger.setSuccessFalse();
 		} else {

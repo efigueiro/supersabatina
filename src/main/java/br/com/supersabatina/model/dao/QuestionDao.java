@@ -70,14 +70,14 @@ public class QuestionDao extends BaseDao {
 		return question;
 	}
 
-	public List<Question> retrieveAll(String question, User authenticated) {
+	public List<Question> retrieveAll(String question, User authenticated, int offset) {
 
 		List<Question> questionList = new ArrayList<Question>();
 		String sql = "SELECT * "
 				   + "FROM question "
 				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
 				   + "AND ((question.visibility = 'public') OR (question.visibility = 'private' AND question.user_id = ?)) "
-				   + "LIMIT 10 OFFSET 0;";
+				   + "LIMIT 10 OFFSET ?;";
 
 		try {
 			Connection conn = this.getConnection();
@@ -85,6 +85,7 @@ public class QuestionDao extends BaseDao {
 			pstm.setString(1, "%" + question + "%");
 			pstm.setString(2, "%" + question + "%");
 			pstm.setLong(3, authenticated.getUserId());
+			pstm.setInt(4, offset);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Question q = new Question();
@@ -103,15 +104,14 @@ public class QuestionDao extends BaseDao {
 
 		return questionList;
 	}
-
-	public List<Question> retrievePrivate(String question, User authenticated) {
-
-		List<Question> questionList = new ArrayList<Question>();
-		String sql = "SELECT * "
-				+ "FROM question "
-				+ "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
-				+ "AND user_id = ? "
-				+ "AND visibility = 'private'";
+	
+	public int retrieveAllCount(String question, User authenticated) {
+		
+		int count = 0;
+		String sql = "SELECT count(*) "
+				   + "FROM question "
+				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
+				   + "AND ((question.visibility = 'public') OR (question.visibility = 'private' AND question.user_id = ?))";
 
 		try {
 			Connection conn = this.getConnection();
@@ -119,6 +119,36 @@ public class QuestionDao extends BaseDao {
 			pstm.setString(1, "%" + question + "%");
 			pstm.setString(2, "%" + question + "%");
 			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
+	}
+
+	public List<Question> retrievePrivate(String question, User authenticated, int offset) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT * "
+				   + "FROM question "
+				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
+				   + "AND user_id = ? "
+				   + "AND visibility = 'private' "
+				   + "LIMIT 10 OFFSET ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "%" + question + "%");
+			pstm.setString(2, "%" + question + "%");
+			pstm.setLong(3, authenticated.getUserId());
+			pstm.setInt(4, offset);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Question q = new Question();
@@ -136,6 +166,34 @@ public class QuestionDao extends BaseDao {
 		}
 
 		return questionList;
+	}
+	
+	public int retrievePrivateCount(String question, User authenticated) {
+
+		int count = 0;
+		String sql = "SELECT count(*) "
+				   + "FROM question "
+				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
+				   + "AND user_id = ? "
+				   + "AND visibility = 'private'";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, "%" + question + "%");
+			pstm.setString(2, "%" + question + "%");
+			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
 	}
 
 	public List<Question> retrievePublicByQuestion(String question, User authenticated) {
@@ -240,7 +298,47 @@ public class QuestionDao extends BaseDao {
 		}
 	}
 	
-	// Retrieve all questions by questionGroupId and authenticated user
+	// Retrieve all questions by questionGroupId, authenticated user and offset
+	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated, int offset) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT question.question_id AS question_id, answer AS answer, question.subject AS subject, question.question AS question, question.visibility AS visibility "
+				   + "FROM question_group "
+				   + "INNER JOIN question_group_question "
+				   + "ON question_group.question_group_id = question_group_question.question_group_id "
+				   + "INNER JOIN question "
+				   + "ON question.question_id = question_group_question.question_id "
+				   + "AND question_group.question_group_id = ? "
+				   + "AND question_group.user_id = ? "
+				   + "LIMIT 10 OFFSET ? ";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, authenticated.getUserId());
+			pstm.setInt(3, offset);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question question = new Question();
+				question.setQuestionId(rs.getLong("question_id"));
+				question.setAnswer(rs.getString("answer"));
+				question.setSubject(rs.getString("subject"));
+				question.setQuestion(rs.getString("question"));
+				question.setUser(authenticated);
+				question.setVisibility(rs.getString("visibility"));
+				questionList.add(question);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return questionList;
+	}
+	
+	// Retrieve all questions by questionGroupId, authenticated user
 	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated) {
 
 		List<Question> questionList = new ArrayList<Question>();
@@ -276,6 +374,37 @@ public class QuestionDao extends BaseDao {
 		}
 		
 		return questionList;
+	}
+	
+	// Retrieve count all questions by questionGroupId and authenticated user
+	public int retrieveQuestionListCount(long questionGroupId, User authenticated) {
+
+		int count = 0;
+		String sql = "SELECT COUNT(*)"
+				+ " FROM question_group"
+				+ " INNER JOIN question_group_question"
+				+ " ON question_group.question_group_id = question_group_question.question_group_id"
+				+ " INNER JOIN question"
+				+ " ON question.question_id = question_group_question.question_id"
+				+ " AND question_group.question_group_id = ?"
+				+ " AND question_group.user_id = ?";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setLong(2, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return count;
 	}
 	
 	// Retrieve a question object by questionGroupId, questionId and authenticated user

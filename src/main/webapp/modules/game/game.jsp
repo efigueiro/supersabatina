@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Painel de controle.</h3>
+                    <h3>Sessão de perguntas</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,47 +32,26 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-					<div class="row">
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Special title treatment</h5>
-        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        							<a href="#" class="btn btn-success">Go somewhere</a>
-      							</div>
-    						</div>
+					<div class="card text-dark bg-light mb-3 mt-4">
+  						<div class="card-header">Cartão de pergunta</div>
+  						<div class="card-body">
+    						<h5 class="card-title"></h5>
+    						<p class="card-text">
+    							A injeção de dependência é uma técnica de design usada para obter a inversão de controle. O Spring Framework oferece um recurso de injeção de dependência que permite aos objetos definir suas próprias dependências que o contêiner Spring posteriormente injeta nelas. Assinale a alternativa que NÃO faz parte dos recursos de injeção de dependência do Spring mais recente.
+								<br>
+								A @Autowired<br>
+								B @Ioc<br>
+								C @Qualifier<br>
+								D @DependsOn<br>
+								E @Inject<br>
+    						
+    						</p>
   						</div>
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Special title treatment</h5>
-        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        							<a href="#" class="btn btn-success">Go somewhere</a>
-      							</div>
-    						</div>
-  						</div>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-success mt-1">Ver a resposta</button>
 					</div>
 					
-					<div class="row">
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Special title treatment</h5>
-        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        							<a href="#" class="btn btn-success"">Go somewhere</a>
-      							</div>
-    						</div>
-  						</div>
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Special title treatment</h5>
-        							<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        							<a href="#" class="btn btn-success"">Go somewhere</a>
-      							</div>
-    						</div>
-  						</div>
-					</div>
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">

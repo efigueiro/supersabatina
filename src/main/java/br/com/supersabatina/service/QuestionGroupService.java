@@ -39,18 +39,9 @@ public class QuestionGroupService {
 	}
 
 	public QuestionGroup retrieveById(long questionGroupId, User Authenticated) {
-		
 		QuestionGroup questionGroup = new QuestionGroup();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
 		questionGroup = questionGroupDao.retrieveById(questionGroupId, Authenticated);
-		
-		if(StringUtils.isEmpty(questionGroup.getTitle())) {
-			Messenger.addWarningMessage("Sua pesquisa não retornou dados.");
-			Messenger.setSuccessFalse();
-		} else {
-			Messenger.setSuccessTrue();;
-		}
-		
 		return questionGroup;
 	}
 
@@ -61,20 +52,9 @@ public class QuestionGroupService {
 	}
 
 	public void delete(long questionGroupId, User authenticated) {
-		
-		QuestionGroup check = new QuestionGroup();
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		
-		check = questionGroupDao.retrieveById(questionGroupId, authenticated);
-		
-		if(StringUtils.isNotEmpty(check.getTitle())) {
-			questionGroupDao.delete(questionGroupId, authenticated);
-			Messenger.setSuccessTrue();
-			Messenger.addSuccessMessage("Registro excluido com sucesso!");
-		} else {
-			Messenger.setSuccessFalse();
-			Messenger.addWarningMessage("Não foi possível realizar a exclusão.");
-		}
+		questionGroupDao.delete(questionGroupId, authenticated);
+		Messenger.addSuccessMessage("Registro excluido com sucesso!");
 	}
 	
 	public List<Long> retrieveQuestionIdByQuestionGroup(long questionGroupId) {

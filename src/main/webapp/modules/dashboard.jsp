@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Criação de novo grupo de perguntas.</h3>
+                    <h3>Painel de controle.</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,34 +32,42 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/questionGroup" method="post">
-                      <div class="mb-3 mt-3">
-                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="createQuestionGroup" required/>
-                      </div>
-                      <div class="mb-3 mt-3">
-                      	<input type="text" class="form-control" id="txtTitle" name="txtTitle" placeholder="Título" required/>
-                      </div> 
-                      <div>
-                      	<textarea class="form-control" id="txtDescription" name="txtDescription" rows="3" placeholder="Descrição" ></textarea>
-                      </div>
-                      
-                      <button type="submit" class="btn btn-success mt-3">Criar grupo</button>
-                    </form> 
-                                                        
+					<div class="row">
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Iniciar os estudos!</h5>
+        							<p class="card-text">
+        								Selecione o grupo de perguntas abaixo e comece agora seus estudos.
+        							</p>
+        							<form action="/supersabatina/dashboard" method="post">
+        								<div class="mt-3">
+        									<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="startGame" required/>
+                      						<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
+                      							<c:forEach var="questionGroup" items="${questionGroupList}">
+													<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>
+												</c:forEach>
+											</select>
+                      					</div>
+        								<button type="submit" class="btn btn-success mt-3">Iniciar</button>
+        							</form>
+      							</div>
+    						</div>
+  						</div>
+  						<div class="col-sm-6 mt-3">
+    						<div class="card">
+      							<div class="card-body">
+        							<h5 class="card-title">Estatísticas do dia</h5>
+        							<p class="card-text">Este espaço é reservado para apresentar estatísticas diárias de uso do sistema.</p>
+      							</div>
+    						</div>
+  						</div>
+					</div>
+					
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                	<div class="card">
-					  <div class="card-body">
-					    <h5 class="card-title">Dicas</h5>
-					    <p class="card-text">O que é um grupo de perguntas?</p>
-					    <p class="card-text">
-					    	Um grupo de perguntas é criado para agrupar perguntas. 
-					    	Você pode ter um grupo de perguntas chamado Prova de geografia, para agrupar as perguntas relacionadas
-					    	a sua prova de geografia.
-					    </p>
-					  </div>
-					</div>
+                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
                 </div>
             </div>
         </div>

@@ -32,7 +32,7 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/controller" method="post">
+                    <form action="/supersabatina/questionGroup" method="post">
                       <div class="mb-3 mt-3">
                       	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionGroup" required/>
                       </div> 
@@ -56,7 +56,13 @@
 					  				<c:forEach var="questionGroup" items="${questionGroupList}">
 					    				<tr>
 					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=goToUpdateQuestionGroup&questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
+					      					<td>
+					      						<form action="/supersabatina/questionGroup" method="post">
+					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestionGroup" required/>
+					      							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+					      							<button type="submit" class="btn btn-outline-secondary btn-sm">Detalhes</button>
+					      						</form>
+					      					</td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>

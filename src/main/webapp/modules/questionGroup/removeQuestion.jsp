@@ -21,7 +21,13 @@
         <!-- Content -->
         <div class="container">
             <div class="row">
-            	<div><a href="/supersabatina/controller?action=goToUpdateQuestionGroup&questionGroupId=${questionGroupId}"class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Voltar</a></div>
+            	<div>
+            		<form action="/supersabatina/questionGroup" method="post">
+            			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestionGroup" required/>
+            			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+            			<button type="submit" class="btn btn-link">Voltar</button>
+            		</form>
+            	</div>
                 <div class="col-md-8 p-4 justify-content-center">
                     <h3>Remover perguntas do grupo.</h3>
                     
@@ -47,12 +53,57 @@
 					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
 					      					<td>${question.question}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/controller?action=removeQuestion&questionGroupId=${questionGroupId}&questionId=${question.questionId}" role="button">Remover</a></td>
+					      					<td>
+					      						<form action="/supersabatina/questionGroup" method="post">
+					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRemoveQuestion" required/>
+					      							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+					      							<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
+					      							<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+					      							<button type="submit" class="btn btn-outline-secondary btn-sm">Remover</button>
+					      						</form>
+					      					</td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>
 							</table>
 						</c:if>
+					</div>
+					
+					<div class="d-flex align-items-center flex-row-reverse bd-highlight">
+						<form id="questionGroupRemoveQuestionNext" action="/supersabatina/questionGroup" method="post">
+							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRemoveQuestionNext" required/>
+							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+							<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+						</form>
+						<form id="questionGroupRemoveQuestionPrevious" action="/supersabatina/questionGroup" method="post">
+							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRemoveQuestionPrevious" required/>
+							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+							<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+						</form>
+  						<div class="p-2 bd-highlight">
+      						<c:choose>
+    							<c:when test = "${currentPage > 1}">
+                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2">Página anterior</button>
+    							</c:when>
+    							<c:otherwise> 
+                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Página anterior</button>
+    							</c:otherwise>
+					  		</c:choose>
+      						
+      						<c:choose>
+    							<c:when test = "${totalPages > currentPage}">
+                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2">Próxima página</button>
+    							</c:when>
+    							<c:otherwise> 
+                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Próxima página</button>
+    							</c:otherwise>
+					  		</c:choose>
+						</div>
+  						<div class="p-2 bd-highlight">
+  							<c:if test = "${totalPages > 0}">
+  								Página ${currentPage} de ${totalPages}
+      						</c:if>
+						</div>
 					</div>
                                                         
                 </div>
