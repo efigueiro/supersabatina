@@ -441,5 +441,40 @@ public class QuestionDao extends BaseDao {
 		
 		return question;
 	}
+	
+	// Retrieve only one random question
+	public Question retrieveQuestionRandom(long questionGroupId, User authenticated) {
+
+		Question question = new Question();
+		String sql = "SELECT * "
+				   + "FROM question "
+				   + "INNER JOIN question_group_question ON question.question_id = question_group_question.question_id "
+				   + "WHERE question.question_id = ? "
+				   + "AND question_group_question.question_group_id = ? "
+		           + "AND question.user_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			//pstm.setLong(1, questionId);
+			pstm.setLong(2, questionGroupId);
+			pstm.setLong(3, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				question.setQuestionId(rs.getLong("question_id"));
+				question.setAnswer(rs.getString("answer"));
+				question.setSubject(rs.getString("subject"));
+				question.setQuestion(rs.getString("question"));
+				question.setUser(authenticated);
+				question.setVisibility(rs.getString("visibility"));
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return question;
+	}
 }
 
