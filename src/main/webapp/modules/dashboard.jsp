@@ -40,9 +40,9 @@
         							<p class="card-text">
         								Selecione o grupo de perguntas abaixo e comece agora seus estudos.
         							</p>
-        							<form action="/supersabatina/dashboard" method="post">
+        							<form action="/supersabatina/gameQuestion" method="post">
         								<div class="mt-3">
-        									<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="startGame" required/>
+        									<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="gameQuestion" required/>
                       						<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
                       							<c:forEach var="questionGroup" items="${questionGroupList}">
 													<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>

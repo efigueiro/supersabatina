@@ -449,16 +449,14 @@ public class QuestionDao extends BaseDao {
 		String sql = "SELECT * "
 				   + "FROM question "
 				   + "INNER JOIN question_group_question ON question.question_id = question_group_question.question_id "
-				   + "WHERE question.question_id = ? "
-				   + "AND question_group_question.question_group_id = ? "
-		           + "AND question.user_id = ?;";
+				   + "WHERE question_group_question.question_group_id = ? "
+				   + "ORDER BY RANDOM() "
+		           + "LIMIT 1;";
 
 		try {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			//pstm.setLong(1, questionId);
-			pstm.setLong(2, questionGroupId);
-			pstm.setLong(3, authenticated.getUserId());
+			pstm.setLong(1, questionGroupId);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next()) {
 				question.setQuestionId(rs.getLong("question_id"));

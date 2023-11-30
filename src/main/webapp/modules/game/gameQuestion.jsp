@@ -37,14 +37,7 @@
   						<div class="card-body">
     						<h5 class="card-title"></h5>
     						<p class="card-text">
-    							A injeção de dependência é uma técnica de design usada para obter a inversão de controle. O Spring Framework oferece um recurso de injeção de dependência que permite aos objetos definir suas próprias dependências que o contêiner Spring posteriormente injeta nelas. Assinale a alternativa que NÃO faz parte dos recursos de injeção de dependência do Spring mais recente.
-								<br>
-								A @Autowired<br>
-								B @Ioc<br>
-								C @Qualifier<br>
-								D @DependsOn<br>
-								E @Inject<br>
-    						
+    							${selectedQuestion.question}
     						</p>
   						</div>
 					</div>

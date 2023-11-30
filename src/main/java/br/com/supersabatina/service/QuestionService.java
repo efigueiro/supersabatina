@@ -57,7 +57,7 @@ public class QuestionService {
 
 		return questionList;
 	}
-	
+
 	public int retrieveByQuestionCount(String question, User authenticated, String visibility) {
 
 		int count = 0;
@@ -84,7 +84,7 @@ public class QuestionService {
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
 		questionList = questionDao.retrieveQuestionList(questionGroupId, authenticated, offset);
-		
+
 		if (!questionList.isEmpty()) {
 			for (Question formattedQuestion : questionList) {
 				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
@@ -93,13 +93,13 @@ public class QuestionService {
 		}
 		return questionList;
 	}
-	
+
 	// Retrieve questions by questionGroup, authenticated user
 	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated) {
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
 		questionList = questionDao.retrieveQuestionList(questionGroupId, authenticated);
-		
+
 		if (!questionList.isEmpty()) {
 			for (Question formattedQuestion : questionList) {
 				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
@@ -107,8 +107,8 @@ public class QuestionService {
 			}
 		}
 		return questionList;
-	}	
-	
+	}
+
 	// Retrieve count questions by questionGroup and authenticated user
 	public int retrieveQuestionListCount(long questionGroupId, User authenticated) {
 		int count = 0;
@@ -122,5 +122,19 @@ public class QuestionService {
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
 		questionGroupDao.removeFromQuestionGroupQuestion(questionGroupId, questionId, authenticated);
 		Messenger.addSuccessMessage("Pergunta removida com sucesso!");
+	}
+
+	// Retrieve a random question
+	public Question retrieveQuestionRandom(long questionGroupId, User authenticated) {
+		Question question = new Question();
+		QuestionDao questionDao = new QuestionDao();
+		question = questionDao.retrieveQuestionRandom(questionGroupId, authenticated);
+		
+		if (StringUtils.isNotEmpty(question.getQuestion())) {
+			String html = question.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+			question.setQuestion(html);
+		}
+		
+		return question;
 	}
 }
