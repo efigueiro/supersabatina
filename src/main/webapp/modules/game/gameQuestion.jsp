@@ -41,8 +41,19 @@
     						</p>
   						</div>
 					</div>
+					
 					<div>
-						<button type="submit" class="btn btn-success mt-1">Ver a resposta</button>
+						<form id="goToAnswer" action="/supersabatina/game" method="post">
+							<div class="mb-3 mt-3">
+                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToAnswer" required/>
+                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${selectedQuestion.questionId}" required/>
+                      			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+                      		</div>
+						</form>
+					
+						<div>
+							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Ver a resposta</button>
+						</div>
 					</div>
 					
                 </div>

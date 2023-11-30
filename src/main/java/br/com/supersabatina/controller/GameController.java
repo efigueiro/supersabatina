@@ -11,11 +11,11 @@ import br.com.supersabatina.model.entity.Question;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.service.QuestionService;
 
-@WebServlet("/gameQuestion")
-public class GameQuestionController extends HttpServlet {
+@WebServlet("/game")
+public class GameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public GameQuestionController() {
+	public GameController() {
 		super();
 	}
 
@@ -48,6 +48,24 @@ public class GameQuestionController extends HttpServlet {
 				request.setAttribute("questionGroupId", questionGroupId);
 
 				request.getRequestDispatcher("modules/game/gameQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			case "goToAnswer": {
+				String strQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				String strQuestionId = (String) request.getParameter("txtQuestionId");
+				long questionGroupId = Long.parseLong(strQuestionGroupId);
+				long questionId = Long.parseLong(strQuestionId);
+
+				Question question = new Question();
+				QuestionService questionService = new QuestionService();
+
+				question = questionService.retrieveQuestionById(questionId);
+
+				request.setAttribute("question", question);
+				request.setAttribute("questionGroupId", questionGroupId);
+
+				request.getRequestDispatcher("modules/game/gameAnswer.jsp").forward(request, response);
 				break;
 			}
 

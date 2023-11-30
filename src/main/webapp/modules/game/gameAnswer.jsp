@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Painel de controle.</h3>
+                    <h3>Sessão de perguntas - Resposta Correta</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,36 +32,29 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-					<div class="row">
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Iniciar os estudos!</h5>
-        							<p class="card-text">
-        								Selecione o grupo de perguntas abaixo e comece agora seus estudos.
-        							</p>
-        							<form action="/supersabatina/game" method="post">
-        								<div class="mt-3">
-        									<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="gameQuestion" required/>
-                      						<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
-                      							<c:forEach var="questionGroup" items="${questionGroupList}">
-													<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>
-												</c:forEach>
-											</select>
-                      					</div>
-        								<button type="submit" class="btn btn-success mt-3">Iniciar</button>
-        							</form>
-      							</div>
-    						</div>
+					<div class="card text-dark bg-light mb-3 mt-4">
+  						<div class="card-header">Cartão de resposta</div>
+  						<div class="card-body">
+    						<h5 class="card-title"></h5>
+    						<p class="card-text">
+    							${question.answer}
+    						</p>
   						</div>
-  						<div class="col-sm-6 mt-3">
-    						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Estatísticas do dia</h5>
-        							<p class="card-text">Este espaço é reservado para apresentar estatísticas diárias de uso do sistema.</p>
-      							</div>
-    						</div>
-  						</div>
+					</div>
+					
+					<div>
+						<form id="goToAnswer" action="/supersabatina/game" method="post">
+							<div class="mb-3 mt-3">
+                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToAnswer" required/>
+                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${selectedQuestion.questionId}" required/>
+                      			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+                      		</div>
+						</form>
+					
+						<div>
+							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Acertei a resposta</button>
+							<button form="goToAnswer" type="submit" class="btn btn-danger mt-1">Errei a resposta</button>
+						</div>
 					</div>
 					
                 </div>

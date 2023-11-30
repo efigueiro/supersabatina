@@ -474,5 +474,34 @@ public class QuestionDao extends BaseDao {
 		
 		return question;
 	}
+	
+	// Retrieve question by question id
+	public Question retrieveQuestionById(long questionId) {
+
+		Question question = new Question();
+		String sql = "SELECT * "
+				   + "FROM question "
+				   + "WHERE question.question_id = ?; ";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionId);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				question.setQuestionId(rs.getLong("question_id"));
+				question.setAnswer(rs.getString("answer"));
+				question.setSubject(rs.getString("subject"));
+				question.setQuestion(rs.getString("question"));
+				question.setVisibility(rs.getString("visibility"));
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return question;
+	}
 }
 
