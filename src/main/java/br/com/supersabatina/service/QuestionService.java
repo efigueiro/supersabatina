@@ -153,4 +153,16 @@ public class QuestionService {
 
 		return question;
 	}
+	
+	// Retrieve number_correct_answer from question_group_question
+	public int correctAnswerCount(long questionId, long questionGroupId) {
+		QuestionDao questionDao = new QuestionDao();
+		return questionDao.retrieveCorrectAnswerCount(questionId, questionGroupId);
+	}
+	
+	// Update number_correct_question from question_group_question
+	public void updateCorrectAnswer(int correctAnswerCount, long questionId, long questionGroupId) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
+	}
 }

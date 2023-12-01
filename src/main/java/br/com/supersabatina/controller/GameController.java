@@ -39,19 +39,62 @@ public class GameController extends HttpServlet {
 				String optQuestionGroup = (String) request.getParameter("optQuestionGroup");
 				long questionGroupId = Long.parseLong(optQuestionGroup);
 
-				Question selectedQuestion = new Question();
+				Question question = new Question();
 				QuestionService questionService = new QuestionService();
 
-				selectedQuestion = questionService.retrieveQuestionRandom(questionGroupId, authenticated);
+				question = questionService.retrieveQuestionRandom(questionGroupId, authenticated);
 
-				request.setAttribute("selectedQuestion", selectedQuestion);
+				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
 
 				request.getRequestDispatcher("modules/game/gameQuestion.jsp").forward(request, response);
 				break;
 			}
 			
-			case "goToAnswer": {
+			case "gameAnswer": {
+				String strQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				String strQuestionId = (String) request.getParameter("txtQuestionId");
+				long questionGroupId = Long.parseLong(strQuestionGroupId);
+				long questionId = Long.parseLong(strQuestionId);
+
+				Question question = new Question();
+				QuestionService questionService = new QuestionService();
+
+				question = questionService.retrieveQuestionById(questionId);
+
+				request.setAttribute("question", question);
+				request.setAttribute("questionGroupId", questionGroupId);
+
+				request.getRequestDispatcher("modules/game/gameAnswer.jsp").forward(request, response);
+				break;
+			}
+			
+			case "correctAnswer": {
+				String strQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				String strQuestionId = (String) request.getParameter("txtQuestionId");
+				long questionGroupId = Long.parseLong(strQuestionGroupId);
+				long questionId = Long.parseLong(strQuestionId);
+
+				Question question = new Question();
+				QuestionService questionService = new QuestionService();
+				int correctAnswerCount = 0;
+
+				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
+				correctAnswerCount = correctAnswerCount + 1;
+				
+				questionService.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
+				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
+				question = questionService.retrieveQuestionById(questionId);
+				
+				request.setAttribute("correctAnswerCount", correctAnswerCount);
+				request.setAttribute("question", question);
+				request.setAttribute("questionGroupId", questionGroupId);
+
+				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
+				break;
+			}
+			
+			case "incorrectAnswer": {
 				String strQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
 				String strQuestionId = (String) request.getParameter("txtQuestionId");
 				long questionGroupId = Long.parseLong(strQuestionGroupId);

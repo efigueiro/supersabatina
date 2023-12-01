@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Sessão de perguntas - Resposta Correta</h3>
+                    <h3>Resumo da questão</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -33,35 +33,36 @@
                     <% Messenger.resetMessenger(); %>
                     
 					<div class="card text-dark bg-light mb-3 mt-4">
-  						<div class="card-header">Cartão de resposta</div>
+  						<div class="card-header">Resumo</div>
   						<div class="card-body">
     						<h5 class="card-title"></h5>
     						<p class="card-text">
+    							${question.question}
+    						</p>
+    						
+    						<p class="card-text">
     							${question.answer}
+    						</p>
+    						
+    						<p class="card-text">
+    							Você acertou esta questão:
+    							${correctAnswerCount} vezes.
     						</p>
   						</div>
 					</div>
 					
 					<div>
-						<form id="correctAnswer" action="/supersabatina/game" method="post">
+						<form id="goToAnswer" action="/supersabatina/game" method="post">
 							<div class="mb-3 mt-3">
-                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="correctAnswer" required/>
-                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
-                      			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
-                      		</div>
-						</form>
-						
-						<form id="incorrectAnswer" action="/supersabatina/game" method="post">
-							<div class="mb-3 mt-3">
-                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="incorrectAnswer" required/>
-                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
+                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToAnswer" required/>
+                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${selectedQuestion.questionId}" required/>
                       			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
                       		</div>
 						</form>
 					
 						<div>
-							<button form="correctAnswer" type="submit" class="btn btn-success mt-1">Acertei a pergunta</button>
-							<button form="incorrectAnswer" type="submit" class="btn btn-danger mt-1 ms-2">Errei a pergunta</button>
+							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Acertei a pergunta</button>
+							<button form="goToAnswer" type="submit" class="btn btn-danger mt-1 ms-2">Errei a pergunta</button>
 						</div>
 					</div>
 					

@@ -503,5 +503,55 @@ public class QuestionDao extends BaseDao {
 		
 		return question;
 	}
+	
+	// Retrieve number_correct_answer from question_group_question
+	public int retrieveCorrectAnswerCount(long questionId, long questionGroupId) {
+
+		int correctAnswerCount = 0;
+		String sql = "SELECT * "
+				   + "FROM question_group_question "
+				   + "WHERE question_group_question.question_id = ? "
+				   + "AND question_group_question.question_group_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionId);
+			pstm.setLong(2, questionGroupId);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				correctAnswerCount = rs.getInt("number_correct_answer");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return correctAnswerCount;
+	}
+	
+	// Update number_correct_question from question_group_question
+	public void updateCorrectAnswer(int correctAnswerCount, long questionId, long questionGroupId) {
+
+		String sql = "UPDATE question_group_question "
+				   + "SET number_correct_answer = ? "
+				   + "WHERE question_group_question.question_id = ? "
+				   + "AND question_group_question.question_group_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, correctAnswerCount);
+			pstm.setLong(2, questionId);
+			pstm.setLong(3, questionGroupId);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
 }
 
