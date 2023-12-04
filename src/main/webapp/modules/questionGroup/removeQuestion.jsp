@@ -83,19 +83,19 @@
   						<div class="p-2 bd-highlight">
       						<c:choose>
     							<c:when test = "${currentPage > 1}">
-                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2">Página anterior</button>
+                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2"><</button>
     							</c:when>
     							<c:otherwise> 
-                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Página anterior</button>
+                      				<button type="submit" form="questionGroupRemoveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button"><</button>
     							</c:otherwise>
 					  		</c:choose>
       						
       						<c:choose>
     							<c:when test = "${totalPages > currentPage}">
-                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2">Próxima página</button>
+                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2">></button>
     							</c:when>
     							<c:otherwise> 
-                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">Próxima página</button>
+                      				<button type="submit" form="questionGroupRemoveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">></button>
     							</c:otherwise>
 					  		</c:choose>
 						</div>

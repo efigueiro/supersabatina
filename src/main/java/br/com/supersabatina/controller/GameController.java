@@ -119,7 +119,5 @@ public class GameController extends HttpServlet {
 		} else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
-
 	}
-
 }

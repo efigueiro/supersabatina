@@ -139,7 +139,6 @@ public class QuestionDao extends BaseDao {
 				   + "FROM question "
 				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
 				   + "AND user_id = ? "
-				   + "AND visibility = 'private' "
 				   + "LIMIT 10 OFFSET ?;";
 
 		try {
@@ -174,8 +173,7 @@ public class QuestionDao extends BaseDao {
 		String sql = "SELECT count(*) "
 				   + "FROM question "
 				   + "WHERE ((question.question ILIKE ?) OR (question.subject ILIKE ?)) "
-				   + "AND user_id = ? "
-				   + "AND visibility = 'private'";
+				   + "AND user_id = ?; ";
 
 		try {
 			Connection conn = this.getConnection();
