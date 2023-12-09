@@ -78,15 +78,19 @@ public class GameController extends HttpServlet {
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
 				int correctAnswerCount = 0;
+				int incorrectAnswerCount = 0;
 
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
 				correctAnswerCount = correctAnswerCount + 1;
+				
+				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
 				
 				questionService.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
 				question = questionService.retrieveQuestionById(questionId);
 				
 				request.setAttribute("correctAnswerCount", correctAnswerCount);
+				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
 
@@ -102,13 +106,24 @@ public class GameController extends HttpServlet {
 
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
+				int incorrectAnswerCount = 0;
+				int correctAnswerCount = 0;
 
+				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
+				incorrectAnswerCount = incorrectAnswerCount + 1;
+				
+				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
+				
+				questionService.updateIncorrectAnswer(incorrectAnswerCount, questionId, questionGroupId);
+				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
 				question = questionService.retrieveQuestionById(questionId);
-
+				
+				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
+				request.setAttribute("correctAnswerCount", correctAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
 
-				request.getRequestDispatcher("modules/game/gameAnswer.jsp").forward(request, response);
+				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
 				break;
 			}
 

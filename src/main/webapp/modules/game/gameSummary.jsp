@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
-                    <h3>Resumo da questão</h3>
+                    <h3>Estatística</h3>
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,25 +32,22 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-					<div class="card text-dark bg-light mb-3 mt-4">
-  						<div class="card-header">Resumo</div>
-  						<div class="card-body">
-    						<h5 class="card-title"></h5>
-    						<p class="card-text">
-    							${question.question}
-    						</p>
-    						
-    						<p class="card-text">
-    							${question.answer}
-    						</p>
-    						
-    						<p class="card-text">
-    							Você acertou esta questão:
-    							${correctAnswerCount} vezes.
-    						</p>
-  						</div>
+                    <br>
+                    Sua taxa de sucesso para esta questão:
+    				${correctAnswerCount} vezes.
+    				<div class="progress">
+  						<div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+					</div>
+    				<br>
+    							
+    				Sua taxa de falha para este questão:
+    				${incorrectAnswerCount} vezes.
+    				<div class="progress">
+  						<div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
 					</div>
 					
+					<br>
+                    
 					<div>
 						<form id="goToAnswer" action="/supersabatina/game" method="post">
 							<div class="mb-3 mt-3">
@@ -61,8 +58,7 @@
 						</form>
 					
 						<div>
-							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Acertei a pergunta</button>
-							<button form="goToAnswer" type="submit" class="btn btn-danger mt-1 ms-2">Errei a pergunta</button>
+							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Próxima pergunta</button>
 						</div>
 					</div>
 					

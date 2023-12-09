@@ -165,4 +165,16 @@ public class QuestionService {
 		QuestionDao questionDao = new QuestionDao();
 		questionDao.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
 	}
+	
+	// Retrieve number_incorrect_answer from question_group_question
+	public int incorrectAnswerCount(long questionId, long questionGroupId) {
+		QuestionDao questionDao = new QuestionDao();
+		return questionDao.retrieveIncorrectAnswerCount(questionId, questionGroupId);
+	}
+	
+	// Update number_incorrect_question from question_group_question - working here
+	public void updateIncorrectAnswer(int correctAnswerCount, long questionId, long questionGroupId) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.updateIncorrectAnswer(correctAnswerCount, questionId, questionGroupId);
+	}
 }
