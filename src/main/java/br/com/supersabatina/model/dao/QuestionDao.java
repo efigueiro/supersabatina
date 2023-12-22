@@ -601,5 +601,33 @@ public class QuestionDao extends BaseDao {
 			Messenger.addDangerMessage(ex.getMessage());
 		}
 	}
+	
+	// Retrieve revision date
+	public String retrieveRevisionDate(long questionId, long questionGroupId) {
+
+		String revisionDate = "";
+		String sql = "SELECT * "
+				   + "FROM question_group_question "
+				   + "WHERE question_group_question.question_id = ? "
+				   + "AND question_group_question.question_group_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionId);
+			pstm.setLong(2, questionGroupId);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				revisionDate = rs.getString("revision_date");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+		
+		return revisionDate;
+	}
+	
 }
 

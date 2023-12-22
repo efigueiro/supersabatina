@@ -34,31 +34,28 @@
                     
                     <br>
                     Sua taxa de sucesso para esta questão:
-    				${correctAnswerCount} vezes.
     				<div class="progress">
-  						<div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+  						<div class="progress-bar bg-success" role="progressbar" style="width: ${successRate}%;" aria-valuenow="${successRate}" aria-valuemin="0" aria-valuemax="100">${successRate}%</div>
 					</div>
     				<br>
     							
-    				Sua taxa de falha para este questão:
-    				${incorrectAnswerCount} vezes.
+    				Sua taxa de falha para esta questão:
     				<div class="progress">
-  						<div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+  						<div class="progress-bar bg-danger" role="progressbar" style="width: ${failureRate}%;" aria-valuenow="${failureRate}" aria-valuemin="0" aria-valuemax="100">${failureRate}%</div>
 					</div>
 					
 					<br>
                     
 					<div>
-						<form id="goToAnswer" action="/supersabatina/game" method="post">
+						<form id="gameQuestion" action="/supersabatina/game" method="post">
 							<div class="mb-3 mt-3">
-                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToAnswer" required/>
-                      			<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${selectedQuestion.questionId}" required/>
-                      			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroupId}" required/>
+                      			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="gameQuestion" required/>
+                      			<input type="hidden" class="form-control" id="optQuestionGroup" name="optQuestionGroup" value="${questionGroupId}" required/>
                       		</div>
 						</form>
 					
 						<div>
-							<button form="goToAnswer" type="submit" class="btn btn-success mt-1">Próxima pergunta</button>
+							<button form="gameQuestion" type="submit" class="btn btn-success mt-1">Próxima pergunta</button>
 						</div>
 					</div>
 					

@@ -1,15 +1,17 @@
 package br.com.supersabatina.controller;
 
+import java.io.IOException;
+
+import br.com.supersabatina.model.entity.Question;
+import br.com.supersabatina.model.entity.User;
+import br.com.supersabatina.service.GameService;
+import br.com.supersabatina.service.QuestionService;
+import br.com.supersabatina.util.Statistic;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import br.com.supersabatina.model.entity.Question;
-import br.com.supersabatina.model.entity.User;
-import br.com.supersabatina.service.QuestionService;
 
 @WebServlet("/game")
 public class GameController extends HttpServlet {
@@ -77,13 +79,13 @@ public class GameController extends HttpServlet {
 
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
+				GameService gameService = new GameService();
 				int correctAnswerCount = 0;
 				int incorrectAnswerCount = 0;
 
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
-				correctAnswerCount = correctAnswerCount + 1;
-				
 				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
+				correctAnswerCount = correctAnswerCount + 1;
 				
 				questionService.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
@@ -93,6 +95,8 @@ public class GameController extends HttpServlet {
 				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
+				request.setAttribute("successRate", Statistic.successRate(correctAnswerCount, incorrectAnswerCount));
+				request.setAttribute("failureRate", Statistic.failureRate(correctAnswerCount, incorrectAnswerCount));
 
 				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
 				break;
@@ -110,9 +114,8 @@ public class GameController extends HttpServlet {
 				int correctAnswerCount = 0;
 
 				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
-				incorrectAnswerCount = incorrectAnswerCount + 1;
-				
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
+				incorrectAnswerCount = incorrectAnswerCount + 1;
 				
 				questionService.updateIncorrectAnswer(incorrectAnswerCount, questionId, questionGroupId);
 				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
@@ -122,6 +125,8 @@ public class GameController extends HttpServlet {
 				request.setAttribute("correctAnswerCount", correctAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
+				request.setAttribute("successRate", Statistic.successRate(correctAnswerCount, incorrectAnswerCount));
+				request.setAttribute("failureRate", Statistic.failureRate(correctAnswerCount, incorrectAnswerCount));
 
 				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
 				break;
