@@ -91,6 +91,8 @@ public class GameController extends HttpServlet {
 				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
 				question = questionService.retrieveQuestionById(questionId);
 				
+				gameService.defineInterval(questionGroupId, questionId, correctAnswerCount);
+				
 				request.setAttribute("correctAnswerCount", correctAnswerCount);
 				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
 				request.setAttribute("question", question);

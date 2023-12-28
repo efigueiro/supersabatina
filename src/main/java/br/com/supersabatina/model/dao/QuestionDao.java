@@ -1,6 +1,7 @@
 package br.com.supersabatina.model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -448,6 +449,7 @@ public class QuestionDao extends BaseDao {
 				   + "FROM question "
 				   + "INNER JOIN question_group_question ON question.question_id = question_group_question.question_id "
 				   + "WHERE question_group_question.question_group_id = ? "
+				   + "AND CURRENT_DATE >= question_group_question.revision_date "
 				   + "ORDER BY RANDOM() "
 		           + "LIMIT 1;";
 
@@ -629,5 +631,29 @@ public class QuestionDao extends BaseDao {
 		return revisionDate;
 	}
 	
+	// Update revision_date from question_group_question
+	public void updateRevisionDate(String revisionDate, long questionId, long questionGroupId) {
+		
+		Date formatedRevisionDate = Date.valueOf(revisionDate);
+
+		String sql = "UPDATE question_group_question "
+				   + "SET revision_date = ? "
+				   + "WHERE question_group_question.question_id = ? "
+				   + "AND question_group_question.question_group_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setDate(1, formatedRevisionDate);
+			pstm.setLong(2, questionId);
+			pstm.setLong(3, questionGroupId);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
 }
 

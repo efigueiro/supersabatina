@@ -35,27 +35,52 @@
 					<div class="row">
   						<div class="col-sm-6 mt-3">
     						<div class="card">
-      							<div class="card-body">
-        							<h5 class="card-title">Iniciar os estudos!</h5>
-        							<p class="card-text">
-        								Selecione o grupo de perguntas abaixo e comece agora seus estudos.
-        							</p>
-        							<form action="/supersabatina/game" method="post">
-        								<div class="mt-3">
-        									<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="gameQuestion" required/>
-                      						<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
-                      							<c:forEach var="questionGroup" items="${questionGroupList}">
-													<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>
-												</c:forEach>
-											</select>
-                      					</div>
-        								<button type="submit" class="btn btn-success mt-3">Iniciar</button>
-        							</form>
-      							</div>
+    							<c:choose>
+        							<c:when test="${empty questionGroupList}">
+            						<div class="card-body">
+        								<h5 class="card-title">Ops!</h5>
+        								<p class="card-text">
+        									Você não possui grupo de perguntas para iniciar os estudos.
+        									Crie ao menos um grupo de perguntas para iniciar. Tenha em mente que um grupo de perguntas deve
+        									ter muitas perguntas para que seu estudo seja efetivo. 
+        								</p>
+      								</div>
+        							</c:when>
+        							<c:otherwise>
+            						<div class="card-body">
+        								<h5 class="card-title">Iniciar os estudos!</h5>
+        								<p class="card-text">
+        									Selecione o grupo de perguntas abaixo e comece agora seus estudos.
+        								</p>
+        								<form action="/supersabatina/game" method="post">
+        									<div class="mt-3">
+        										<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="gameQuestion" required/>
+                      							<select class="form-select" aria-label="optQuestionGroup" name="optQuestionGroup">
+                      								<c:forEach var="questionGroup" items="${questionGroupList}">
+														<option value="${questionGroup.questionGroupId}">${questionGroup.title}</option>
+													</c:forEach>
+												</select>
+                      						</div>
+        									<button type="submit" class="btn btn-success mt-3">Iniciar</button>
+        								</form>
+      								</div>
+        							</c:otherwise>
+    							</c:choose>
     						</div>
   						</div>
+  						
   						<div class="col-sm-6 mt-3">
     						<div class="card">
+    						
+    							<%-- <c:choose>
+        							<c:when test="${empty listaObjetos}">
+            							<p>A lista está vazia.</p>
+        							</c:when>
+        							<c:otherwise>
+            							<p>A lista não está vazia.</p>
+        							</c:otherwise>
+    							</c:choose> --%>
+    							
       							<div class="card-body">
         							<h5 class="card-title">Estatísticas do dia</h5>
         							<p class="card-text">Este espaço é reservado para apresentar estatísticas diárias de uso do sistema.</p>
