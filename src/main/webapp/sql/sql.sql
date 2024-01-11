@@ -59,6 +59,18 @@ create table question_group_question
   constraint question_fk foreign key(question_id) references question(question_id) on delete cascade
 );
 
+create table activity_record
+(
+  activity_record_id bigserial not null,
+  user_id bigserial not null,
+  activity_date date not null,
+  number_correct_answer integer,
+  number_incorrect_answer integer,
+  unique(activity_record_id),
+  constraint activity_record_pk primary key(activity_record_id),
+  constraint user_fk foreign key(user_id) references users(user_id)
+);
+
 -- Queries
 select * from users order by user_id asc
 select * from question_group order by question_group_id asc

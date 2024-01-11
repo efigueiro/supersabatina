@@ -81,8 +81,18 @@
 					      					<td>
 					      						<form action="/supersabatina/question" method="post">
 					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestion" required/>
-					      							<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${question.questionId}" required/>
-					      							<button type="submit" class="btn btn-outline-secondary btn-sm">Detalhes</button>
+					      							<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
+					      							<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+													<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+													<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+					      							<c:choose>
+													    <c:when test="${question.user.userId eq authenticated.userId}">
+													        <button type="submit" class="btn btn-outline-secondary btn-sm">Detalhes</button>
+													    </c:when>
+													    <c:otherwise>
+													        <button type="submit" class="btn btn-outline-secondary btn-sm" disabled>Detalhes</button>
+													    </c:otherwise>
+													</c:choose>
 					      						</form>
 					      					</td>
 					    				</tr>
@@ -136,7 +146,19 @@
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                    <img src="<%=request.getContextPath()%>/img/girlbook.png" alt="" class="img-fluid d-none d-md-block w-100" />
+                    <div class="card">
+					  <div class="card-body">
+					    <h5 class="card-title">Dicas</h5>
+					    <p class="card-text">
+					    	Você pode buscar por um texto completo ou parcial. A busca será efetuada levando em conta
+					    	o assunto ou o texto da questão digitado.
+					    </p>
+					    <p class="card-text">
+					    	Note que somente será possível visualizar detalhes para perguntas criadas por você.<br>
+					    	Caso a pergunta tenha sido criada por outro usuário, o botão detalhes será desabilitado.
+					    </p>
+					  </div>
+					</div>
                 </div>
             </div>
         </div>

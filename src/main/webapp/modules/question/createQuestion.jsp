@@ -57,11 +57,11 @@
                       	<input type="text" class="form-control" id="txtSubject" name="txtSubject" placeholder="Assuntos" required/>
                       </div> 
                       <div class="mt-3">
-                      	<textarea class="form-control" id="txtQuestion" name="txtQuestion" rows="3" placeholder="Escreva sua pergunta" ></textarea>
+                      	<textarea class="form-control" id="txtQuestion" name="txtQuestion" rows="3" placeholder="Escreva sua pergunta" required></textarea>
                       </div>
                       
                       <div class="mt-3">
-                      	<textarea class="form-control" id="txtAnswer" name="txtAnswer" rows="3" placeholder="Escreva a resposta da pergunta" ></textarea>
+                      	<textarea class="form-control" id="txtAnswer" name="txtAnswer" rows="3" placeholder="Escreva a resposta da pergunta" required></textarea>
                       </div>
                       
                       <button type="submit" class="btn btn-success mt-3">Criar pergunta</button>

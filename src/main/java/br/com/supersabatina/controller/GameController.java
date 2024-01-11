@@ -80,25 +80,15 @@ public class GameController extends HttpServlet {
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
 				GameService gameService = new GameService();
-				int correctAnswerCount = 0;
-				int incorrectAnswerCount = 0;
-
-				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
-				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
-				correctAnswerCount = correctAnswerCount + 1;
 				
-				questionService.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
-				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
+				gameService.ProcessNumberCorrectAnswerByQuestion(questionId, questionGroupId);
+				gameService.ProcessNumberCorrectAnswerByDate(authenticated);
 				question = questionService.retrieveQuestionById(questionId);
 				
-				gameService.defineInterval(questionGroupId, questionId, correctAnswerCount);
-				
-				request.setAttribute("correctAnswerCount", correctAnswerCount);
-				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
-				request.setAttribute("successRate", Statistic.successRate(correctAnswerCount, incorrectAnswerCount));
-				request.setAttribute("failureRate", Statistic.failureRate(correctAnswerCount, incorrectAnswerCount));
+				request.setAttribute("successRate", gameService.sucessRateByQuestion(questionId, questionGroupId));
+				request.setAttribute("failureRate", gameService.failureRateByQuestion(questionId, questionGroupId));
 
 				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
 				break;
@@ -112,23 +102,16 @@ public class GameController extends HttpServlet {
 
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
-				int incorrectAnswerCount = 0;
-				int correctAnswerCount = 0;
-
-				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
-				correctAnswerCount = questionService.correctAnswerCount(questionId, questionGroupId);
-				incorrectAnswerCount = incorrectAnswerCount + 1;
+				GameService gameService = new GameService();
 				
-				questionService.updateIncorrectAnswer(incorrectAnswerCount, questionId, questionGroupId);
-				incorrectAnswerCount = questionService.incorrectAnswerCount(questionId, questionGroupId);
+				gameService.ProcessNumberIncorrectAnswerByQuestion(questionId, questionGroupId);
+				gameService.ProcessNumberIncorrectAnswerByDate(authenticated);
 				question = questionService.retrieveQuestionById(questionId);
 				
-				request.setAttribute("incorrectAnswerCount", incorrectAnswerCount);
-				request.setAttribute("correctAnswerCount", correctAnswerCount);
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
-				request.setAttribute("successRate", Statistic.successRate(correctAnswerCount, incorrectAnswerCount));
-				request.setAttribute("failureRate", Statistic.failureRate(correctAnswerCount, incorrectAnswerCount));
+				request.setAttribute("successRate", gameService.sucessRateByQuestion(questionId, questionGroupId));
+				request.setAttribute("failureRate", gameService.failureRateByQuestion(questionId, questionGroupId));
 
 				request.getRequestDispatcher("modules/game/gameSummary.jsp").forward(request, response);
 				break;

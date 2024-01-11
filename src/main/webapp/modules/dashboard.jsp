@@ -71,20 +71,37 @@
   						
   						<div class="col-sm-6 mt-3">
     						<div class="card">
-    						
-    							<%-- <c:choose>
-        							<c:when test="${empty listaObjetos}">
-            							<p>A lista está vazia.</p>
+    							<c:choose>
+        							<c:when test="${totalQuestionByDate > 0}">
+	        							<div class="card-body">
+		        							<h5 class="card-title">Estatísticas do dia</h5>
+		        							<div class="mt-3">
+		        								<div>Perguntas respondidas hoje: ${totalQuestionByDate} </div>
+		        							</div>
+		        							<div class="mt-3">
+							                    Sua taxa de sucesso hoje:
+							    				<div class="progress">
+							  						<div class="progress-bar bg-success" role="progressbar" style="width: ${successRateByDate}%;" aria-valuenow="${successRateByDate}" aria-valuemin="0" aria-valuemax="100">${successRateByDate}%</div>
+												</div>
+							    				<br>
+							    							
+							    				Sua taxa de falha hoje:
+							    				<div class="progress">
+							  						<div class="progress-bar bg-danger" role="progressbar" style="width: ${failureRateByDate}%;" aria-valuenow="${failureRateByDate}" aria-valuemin="0" aria-valuemax="100">${failureRateByDate}%</div>
+												</div>
+											</div>
+	      								</div>
         							</c:when>
+        							
         							<c:otherwise>
-            							<p>A lista não está vazia.</p>
+	        							<div class="card-body">
+		        							<h5 class="card-title">Estatísticas do dia</h5>
+		        							<div class="mt-3">
+		        								<p>Você ainda não respondeu perguntas hoje, estudar diariamente é a chave para ao sucesso! </p>
+											</div>
+	      								</div>
         							</c:otherwise>
-    							</c:choose> --%>
-    							
-      							<div class="card-body">
-        							<h5 class="card-title">Estatísticas do dia</h5>
-        							<p class="card-text">Este espaço é reservado para apresentar estatísticas diárias de uso do sistema.</p>
-      							</div>
+    							</c:choose>
     						</div>
   						</div>
 					</div>

@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import br.com.supersabatina.model.dao.UserDao;
 import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
+import br.com.supersabatina.service.GameService;
 import br.com.supersabatina.service.LoginService;
 import br.com.supersabatina.service.QuestionGroupService;
 import br.com.supersabatina.util.Messenger;
@@ -69,9 +68,14 @@ public class LoginController extends HttpServlet {
 				request.getRequestDispatcher("modules/tutorial/main.jsp").forward(request, response);
 				userDao.disableTutorial(authenticated.getUserId());
 			} else {
+				GameService gameService = new GameService();
 				QuestionGroupService questionGroupService = new QuestionGroupService();
 				List<QuestionGroup> questionGroupList = new ArrayList<QuestionGroup>();
 				questionGroupList = questionGroupService.retrieveAllByUserId(authenticated);
+				
+				request.setAttribute("successRateByDate", gameService.sucessRateByDate(authenticated));
+				request.setAttribute("failureRateByDate", gameService.failureRateByDate(authenticated));
+				request.setAttribute("totalQuestionByDate", gameService.totalQuestionByDate(authenticated));
 				request.setAttribute("questionGroupList", questionGroupList);
 				request.getRequestDispatcher("/modules/dashboard.jsp").forward(request, response);
 			}

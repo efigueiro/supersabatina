@@ -124,12 +124,101 @@ public class QuestionController extends HttpServlet {
 				PaginatorUtil paginator = new PaginatorUtil(totalRecords, currentPage);
 				questionList = questionService.retrieveByQuestion(search, authenticated, visibilitySelected, paginator.getOffset());
 				
+				request.setAttribute("authenticated", authenticated);
 				request.setAttribute("questionList", questionList);
 				request.setAttribute("visibilitySelected", visibilitySelected);
 				request.setAttribute("visibilityOptionList", visibilityOptionList);
 				request.setAttribute("search", search);
 				request.setAttribute("currentPage", currentPage);
 				request.setAttribute("totalPages", paginator.getTotalPages());
+				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			case "goToRetrieveQuestion": {
+				String search = (String) request.getParameter("txtSearch");
+				String visibilitySelected = (String) request.getParameter("txtVisibilitySelected");
+				String stringCurrentPage = (String) request.getParameter("txtCurrentPage");
+				int currentPage = Integer.parseInt(stringCurrentPage);
+				
+				int totalRecords = 0;
+
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+				QuestionService questionService = new QuestionService();
+				List<Question> questionList = new ArrayList<Question>();
+				
+				totalRecords = questionService.retrieveByQuestionCount(search, authenticated, visibilitySelected);
+				PaginatorUtil paginator = new PaginatorUtil(totalRecords, currentPage);
+				questionList = questionService.retrieveByQuestion(search, authenticated, visibilitySelected, paginator.getOffset());
+				
+				request.setAttribute("questionList", questionList);
+				request.setAttribute("visibilitySelected", visibilitySelected);
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
+				request.setAttribute("search", search);
+				request.setAttribute("currentPage", currentPage);
+				request.setAttribute("totalPages", paginator.getTotalPages());
+				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			case "goToUpdateQuestion": {
+				// Getting values from the view layer
+				String search = (String) request.getParameter("txtSearch");
+				String visibilitySelected = (String) request.getParameter("txtVisibilitySelected");
+				String currentPage = (String) request.getParameter("txtCurrentPage");
+				String stringQuestionId = (String) request.getParameter("txtQuestionId");
+				long questionId = Long.parseLong(stringQuestionId);
+
+				// Creating dependency objects
+				Question question = new Question();
+				QuestionService questionService = new QuestionService();
+				
+				question = questionService.retrieveQuestionById(questionId);
+				
+				request.setAttribute("question", question);
+				request.setAttribute("search", search);
+				request.setAttribute("visibilitySelected", visibilitySelected);
+				request.setAttribute("currentPage", currentPage);
+				request.getRequestDispatcher("modules/question/updateQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			case "updateQuestion": {
+				String stringQuestionId = (String) request.getParameter("txtQuestionId");
+				String optVisibility = (String) request.getParameter("optVisibility");
+				String subject = (String) request.getParameter("txtSubject");
+				String question = (String) request.getParameter("txtQuestion");
+				String answer = (String) request.getParameter("txtAnswer");
+				long questionId = Long.parseLong(stringQuestionId);
+
+				Question q = new Question();
+				QuestionService questionService = new QuestionService();
+				
+				q = questionService.retrieveQuestionById(questionId);
+				q.setAnswer(answer);
+				q.setQuestion(question);
+				q.setSubject(subject);
+				q.setVisibility(optVisibility);
+				questionService.update(q);
+				
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
+				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			case "deleteQuestion": {
+				String stringQuestionId = (String) request.getParameter("txtQuestionId");
+				long questionId = Long.parseLong(stringQuestionId);
+
+				Question question = new Question();
+				QuestionService questionService = new QuestionService();
+				
+				question = questionService.retrieveQuestionById(questionId);
+				questionService.delete(question);
+				
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
 				request.getRequestDispatcher("modules/question/retrieveQuestion.jsp").forward(request, response);
 				break;
 			}

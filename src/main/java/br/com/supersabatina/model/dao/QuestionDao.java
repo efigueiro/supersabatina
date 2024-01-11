@@ -90,11 +90,14 @@ public class QuestionDao extends BaseDao {
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Question q = new Question();
+				User user = new User();
 				q.setQuestionId(rs.getLong("question_id"));
 				q.setAnswer(rs.getString("answer"));
 				q.setQuestion(rs.getString("question"));
 				q.setSubject(rs.getString("subject"));
 				q.setVisibility(rs.getString("visibility"));
+				user.setUserId(rs.getLong("user_id"));
+				q.setUser(user);
 				questionList.add(q);
 			}
 
@@ -152,11 +155,14 @@ public class QuestionDao extends BaseDao {
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Question q = new Question();
+				User user = new User();
 				q.setQuestionId(rs.getLong("question_id"));
 				q.setAnswer(rs.getString("answer"));
 				q.setQuestion(rs.getString("question"));
 				q.setSubject(rs.getString("subject"));
 				q.setVisibility(rs.getString("visibility"));
+				user.setUserId(rs.getLong("user_id"));
+				q.setUser(user);
 				questionList.add(q);
 			}
 
@@ -447,7 +453,7 @@ public class QuestionDao extends BaseDao {
 		Question question = new Question();
 		String sql = "SELECT * "
 				   + "FROM question "
-				   + "INNER JOIN question_group_question ON question.question_id = question_group_question.question_id "
+				   + "INNER JOIN question_group_question ON question_group_question.question_id = question.question_id "
 				   + "WHERE question_group_question.question_group_id = ? "
 				   + "AND CURRENT_DATE >= question_group_question.revision_date "
 				   + "ORDER BY RANDOM() "
@@ -502,6 +508,73 @@ public class QuestionDao extends BaseDao {
 		}
 		
 		return question;
+	}
+	
+	// Update question by question_id
+	public void update(Question question) {
+
+		String sql = "UPDATE question "
+				   + "SET visibility = ? , "
+				   + "subject = ?, "
+				   + "question = ?, "
+				   + "answer = ? "
+				   + "WHERE question_id = ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setString(1, question.getVisibility());
+			pstm.setString(2, question.getSubject());
+			pstm.setString(3, question.getQuestion());
+			pstm.setString(4, question.getAnswer());
+			pstm.setLong(5, question.getQuestionId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+	
+	// Delete question
+	public void deleteFromQuestionGroupQuestion(Question question) {
+
+		String sql = "DELETE FROM question_group_question " 
+		           + "WHERE question_group_question.question_id = ?";
+		
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, question.getQuestionId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+	
+	// Delete question
+	public void delete(Question question) {
+		
+		this.deleteFromQuestionGroupQuestion(question);
+
+		String sql = "DELETE FROM question " 
+		           + "WHERE question.question_id = ?";
+		
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, question.getQuestionId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
 	}
 	
 	// Retrieve number_correct_answer from question_group_question

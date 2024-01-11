@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import br.com.supersabatina.model.dao.QuestionDao;
 import br.com.supersabatina.model.dao.QuestionGroupDao;
 import br.com.supersabatina.model.entity.Question;
+import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Messenger;
 
@@ -56,6 +57,18 @@ public class QuestionService {
 		}
 
 		return questionList;
+	}
+	
+	public void update(Question question) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.update(question);
+		Messenger.addSuccessMessage("Pergunta atualizada com sucesso!");
+	}
+
+	public void delete(Question question) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.delete(question);
+		Messenger.addSuccessMessage("Registro excluido com sucesso!");
 	}
 
 	public int retrieveByQuestionCount(String question, User authenticated, String visibility) {
@@ -138,7 +151,7 @@ public class QuestionService {
 		return question;
 	}
 
-	// Retrieve a random question
+	// Retrieve question by id
 	public Question retrieveQuestionById(long questionId) {
 		Question question = new Question();
 		QuestionDao questionDao = new QuestionDao();
@@ -154,27 +167,4 @@ public class QuestionService {
 		return question;
 	}
 	
-	// Retrieve number_correct_answer from question_group_question
-	public int correctAnswerCount(long questionId, long questionGroupId) {
-		QuestionDao questionDao = new QuestionDao();
-		return questionDao.retrieveCorrectAnswerCount(questionId, questionGroupId);
-	}
-	
-	// Update number_correct_question from question_group_question
-	public void updateCorrectAnswer(int correctAnswerCount, long questionId, long questionGroupId) {
-		QuestionDao questionDao = new QuestionDao();
-		questionDao.updateCorrectAnswer(correctAnswerCount, questionId, questionGroupId);
-	}
-	
-	// Retrieve number_incorrect_answer from question_group_question
-	public int incorrectAnswerCount(long questionId, long questionGroupId) {
-		QuestionDao questionDao = new QuestionDao();
-		return questionDao.retrieveIncorrectAnswerCount(questionId, questionGroupId);
-	}
-	
-	// Update number_incorrect_question from question_group_question - working here
-	public void updateIncorrectAnswer(int correctAnswerCount, long questionId, long questionGroupId) {
-		QuestionDao questionDao = new QuestionDao();
-		questionDao.updateIncorrectAnswer(correctAnswerCount, questionId, questionGroupId);
-	}
 }
