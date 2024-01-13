@@ -1,3 +1,4 @@
+
 package br.com.supersabatina.model.dao;
 
 import java.sql.Connection;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.supersabatina.model.entity.Question;
-import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Messenger;
 
@@ -201,85 +201,68 @@ public class QuestionDao extends BaseDao {
 		return count;
 	}
 
-	public List<Question> retrievePublicByQuestion(String question, User authenticated) {
+	/*
+	 * public List<Question> retrievePublicByQuestion(String question, User
+	 * authenticated) {
+	 * 
+	 * List<Question> questionList = new ArrayList<Question>(); String sql =
+	 * "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and ((user_id = ?) and (visibility='public'))"
+	 * ;
+	 * 
+	 * try { Connection conn = this.getConnection(); PreparedStatement pstm =
+	 * conn.prepareStatement(sql); pstm.setString(1, "%" + question + "%");
+	 * pstm.setString(2, "%" + question + "%"); pstm.setLong(3,
+	 * authenticated.getUserId()); ResultSet rs = pstm.executeQuery(); while
+	 * (rs.next()) { Question q = new Question();
+	 * q.setQuestionId(rs.getLong("question_id"));
+	 * q.setAnswer(rs.getString("answer")); q.setQuestion(rs.getString("question"));
+	 * q.setSubject(rs.getString("subject"));
+	 * q.setVisibility(rs.getString("visibility")); questionList.add(q); }
+	 * 
+	 * } catch (Exception ex) { logger.error(ex.getMessage(), ex);
+	 * Messenger.addDangerMessage(ex.getMessage()); }
+	 * 
+	 * return questionList; }
+	 */
 
-		List<Question> questionList = new ArrayList<Question>();
-		String sql = "SELECT * FROM question WHERE ((question ILIKE ?) or (subject ILIKE ?)) and ((user_id = ?) and (visibility='public'))";
+	/*
+	 * public List<Question> retrieveAll(User authenticated) {
+	 * 
+	 * List<Question> questionList = new ArrayList<Question>(); String sql =
+	 * "SELECT * FROM question WHERE user_id = ?";
+	 * 
+	 * try { Connection conn = this.getConnection(); PreparedStatement pstm =
+	 * conn.prepareStatement(sql); pstm.setLong(1, authenticated.getUserId());
+	 * ResultSet rs = pstm.executeQuery(); while (rs.next()) { Question question =
+	 * new Question(); question.setQuestionId(rs.getLong("question_id"));
+	 * question.setAnswer(rs.getString("answer"));
+	 * question.setQuestion(rs.getString("question"));
+	 * question.setUser(authenticated);
+	 * question.setVisibility(rs.getString("visibility"));
+	 * questionList.add(question); }
+	 * 
+	 * } catch (Exception ex) { logger.error(ex.getMessage(), ex);
+	 * Messenger.addDangerMessage(ex.getMessage()); }
+	 * 
+	 * return questionList; }
+	 */
 
-		try {
-			Connection conn = this.getConnection();
-			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setString(1, "%" + question + "%");
-			pstm.setString(2, "%" + question + "%");
-			pstm.setLong(3, authenticated.getUserId());
-			ResultSet rs = pstm.executeQuery();
-			while (rs.next()) {
-				Question q = new Question();
-				q.setQuestionId(rs.getLong("question_id"));
-				q.setAnswer(rs.getString("answer"));
-				q.setQuestion(rs.getString("question"));
-				q.setSubject(rs.getString("subject"));
-				q.setVisibility(rs.getString("visibility"));
-				questionList.add(q);
-			}
-
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			Messenger.addDangerMessage(ex.getMessage());
-		}
-
-		return questionList;
-	}
-
-	public List<Question> retrieveAll(User authenticated) {
-
-		List<Question> questionList = new ArrayList<Question>();
-		String sql = "SELECT * FROM question WHERE user_id = ?";
-
-		try {
-			Connection conn = this.getConnection();
-			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setLong(1, authenticated.getUserId());
-			ResultSet rs = pstm.executeQuery();
-			while (rs.next()) {
-				Question question = new Question();
-				question.setQuestionId(rs.getLong("question_id"));
-				question.setAnswer(rs.getString("answer"));
-				question.setQuestion(rs.getString("question"));
-				question.setUser(authenticated);
-				question.setVisibility(rs.getString("visibility"));
-				questionList.add(question);
-			}
-
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			Messenger.addDangerMessage(ex.getMessage());
-		}
-
-		return questionList;
-	}
-
-	public int count(User authenticated) {
-
-		int count = 0;
-		String sql = "SELECT count(*) AS count FROM question WHERE user_id = ?";
-
-		try {
-			Connection conn = this.getConnection();
-			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setLong(1, authenticated.getUserId());
-			ResultSet rs = pstm.executeQuery();
-			while (rs.next()) {
-				count = rs.getInt("count");
-			}
-
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			Messenger.addDangerMessage(ex.getMessage());
-		}
-
-		return count;
-	}
+	/*
+	 * public int count(User authenticated) {
+	 * 
+	 * int count = 0; String sql =
+	 * "SELECT count(*) AS count FROM question WHERE user_id = ?";
+	 * 
+	 * try { Connection conn = this.getConnection(); PreparedStatement pstm =
+	 * conn.prepareStatement(sql); pstm.setLong(1, authenticated.getUserId());
+	 * ResultSet rs = pstm.executeQuery(); while (rs.next()) { count =
+	 * rs.getInt("count"); }
+	 * 
+	 * } catch (Exception ex) { logger.error(ex.getMessage(), ex);
+	 * Messenger.addDangerMessage(ex.getMessage()); }
+	 * 
+	 * return count; }
+	 */
 
 	// QuestionGroupQuestion table
 	public void createQuestionGroupQuestion(Question question, long questionGroupId) {

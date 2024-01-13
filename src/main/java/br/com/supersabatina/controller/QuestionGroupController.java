@@ -168,6 +168,57 @@ public class QuestionGroupController extends HttpServlet {
 				break;
 			}
 			
+			// --Working
+			case "goToQuestionGroupAddQuestion": {
+				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				long questionGroupId = Long.parseLong(stringQuestionGroupId);
+				
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
+				
+				QuestionGroup questionGroup = new QuestionGroup();
+				QuestionGroupService questionGroupService =  new QuestionGroupService();
+				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated);
+
+				request.setAttribute("questionGroup", questionGroup);
+				request.getRequestDispatcher("modules/questionGroup/addQuestion.jsp").forward(request, response);
+				break;
+			}
+			
+			// --working
+			case "questionGroupRetrieveQuestion": {
+				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
+				long questionGroupId = Long.parseLong(stringQuestionGroupId);
+				String search = (String) request.getParameter("txtSearch");
+				String visibilitySelected = (String) request.getParameter("optVisibility");
+				
+				int currentPage = 1;
+				int totalRecords = 0;
+				
+				QuestionGroup questionGroup = new QuestionGroup();
+				QuestionGroupService questionGroupService =  new QuestionGroupService();
+				questionGroup = questionGroupService.retrieveById(questionGroupId, authenticated);
+
+				List<Option> visibilityOptionList = DropDownComponentUtil.getRetrieveQuestionScreenVisibilityOptionList();
+				QuestionService questionService = new QuestionService();
+				List<Question> questionList = new ArrayList<Question>();
+				
+				totalRecords = questionService.retrieveByQuestionCount(search, authenticated, visibilitySelected);
+				PaginatorUtil paginator = new PaginatorUtil(totalRecords, currentPage);
+				questionList = questionService.retrieveByQuestion(search, authenticated, visibilitySelected, paginator.getOffset());
+				
+				request.setAttribute("questionGroup", questionGroup);
+				request.setAttribute("authenticated", authenticated);
+				request.setAttribute("questionList", questionList);
+				request.setAttribute("visibilitySelected", visibilitySelected);
+				request.setAttribute("visibilityOptionList", visibilityOptionList);
+				request.setAttribute("search", search);
+				request.setAttribute("currentPage", currentPage);
+				request.setAttribute("totalPages", paginator.getTotalPages());
+				request.getRequestDispatcher("modules/questionGroup/addQuestion.jsp").forward(request, response);
+				break;
+			}
+			
 			case "questionGroupRemoveQuestionNext": {
 				String stringQuestionGroupId = (String) request.getParameter("txtQuestionGroupId");
 				String stringCurrentPage = (String) request.getParameter("txtCurrentPage");

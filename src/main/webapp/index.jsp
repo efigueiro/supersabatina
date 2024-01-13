@@ -76,8 +76,10 @@
                         </h2>
                         <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                O Super Sabatina é um sistema baseado em uma variação do uso de cartões de memória, mais popularmente conhecidos como flash cards. O sistema possibilita avaliações periódicas do conteúdo estudado por meio de
-                                rodadas de perguntas criadas pelo próprio usuário.
+                                O SuperSabatina é um sistema baseado em uma variação do uso de cartões de memória, mais popularmente conhecidos como flashcards. 
+                                O sistema possibilita avaliações periódicas do conteúdo estudado por meio de perguntas criadas pelo próprio usuário. 
+                                Após o usuário responder corretamente uma quantidade determinada de vezes, o sistema coloca a pergunta em pausa por alguns dias. 
+                                A pergunta volta a ser apresentada para o usuário assim que atingir a data de revisão.
                             </div>
                         </div>
                     </div>
@@ -90,8 +92,9 @@
                         </h2>
                         <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                Ao criar uma pergunta com suas respectivas alternativas de resposta, o usuário tem a opção de tornar a sua pergunta pública. Desta forma, o usuário pode ajudar outros estudantes aumentando a quantidade de
-                                perguntas existentes no sistema.
+                                Uma pergunta pode ser criada como pública ou privada. Quando a pergunta for pública, significa que outros usuários podem utilizar a pergunta 
+                                em seus grupos de perguntas para estudo. Uma pergunta criada como pública ainda pertence somente ao autor da pergunta e só poderá ser editada ou deletada 
+                                pelo autor da pergunta.
                             </div>
                         </div>
                     </div>
@@ -104,8 +107,9 @@
                         </h2>
                         <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                             <div class="accordion-body">
-                                O usuário pode verificar seu progresso a qualquer momento acessando o grupo de perguntas selecionado. Também é possível verificar a taxa de sucesso para cada pergunta individualmente. No caso de perguntas
-                                públicas é possível até mesmo visualizar um ranking dos usuários com melhor taxa de sucesso para aquela questão.
+                                Atualmente, existem duas formas de visualizar seu progresso nos estudos. Uma delas é simplesmente respondendo uma das suas perguntas; neste caso, 
+                                uma tela será apresentada informando sua taxa de sucesso e falha para aquela pergunta específica. A outra forma é através do painel do sistema, 
+                                onde será apresentado um resumo de perguntas respondidas no dia, com sua taxa total de sucesso e falha para o dia atual.
                             </div>
                         </div>
                     </div>

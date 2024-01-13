@@ -86,7 +86,7 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                       		<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
 					    </form>
 					    
-					    <button type="submit" class="btn btn-outline-secondary btn-sm mt-3">Adicionar Perguntas</button>
+					    <button type="submit" form="goToQuestionGroupAddQuestion" class="btn btn-outline-secondary btn-sm mt-3">Adicionar Perguntas</button>
 					    <c:if test = "${numberQuestions > 0}">
          					<button type="submit" form="goToQuestionGroupRemoveQuestion" class="btn btn-outline-secondary btn-sm mt-3 ms-2">Remover Perguntas</button>
       					</c:if>

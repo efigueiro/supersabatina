@@ -23,6 +23,7 @@
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
                     <h3>Adicionar perguntas ao grupo de perguntas.</h3>
+                    Editando: ${questionGroup.title}
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">
@@ -32,48 +33,127 @@
                         
                     <% Messenger.resetMessenger(); %>
                     
-                    <form action="/supersabatina/retrieveQuestionGroup" method="post">
-                      <div class="mb-1 mt-3">
-                      	<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite o título do grupo para buscar"/>
-                      </div> 
+                    <form action="/supersabatina/questionGroup" method="post">
+                   	  <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRetrieveQuestion" required/>
+                      </div>
+                      <div class="mb-3 mt-3">
+                      	<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+                      </div>
+                      <c:choose>
+    					<c:when test="${empty search}">
+        					<div class="mb-1 mt-3">
+                      			<input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Digite a pergunta para buscar" required/>
+                      		</div> 
+    					</c:when>
+    					<c:otherwise> 
+        					<div class="mb-1 mt-3">
+                      			<input type="text" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+                      		</div> 
+    					</c:otherwise>
+					  </c:choose>
+                      
+                      <div class="mt-3">
+                      	<select class="form-select" aria-label="optVisibility" name="optVisibility">
+                      		<c:forEach var="option" items="${visibilityOptionList}">
+                				<option value="${option.value}"
+                    				<c:if test="${option.value eq visibilitySelected}">
+                    					selected="selected"
+                    				</c:if>>${option.label}
+                				</option>
+            				</c:forEach>
+						</select>
+                      </div>
+                      
                       <button type="submit" class="btn btn-success mt-2">Buscar</button>
                     </form> 
                     
                     <div>
-                    	<c:if test="${not empty questionGroupList}">
+                    	<c:if test="${not empty questionList}">
                     		<table class="table mt-4">
 					 			<thead>
 					    			<tr>
-					      				<th scope="col">Título</th>
+					      				<th scope="col">Pergunta</th>
 					      				<th scope="col">Ações</th>
 					    			</tr>
 					  			</thead>
 					  		
 					  			<tbody>
-					  				<c:forEach var="questionGroup" items="${questionGroupList}">
+					  				<c:forEach var="question" items="${questionList}">
 					    				<tr>
-					      					<td>${questionGroup.title}</td>
-					      					<td><a class="btn btn-outline-secondary btn-sm" href="/supersabatina/updateQuestionGroup?questionGroupId=${questionGroup.questionGroupId}" role="button">Detalhes</a></td>
+					      					<td>${question.question}</td>
+					      					<td>
+					      						<form action="/supersabatina/question" method="post">
+					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestion" required/>
+					      							<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
+					      							<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+													<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+													<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+													
+													<button type="submit" class="btn btn-outline-secondary btn-sm">Adicionar</button>
+					      						</form>
+					      					</td>
 					    				</tr>
 					    			</c:forEach>
 					  			</tbody>
 							</table>
 						</c:if>
 					</div>
-                                                        
+					
+					<c:if test="${not empty questionList}">
+						<div class="d-flex align-items-center flex-row-reverse bd-highlight">
+							<form id="retrieveQuestionNext" action="/supersabatina/question" method="post">
+								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionNext" required/>
+								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+							</form>
+							<form id="retrieveQuestionPrevious" action="/supersabatina/question" method="post">
+								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
+								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionPrevious" required/>
+								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
+							</form>
+							
+	  						<div class="p-2 bd-highlight">
+	      						<c:choose>
+	    							<c:when test = "${currentPage > 1}">
+	                      				<button type="submit" form="retrieveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2"><</button>
+	    							</c:when>
+	    							<c:otherwise> 
+	                      				<button type="submit" form="retrieveQuestionPrevious" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button"><</button>
+	    							</c:otherwise>
+						  		</c:choose>
+	      						
+	      						<c:choose>
+	    							<c:when test = "${totalPages > currentPage}">
+	                      				<button type="submit" form="retrieveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2">></button>
+	    							</c:when>
+	    							<c:otherwise> 
+	                      				<button type="submit" form="retrieveQuestionNext" class="btn btn-outline-secondary btn-sm ms-2" disabled data-bs-toggle="button">></button>
+	    							</c:otherwise>
+						  		</c:choose>
+							</div>
+	  						<div class="p-2 bd-highlight">
+	  							<c:if test = "${totalPages > 0}">
+	  								Página ${currentPage} de ${totalPages}
+	      						</c:if>
+							</div>
+						</div>
+                   </c:if>                                     
                 </div>
 
                 <div class="col-md-4 p-4 justify-content-center">
-                	<div class="card">
+                    <div class="card">
 					  <div class="card-body">
 					    <h5 class="card-title">Dicas</h5>
 					    <p class="card-text">
-					    	Se você executar uma busca sem digitar nenhum título, o sistema buscará todos os grupos de perguntas
-					    	que você possui.
+					    	Você pode buscar perguntas por um texto completo ou parcial. A busca será efetuada levando em conta
+					    	o assunto ou o texto da questão digitado.
 					    </p>
 					    <p class="card-text">
-					    	Cada letra ou palavra digitada será levada em conta para executar a busca, portanto você pode executar
-					    	buscas pelo título parcial ou completo.
+					    	Depois de efetuar a busca, basta clicar no botão adicionar
+					    	para adicionar a pergunta selecionada para o grupo de perguntas.<br>
 					    </p>
 					  </div>
 					</div>

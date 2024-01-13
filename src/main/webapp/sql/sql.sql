@@ -71,6 +71,39 @@ create table activity_record
   constraint user_fk foreign key(user_id) references users(user_id)
 );
 
+-- New queries to validate
+SELECT question.*
+FROM question
+LEFT JOIN question_group_question 
+ON question.question_id = question_group_question.question_id 
+AND question_group_question.question_group_id = 1
+WHERE 
+    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
+    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
+    AND question_group_question.question_id IS NULL);
+
+SELECT COUNT(*)
+FROM question
+LEFT JOIN question_group_question 
+ON question.question_id = question_group_question.question_id 
+AND question_group_question.question_group_id = 1
+WHERE 
+    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
+    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
+    AND question_group_question.question_id IS NULL);
+
+SELECT question.*
+FROM question
+LEFT JOIN question_group_question 
+ON question.question_id = question_group_question.question_id 
+AND question_group_question.question_group_id = 1
+WHERE 
+    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
+    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
+    AND question_group_question.question_id IS NULL)
+LIMIT 10
+OFFSET 0;
+
 -- Queries
 select * from users order by user_id asc
 select * from question_group order by question_group_id asc

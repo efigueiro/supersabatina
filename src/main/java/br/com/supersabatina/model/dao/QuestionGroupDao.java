@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.supersabatina.model.entity.Question;
 import br.com.supersabatina.model.entity.QuestionGroup;
 import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.util.Messenger;
@@ -219,6 +220,28 @@ public class QuestionGroupDao extends BaseDao {
 			pstm.setLong(1, questionGroupId);
 			pstm.setLong(2, questionId);
 			pstm.setLong(3, authenticated.getUserId());
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+	
+	// QuestionGroupQuestion table
+	public void createQuestionGroupQuestion(Question question, long questionGroupId) {
+
+		String sql = "INSERT INTO question_group_question(question_id, question_group_id, revision_date, number_correct_answer, number_incorrect_answer)" 
+		+ "values(?,?,CURRENT_DATE,?,?);";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, question.getQuestionId());
+			pstm.setLong(2, questionGroupId);
+			pstm.setInt(3, 0);
+			pstm.setInt(4, 0);
 			pstm.execute();
 			pstm.close();
 			conn.close();

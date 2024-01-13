@@ -87,10 +87,10 @@ public class QuestionService {
 		return count;
 	}
 
-	public int count(User authenticated) {
-		QuestionDao questionDao = new QuestionDao();
-		return questionDao.count(authenticated);
-	}
+	/*
+	 * public int count(User authenticated) { QuestionDao questionDao = new
+	 * QuestionDao(); return questionDao.count(authenticated); }
+	 */
 
 	// Retrieve questions by questionGroup, authenticated user and offset
 	public List<Question> retrieveQuestionList(long questionGroupId, User authenticated, int offset) {
