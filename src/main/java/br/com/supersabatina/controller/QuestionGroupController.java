@@ -1,10 +1,5 @@
 package br.com.supersabatina.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +11,12 @@ import br.com.supersabatina.model.entity.User;
 import br.com.supersabatina.service.QuestionGroupService;
 import br.com.supersabatina.service.QuestionService;
 import br.com.supersabatina.util.DropDownComponentUtil;
-import br.com.supersabatina.util.Messenger;
 import br.com.supersabatina.util.PaginatorUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/questionGroup")
 public class QuestionGroupController extends HttpServlet {
