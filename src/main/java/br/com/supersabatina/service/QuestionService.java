@@ -59,18 +59,30 @@ public class QuestionService {
 		return questionList;
 	}
 	
-	public void update(Question question) {
-		QuestionDao questionDao = new QuestionDao();
-		questionDao.update(question);
-		Messenger.addSuccessMessage("Pergunta atualizada com sucesso!");
-	}
+	// Working
+	public List<Question> retrieveByQuestionAndQuestionGroup(String question, long questionGroupId, User authenticated, String visibility, int offset) {
 
-	public void delete(Question question) {
+		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
-		questionDao.delete(question);
-		Messenger.addSuccessMessage("Registro excluido com sucesso!");
-	}
 
+		if (visibility.equals("all")) {
+			questionList = questionDao.retrieveAllByQuestionAndQuestionGroup(question, questionGroupId, authenticated, offset);
+		}
+
+		if (visibility.equals("private")) {
+			questionList = questionDao.retrievePrivateByQuestionAndQuestionGroup(question, questionGroupId, authenticated, offset);
+		}
+
+		if (!questionList.isEmpty()) {
+			for (Question formattedQuestion : questionList) {
+				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+				formattedQuestion.setQuestion(html);
+			}
+		}
+
+		return questionList;
+	}
+	
 	public int retrieveByQuestionCount(String question, User authenticated, String visibility) {
 
 		int count = 0;
@@ -85,6 +97,34 @@ public class QuestionService {
 		}
 
 		return count;
+	}
+	
+	public int retrieveByQuestionAndQuestionGroupCount(String question, long questionGroupId, User authenticated, String visibility) {
+
+		int count = 0;
+		QuestionDao questionDao = new QuestionDao();
+
+		if (visibility.equals("all")) {
+			count = questionDao.retrieveAllByQuestionAndQuestionGroupCount(question, questionGroupId, authenticated);
+		}
+
+		if (visibility.equals("private")) {
+			count = questionDao.retrievePrivateByQuestionAndQuestionGroupCount(question, questionGroupId, authenticated);
+		}
+
+		return count;
+	}
+	
+	public void update(Question question) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.update(question);
+		Messenger.addSuccessMessage("Pergunta atualizada com sucesso!");
+	}
+
+	public void delete(Question question) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.delete(question);
+		Messenger.addSuccessMessage("Registro excluido com sucesso!");
 	}
 
 	/*

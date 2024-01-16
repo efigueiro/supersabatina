@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-8 p-4 justify-content-center">
                     <h3>Adicionar perguntas ao grupo de perguntas.</h3>
-                    Editando: ${questionGroup.title}
+                    Você esta adicionando perguntas para: ${questionGroup.title}
                     
                     <c:forEach var="message" items="${Messenger.messageList}">
 						<div class="${Messenger.divClass}" role="${Messenger.divRole}">

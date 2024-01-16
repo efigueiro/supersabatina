@@ -200,6 +200,162 @@ public class QuestionDao extends BaseDao {
 
 		return count;
 	}
+	
+	// Working here==========================
+	public List<Question> retrieveAllByQuestionAndQuestionGroup(String question, long questionGroupId, User authenticated, int offset) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT question.* "
+				   + "FROM question "
+				   + "LEFT JOIN question_group_question "
+				   + "ON question.question_id = question_group_question.question_id "
+				   + "AND question_group_question.question_group_id = ? "
+				   + "WHERE "
+				   + "    (question.question ILIKE ? OR question.subject ILIKE ?) "
+				   + "    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = ?)) "
+				   + "    AND question_group_question.question_id IS NULL) "
+				   + "LIMIT 10 OFFSET ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setString(2, "%" + question + "%");
+			pstm.setString(3, "%" + question + "%");
+			pstm.setLong(4, authenticated.getUserId());
+			pstm.setInt(5, offset);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				User user = new User();
+				q.setQuestionId(rs.getLong("question_id"));
+				q.setAnswer(rs.getString("answer"));
+				q.setQuestion(rs.getString("question"));
+				q.setSubject(rs.getString("subject"));
+				q.setVisibility(rs.getString("visibility"));
+				user.setUserId(rs.getLong("user_id"));
+				q.setUser(user);
+				questionList.add(q);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionList;
+	}
+	
+	// working ================================
+	public int retrieveAllByQuestionAndQuestionGroupCount(String question, long questionGroupId, User authenticated) {
+		
+		int count = 0;
+		String sql = "SELECT COUNT(*) "
+				   + "FROM question "
+				   + "LEFT JOIN question_group_question "
+				   + "ON question.question_id = question_group_question.question_id "
+				   + "AND question_group_question.question_group_id = ? "
+				   + "WHERE "
+				   + "    (question.question ILIKE ? OR question.subject ILIKE ?) "
+				   + "    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = ?)) "
+				   + "    AND question_group_question.question_id IS NULL);";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setString(2, "%" + question + "%");
+			pstm.setString(3, "%" + question + "%");
+			pstm.setLong(4, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
+	}
+	
+	public List<Question> retrievePrivateByQuestionAndQuestionGroup(String question, long questionGroupId, User authenticated, int offset) {
+
+		List<Question> questionList = new ArrayList<Question>();
+		String sql = "SELECT question.* "
+				   + "FROM question "
+				   + "LEFT JOIN question_group_question "
+				   + "ON question.question_id = question_group_question.question_id "
+				   + "AND question_group_question.question_group_id = ? "
+				   + "WHERE (question.question ILIKE ? OR question.subject ILIKE ?) "
+				   + "AND question.user_id = ? "
+				   + "AND question_group_question.question_id IS NULL "
+				   + "LIMIT 10 "
+				   + "OFFSET ?;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setString(2, "%" + question + "%");
+			pstm.setString(3, "%" + question + "%");
+			pstm.setLong(4, authenticated.getUserId());
+			pstm.setInt(5, offset);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				User user = new User();
+				q.setQuestionId(rs.getLong("question_id"));
+				q.setAnswer(rs.getString("answer"));
+				q.setQuestion(rs.getString("question"));
+				q.setSubject(rs.getString("subject"));
+				q.setVisibility(rs.getString("visibility"));
+				user.setUserId(rs.getLong("user_id"));
+				q.setUser(user);
+				questionList.add(q);
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return questionList;
+	}
+	
+	public int retrievePrivateByQuestionAndQuestionGroupCount(String question, long questionGroupId, User authenticated) {
+		
+		int count = 0;
+		String sql = "SELECT COUNT(*) "
+				   + "FROM question "
+				   + "LEFT JOIN question_group_question "
+				   + "ON question.question_id = question_group_question.question_id "
+				   + "AND question_group_question.question_group_id = ? "
+				   + "WHERE (question.question ILIKE ? OR question.subject ILIKE ?) "
+				   + "AND question.user_id = ? "
+				   + "AND question_group_question.question_id IS NULL;";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionGroupId);
+			pstm.setString(2, "%" + question + "%");
+			pstm.setString(3, "%" + question + "%");
+			pstm.setLong(4, authenticated.getUserId());
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+
+		return count;
+	}
+	
 
 	/*
 	 * public List<Question> retrievePublicByQuestion(String question, User

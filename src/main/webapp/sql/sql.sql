@@ -71,38 +71,49 @@ create table activity_record
   constraint user_fk foreign key(user_id) references users(user_id)
 );
 
--- New queries to validate
+-- retrieve all by question and question group(global)
 SELECT question.*
 FROM question
 LEFT JOIN question_group_question 
 ON question.question_id = question_group_question.question_id 
-AND question_group_question.question_group_id = 1
+AND question_group_question.question_group_id = ?
 WHERE 
-    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
-    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
+    (question.question ILIKE ? OR question.subject ILIKE ?)
+    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = ?))
+    AND question_group_question.question_id IS NULL)
+LIMIT 10 OFFSET ?;
+
+-- retrieve all by question and question group count(global)
+SELECT COUNT(*)
+FROM question
+LEFT JOIN question_group_question 
+ON question.question_id = question_group_question.question_id 
+AND question_group_question.question_group_id = ?
+WHERE 
+    (question.question ILIKE ? OR question.subject ILIKE ?)
+    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = ?))
     AND question_group_question.question_id IS NULL);
+
+-- retrieve private
+SELECT question.*
+FROM question
+LEFT JOIN question_group_question 
+ON question.question_id = question_group_question.question_id 
+AND question_group_question.question_group_id = ?
+WHERE (question.question ILIKE ? OR question.subject ILIKE ?)
+AND question.user_id = ?
+AND question_group_question.question_id IS NULL
+LIMIT 10
+OFFSET 0;
 
 SELECT COUNT(*)
 FROM question
 LEFT JOIN question_group_question 
 ON question.question_id = question_group_question.question_id 
-AND question_group_question.question_group_id = 1
-WHERE 
-    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
-    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
-    AND question_group_question.question_id IS NULL);
-
-SELECT question.*
-FROM question
-LEFT JOIN question_group_question 
-ON question.question_id = question_group_question.question_id 
-AND question_group_question.question_group_id = 1
-WHERE 
-    (question.question ILIKE 'teste%' OR question.subject ILIKE 'teste%')
-    AND ((question.visibility = 'public' OR (question.visibility = 'private' AND question.user_id = 1))
-    AND question_group_question.question_id IS NULL)
-LIMIT 10
-OFFSET 0;
+AND question_group_question.question_group_id = ?
+WHERE (question.question ILIKE ? OR question.subject ILIKE ?)
+AND question.user_id = ?
+AND question_group_question.question_id IS NULL
 
 -- Queries
 select * from users order by user_id asc

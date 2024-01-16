@@ -202,9 +202,9 @@ public class QuestionGroupController extends HttpServlet {
 				QuestionService questionService = new QuestionService();
 				List<Question> questionList = new ArrayList<Question>();
 				
-				totalRecords = questionService.retrieveByQuestionCount(search, authenticated, visibilitySelected);
+				totalRecords = questionService.retrieveByQuestionAndQuestionGroupCount(search, questionGroupId, authenticated, visibilitySelected);
 				PaginatorUtil paginator = new PaginatorUtil(totalRecords, currentPage);
-				questionList = questionService.retrieveByQuestion(search, authenticated, visibilitySelected, paginator.getOffset());
+				questionList = questionService.retrieveByQuestionAndQuestionGroup(search, questionGroupId, authenticated, visibilitySelected, paginator.getOffset());
 				
 				request.setAttribute("questionGroup", questionGroup);
 				request.setAttribute("authenticated", authenticated);
