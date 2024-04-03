@@ -15,7 +15,6 @@ import br.com.supersabatina.util.Messenger;
 public class QuestionService {
 
 	public void create(Question question, long questionGroupId) {
-
 		QuestionDao questionDao = new QuestionDao();
 		Question questionTest = new Question();
 
@@ -35,83 +34,75 @@ public class QuestionService {
 					"A pergunta que você tentou criar já existe, por este motivo não foi possível completar a gravação.");
 		}
 	}
+	
+	// working here
+	public void addQuestionGroupQuestion(long questionId, long questionGroupId) {
+		QuestionDao questionDao = new QuestionDao();
+		questionDao.createQuestionGroupQuestion(questionId, questionGroupId);
+		Messenger.addSuccessMessage("Pergunta adicionada com sucesso ao grupo!");
+	}
 
 	public List<Question> retrieveByQuestion(String question, User authenticated, String visibility, int offset) {
-
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
-
+		
 		if (visibility.equals("all")) {
 			questionList = questionDao.retrieveAll(question, authenticated, offset);
 		}
-
 		if (visibility.equals("private")) {
 			questionList = questionDao.retrievePrivate(question, authenticated, offset);
 		}
-
 		if (!questionList.isEmpty()) {
 			for (Question formattedQuestion : questionList) {
 				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
 				formattedQuestion.setQuestion(html);
 			}
 		}
-
 		return questionList;
 	}
 	
-	// Working
 	public List<Question> retrieveByQuestionAndQuestionGroup(String question, long questionGroupId, User authenticated, String visibility, int offset) {
-
 		List<Question> questionList = new ArrayList<Question>();
 		QuestionDao questionDao = new QuestionDao();
-
+		
 		if (visibility.equals("all")) {
 			questionList = questionDao.retrieveAllByQuestionAndQuestionGroup(question, questionGroupId, authenticated, offset);
 		}
-
 		if (visibility.equals("private")) {
 			questionList = questionDao.retrievePrivateByQuestionAndQuestionGroup(question, questionGroupId, authenticated, offset);
 		}
-
 		if (!questionList.isEmpty()) {
 			for (Question formattedQuestion : questionList) {
 				String html = formattedQuestion.getQuestion().replaceAll("(\r\n|\n)", "<br>");
 				formattedQuestion.setQuestion(html);
 			}
 		}
-
 		return questionList;
 	}
 	
 	public int retrieveByQuestionCount(String question, User authenticated, String visibility) {
-
 		int count = 0;
 		QuestionDao questionDao = new QuestionDao();
 
 		if (visibility.equals("all")) {
 			count = questionDao.retrieveAllCount(question, authenticated);
 		}
-
 		if (visibility.equals("private")) {
 			count = questionDao.retrievePrivateCount(question, authenticated);
 		}
-
 		return count;
 	}
 	
 	public int retrieveByQuestionAndQuestionGroupCount(String question, long questionGroupId, User authenticated, String visibility) {
-
 		int count = 0;
 		QuestionDao questionDao = new QuestionDao();
 
 		if (visibility.equals("all")) {
 			count = questionDao.retrieveAllByQuestionAndQuestionGroupCount(question, questionGroupId, authenticated);
 		}
-
 		if (visibility.equals("private")) {
 			count = questionDao.retrievePrivateByQuestionAndQuestionGroupCount(question, questionGroupId, authenticated);
 		}
-
 		return count;
 	}
 	

@@ -7,9 +7,14 @@
 
 CREATE DATABASE supersabatina WITH OWNER = postgres ENCODING = "UTF8" LC_COLLATE = 'pt_BR.UTF-8' LC_CTYPE = 'pt_BR.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT -1 TEMPLATE = template0;
 
-INSERT INTO users (username, email, password)
-VALUES ('carlos', 'carlos.figueiro@gmail.com', 'teste123');
+-- Drop tables
+drop table activity_record;
+drop table question_group_question;
+drop table question_group;
+drop table question;
+drop table users;
 
+--Create tables
 create table users
 (
   user_id bigserial not null,

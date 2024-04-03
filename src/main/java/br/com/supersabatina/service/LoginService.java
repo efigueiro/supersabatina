@@ -24,7 +24,6 @@ public class LoginService {
 		authenticated = userDao.retrieveByEmail(user);
 
 		// Check if user was found and password match
-
 		if (StringUtils.isNotEmpty(authenticated.getPassword())) {
 
 			if (comparePassword.equals(authenticated.getPassword())) {

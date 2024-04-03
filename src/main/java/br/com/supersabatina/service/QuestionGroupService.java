@@ -53,8 +53,12 @@ public class QuestionGroupService {
 
 	public void delete(long questionGroupId, User authenticated) {
 		QuestionGroupDao questionGroupDao = new QuestionGroupDao();
-		questionGroupDao.delete(questionGroupId, authenticated);
-		Messenger.addSuccessMessage("Registro excluido com sucesso!");
+		QuestionGroup questionGroup = new QuestionGroup();
+		questionGroup = questionGroupDao.retrieveById(questionGroupId, authenticated);
+		if(StringUtils.isNotEmpty(questionGroup.getTitle())) {
+			questionGroupDao.delete(questionGroupId, authenticated);
+			Messenger.addSuccessMessage("Registro excluido com sucesso!");
+		}
 	}
 	
 	public List<Long> retrieveQuestionIdByQuestionGroup(long questionGroupId) {

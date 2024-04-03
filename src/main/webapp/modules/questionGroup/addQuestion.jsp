@@ -21,6 +21,13 @@
         <!-- Content -->
         <div class="container">
             <div class="row">
+            	<div>
+            		<form action="/supersabatina/questionGroup" method="post">
+            			<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestionGroup" required/>
+            			<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+            			<button type="submit" class="btn btn-link">Voltar</button>
+            		</form>
+            	</div>
                 <div class="col-md-8 p-4 justify-content-center">
                     <h3>Adicionar perguntas ao grupo de perguntas.</h3>
                     Você esta adicionando perguntas para: ${questionGroup.title}
@@ -83,8 +90,10 @@
 					    				<tr>
 					      					<td>${question.question}</td>
 					      					<td>
-					      						<form action="/supersabatina/question" method="post">
-					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="goToUpdateQuestion" required/>
+					      						<form action="/supersabatina/questionGroup" method="post">
+					      							<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="addQuestionGroupQuestion" required/>
+					      							
+					      							<input type="hidden" class="form-control" id="txtQuestionGroupId"" name="txtQuestionGroupId"" value="${questionGroup.questionGroupId}" required/>
 					      							<input type="hidden" class="form-control" id="txtQuestionId" name="txtQuestionId" value="${question.questionId}" required/>
 					      							<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
 													<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
@@ -102,16 +111,20 @@
 					
 					<c:if test="${not empty questionList}">
 						<div class="d-flex align-items-center flex-row-reverse bd-highlight">
-							<form id="retrieveQuestionNext" action="/supersabatina/question" method="post">
+							<form id="retrieveQuestionNext" action="/supersabatina/questionGroup" method="post">
 								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
 								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
-								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionNext" required/>
+								<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+								
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRetrieveQuestionNext" required/>
 								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
 							</form>
-							<form id="retrieveQuestionPrevious" action="/supersabatina/question" method="post">
+							<form id="retrieveQuestionPrevious" action="/supersabatina/questionGroup" method="post">
 								<input type="hidden" class="form-control" id="txtSearch" name="txtSearch" value="${search}" required/>
 								<input type="hidden" class="form-control" id="txtVisibilitySelected" name="txtVisibilitySelected" value="${visibilitySelected}" required/>
-								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="retrieveQuestionPrevious" required/>
+								<input type="hidden" class="form-control" id="txtQuestionGroupId" name="txtQuestionGroupId" value="${questionGroup.questionGroupId}" required/>
+								
+								<input type="hidden" class="form-control" id="txtAction" name="txtAction" value="questionGroupRetrieveQuestionPrevious" required/>
 								<input type="hidden" class="form-control" id="txtCurrentPage" name="txtCurrentPage" value="${currentPage}" required/>
 							</form>
 							

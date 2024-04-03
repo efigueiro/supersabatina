@@ -201,7 +201,6 @@ public class QuestionDao extends BaseDao {
 		return count;
 	}
 	
-	// Working here==========================
 	public List<Question> retrieveAllByQuestionAndQuestionGroup(String question, long questionGroupId, User authenticated, int offset) {
 
 		List<Question> questionList = new ArrayList<Question>();
@@ -246,7 +245,6 @@ public class QuestionDao extends BaseDao {
 		return questionList;
 	}
 	
-	// working ================================
 	public int retrieveAllByQuestionAndQuestionGroupCount(String question, long questionGroupId, User authenticated) {
 		
 		int count = 0;
@@ -430,6 +428,28 @@ public class QuestionDao extends BaseDao {
 			Connection conn = this.getConnection();
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setLong(1, question.getQuestionId());
+			pstm.setLong(2, questionGroupId);
+			pstm.setInt(3, 0);
+			pstm.setInt(4, 0);
+			pstm.execute();
+			pstm.close();
+			conn.close();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			Messenger.addDangerMessage(ex.getMessage());
+		}
+	}
+
+	// QuestionGroupQuestion table
+	public void createQuestionGroupQuestion(long questionId, long questionGroupId) {
+
+		String sql = "INSERT INTO question_group_question(question_id, question_group_id, revision_date, number_correct_answer, number_incorrect_answer)" 
+		+ "values(?,?,CURRENT_DATE,?,?);";
+
+		try {
+			Connection conn = this.getConnection();
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			pstm.setLong(1, questionId);
 			pstm.setLong(2, questionGroupId);
 			pstm.setInt(3, 0);
 			pstm.setInt(4, 0);

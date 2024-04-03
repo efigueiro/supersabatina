@@ -29,8 +29,8 @@ authenticated = (User) request.getSession().getAttribute("authenticated");
                 <div class="col-md-8 p-4 justify-content-center">
                     <h1>Olá, bem vindo ao Super Sabatina.</h1>
                     <p class="lead">
-                        Posso ver que esta é a primeira vez que você utiliza o sistema. Antes de mais nada, recomendo você acesse o menu chamado tutoriais. 
-                        Aproveite para dar uma olhada nas orientações sobre como utilizar o sistema. Inicialmente você deve criar um grupo de perguntas. 
+                        Posso ver que esta é a primeira vez que você utiliza o sistema. Antes de mais nada, recomendo que você acesse o menu chamado tutoriais. 
+                        Acesse a página chamada "Como o sistema funciona". Inicialmente você deve criar um grupo de perguntas. 
                         Depois disso, você deve criar as perguntas para que possa começar a utilizar o sistema de fato. 
                     </p>                                     
                 </div>
