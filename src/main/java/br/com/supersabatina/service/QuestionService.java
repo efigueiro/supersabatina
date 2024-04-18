@@ -188,14 +188,29 @@ public class QuestionService {
 		QuestionDao questionDao = new QuestionDao();
 		question = questionDao.retrieveQuestionById(questionId);
 
-		if (StringUtils.isNotEmpty(question.getQuestion())) {
+		/*
+		 * if (StringUtils.isNotEmpty(question.getQuestion())) { String html =
+		 * question.getAnswer().replaceAll("(\r\n|\n)", "<br>");
+		 * question.setAnswer(html); html =
+		 * question.getQuestion().replaceAll("(\r\n|\n)", "<br>");
+		 * question.setQuestion(html); }
+		 */
+
+		return question;
+	}
+
+	public Question retrieveQuestionFormattedById(long questionId) {
+		Question question = new Question();
+		QuestionDao questionDao = new QuestionDao();
+		question = questionDao.retrieveQuestionById(questionId);
+		
+		if (StringUtils.isNotEmpty(question.getQuestion())) { 
 			String html = question.getAnswer().replaceAll("(\r\n|\n)", "<br>");
-			question.setAnswer(html);
+			question.setAnswer(html); 
 			html = question.getQuestion().replaceAll("(\r\n|\n)", "<br>");
-			question.setQuestion(html);
+			question.setQuestion(html); 
 		}
 
 		return question;
 	}
-	
 }

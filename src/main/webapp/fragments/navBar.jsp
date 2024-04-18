@@ -39,8 +39,6 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="tutorial">
                               <li><a class="dropdown-item" href="<%=request.getContextPath()%>/modules/tutorial/Como o sistema funciona.jsp">Como o sistema funciona?</a></li>
-                              <li><a class="dropdown-item" href="#">Como criar grupo de perguntas?</a></li>
-                              <li><a class="dropdown-item" href="#">Como criar perguntas</a></li>
                             </ul>
                         </li>
 

@@ -62,7 +62,7 @@ public class GameController extends HttpServlet {
 				Question question = new Question();
 				QuestionService questionService = new QuestionService();
 
-				question = questionService.retrieveQuestionById(questionId);
+				question = questionService.retrieveQuestionFormattedById(questionId);
 
 				request.setAttribute("question", question);
 				request.setAttribute("questionGroupId", questionGroupId);
