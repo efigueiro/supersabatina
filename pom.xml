@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>supersabatina</groupId>
 	<artifactId>supersabatina</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -73,6 +73,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>supersabatina</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
