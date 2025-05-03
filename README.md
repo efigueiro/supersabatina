@@ -1,5 +1,5 @@
 # supersabatina
-Super Sabatina
+
 Super Sabatina é uma aplicação web desenvolvida para ajudar estudantes a melhorar seu desempenho nos estudos através da prática ativa de perguntas e respostas, no estilo flashcards, com uso da técnica de revisão espaçada.
 
 Com esta ferramenta, os usuários podem:
