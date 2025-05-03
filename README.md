@@ -1,18 +1,31 @@
-# supersabatina
+# Super Sabatina
 
-Super Sabatina é uma aplicação web desenvolvida para ajudar estudantes a melhorar seu desempenho nos estudos através da prática ativa de perguntas e respostas, no estilo flashcards, com uso da técnica de revisão espaçada.
-Com esta ferramenta, os usuários podem:
+**Super Sabatina** é uma aplicação web desenvolvida para ajudar estudantes a potencializar seus estudos através da prática ativa de perguntas e respostas, utilizando a técnica de revisão espaçada.  
+Ideal para quem busca uma forma mais eficiente e organizada de revisar conteúdos e aumentar a retenção de conhecimento.
 
-Criar e gerenciar grupos de perguntas para diferentes áreas de estudo.
--Adicionar perguntas e respostas personalizadas.
--Iniciar sessões de estudo e acompanhar seus acertos e erros em tempo real.
--Visualizar estatísticas simples de desempenho diário.
--Compartilhar perguntas com outros usuários, com a opção de marcar perguntas como públicas ou privadas.
+## ✨ Funcionalidades
 
-O sistema foi projetado com foco em simplicidade e eficiência, proporcionando uma forma mais atrativa e organizada para os estudantes revisarem conteúdos e aumentarem a retenção de conhecimento.
-Tecnologias utilizadas:
--Java (JSP e Servlets)
--Apache Tomcat
--Bootstrap (para o layout responsivo)
--PostgreSQL (banco de dados)
+- ✅ Criação e gestão de grupos de perguntas por áreas de estudo.
+- ✅ Adição de perguntas e respostas personalizadas.
+- ✅ Sessões de estudo com feedback imediato de acertos e erros.
+- ✅ Estatísticas simples de desempenho diário.
+- ✅ Compartilhamento de perguntas (públicas ou privadas).
 
+## 🚀 Tecnologias Utilizadas
+
+- **Java** (JSP e Servlets)
+- **Apache Tomcat**
+- **Bootstrap** (para layout responsivo)
+- **PostgreSQL** (banco de dados)
+
+## 📦 Estrutura do Projeto
+
+- `/src` — Código-fonte Java (Servlets, lógica)
+- `/webapp` — Páginas JSP e arquivos estáticos (CSS, JS)
+- `/sql` — Scripts para criação do banco de dados
+
+## 🔧 Como Executar Localmente
+
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
